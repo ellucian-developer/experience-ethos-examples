@@ -1,0 +1,30 @@
+{
+  "name": "today-classes-lambda",
+  "version": "1.0.0",
+  "description": "Provides an Experience authorized endpoint to retrieve Today's Classes with a lambda function",
+  "scripts": {
+    "start": "npx serverless offline --stage dev",
+    "deploy-dev": "npx serverless deploy --stage dev"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@ellucian/experience-extension-server-util": "github:ellucian-developer/experience-extension-server-util.git#1.0.0",
+    "@middy/core": "^2.5.1",
+    "@middy/http-error-handler": "^2.5.1",
+    "@middy/http-header-normalizer": "^2.5.1",
+    "got": "^11.8.2",
+    "http-status-codes": "^2.1.4"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "serverless": "^2.63.0",
+    "serverless-bundle": "^5.0.2",
+    "serverless-deployment-bucket": "^1.5.1",
+    "serverless-offline": "^8.2.0",
+    "serverless-provisioned-concurrency-autoscaling": "^1.2.0"
+  }
+}

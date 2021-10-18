@@ -1,0 +1,10 @@
+{
+    "messages": {
+        "Classes.courseAbbrNumberTitle": "{courseAbbreviation} {courseNumber} {courseTitle}",
+        "Classes.time": "Retrieve time: {time}",
+        "Dash.source": "Source",
+        "Dash.count": "Count",
+        "Dash.average": "Average",
+        "Dash.actions": "Actions"
+    }
+}
