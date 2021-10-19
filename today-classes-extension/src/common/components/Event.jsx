@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-
+import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {
@@ -16,7 +16,6 @@ import {
 
 import { useUserInfo } from '@ellucian/experience-extension-hooks';
 
-import { useIntl } from '../context/intl';
 import { randomPathColor } from '../util/path';
 
 const styles = () => ({
@@ -52,7 +51,7 @@ const styles = () => ({
 
 const Event = ({ classes, colorContext, event }) => {
     const { locale } = useUserInfo();
-    const { intl } = useIntl();
+    const intl = useIntl();
     const timeFormat = useMemo(() => (locale ? new Intl.DateTimeFormat(locale, { timeStyle: 'short'}) : undefined), [locale]);
 
     const {

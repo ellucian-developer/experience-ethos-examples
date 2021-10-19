@@ -12,7 +12,7 @@ This extension included today classes retrieval using the following methods:
 
 ## Experience GraphQL Proxy for extensions
 
-Experience provides a proxy to Ethos Integration GraphQL API. This provides an extension card or page the ability to make Ethos Integration GraphQL queries through the Experience server. Experience authorizes the queries and proxies the request to Ethos Integration using Experience's Ethos API Key. Experience ensures that queries to resources that can be queried by persons, use a person filter. This ensures the Experience user only gains access to only their data.
+Experience provides a proxy to Ethos Integration GraphQL API. See https://resources.elluciancloud.com/bundle/ellucian_experience_acn_use/page/t_extension_graphql_requests.html. This provides an extension card or page the ability to make Ethos Integration GraphQL queries through the Experience server. Experience authorizes the queries and proxies the request to Ethos Integration using Experience's Ethos API Key. Experience ensures that queries to resources that can be queried by persons, use a person filter. This ensures the Experience user only gains access to only their data.
 
 In this extension, there are two GraphQL queries defined in extension.js. The first, today-sections, is used to find the sections the user is registered which span today's date. The second, instructional-events-by-section, is used to retrieve the recurrence pattern for event times and the location of each. This is invoked for each section. The recurrence pattern is then used to determine which classes meet today.
 

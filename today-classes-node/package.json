@@ -1,6 +1,6 @@
 {
   "name": "today-classes-node",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Node server app to connect to Ethos and get today's classes",
   "type": "module",
   "scripts": {
@@ -9,17 +9,14 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@ellucian/experience-extension-server-util": "github:ellucian-developer/experience-extension-server-util.git#1.0.1",
-    "@middy/core": "^2.5.1",
-    "axios": "^0.21.1",
+    "@ellucian/experience-extension-server-util": "github:ellucian-developer/experience-extension-server-util#1.0.1",
+    "@middy/core": "^2.5.3",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "express-jwt": "^6.1.0",
-    "got": "^11.8.2"
+    "express": "^4.17.1"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.15"
   }
 }

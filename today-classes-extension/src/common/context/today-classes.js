@@ -11,24 +11,25 @@ const Context = createContext()
 
 const cacheKey = 'sections';
 
-const cacheEnabled = process.env.CACHE_ENABLED === 'true' || false;
-
 export function TodayClassesProvider({children, type, getTodaysClasses}) {
     const cache = useCache();
 
-    const [ refreshData, setRefreshData ] = useState(true);
+    const [ dataState, setDataState ] = useState('initialize');
     const [ loading, setLoading ] = useState(true);
     const [ loadTimes, setLoadTimes ] = useState([]);
     const [ events, setEvents ] = useState([]);
+    const [ isErrorState, setIsErrorState ] = useState(false);
 
     useEffect(() => {
-        if (refreshData) {
-            setRefreshData(false);
+        if (dataState !== 'loaded') {
             (async () => {
                 let loadedFromCache = false;
 
-                if (cacheEnabled) {
-                    const { data: cacheData } = await cache.getItem({key: cacheKey});
+                let cacheExpired = false;
+                if (dataState !== 'reload') {
+                    const { data: cacheData, expired } = await cache.getItem({key: cacheKey});
+
+                    cacheExpired = expired;
 
                     if (cacheData) {
                         const { fetchDate, events } = cacheData;
@@ -36,6 +37,7 @@ export function TodayClassesProvider({children, type, getTodaysClasses}) {
                         if (today === fetchDate) {
                             loadedFromCache = true;
                             unstable_batchedUpdates(() => {
+                                setDataState('loaded');
                                 setEvents(events);
                                 setLoading(false);
                             });
@@ -44,39 +46,48 @@ export function TodayClassesProvider({children, type, getTodaysClasses}) {
                 }
 
                 let sections = [];
-                if (!loadedFromCache) {
+                if (!loadedFromCache || cacheExpired) {
                     const startTime = new Date().getTime();
 
-                    sections = await getTodaysClasses();
+                    const {data, error} = await getTodaysClasses();
 
-                    // change to a list of instructional events with section data attached
-                    const events = [];
-                    for (const section of sections) {
-                        const { course, instructionalEvents} = section;
-                        for (const event of instructionalEvents) {
-                            const newEvent = {
-                                ...event,
-                                course
-                            };
-                            events.push(newEvent);
-                        }
-                    }
-                    events.sort((left, right) => left.startOn.localeCompare(right.startOn));
-                    unstable_batchedUpdates(() => {
-                        setEvents(events);
-
-                        const endTime = new Date().getTime();
-                        setLoadTimes(() => [ ...loadTimes, endTime - startTime]);
-
-                        setLoading(false);
-
-                        emitCustomEvent('today-load-stats', {
-                            type,
-                            time: endTime - startTime
+                    if (error) {
+                        unstable_batchedUpdates(() => {
+                            setIsErrorState(true);
+                            setLoading(false);
                         });
-                    });
+                    } else {
+                        sections = data || [];
 
-                    if (cacheEnabled) {
+                        // change to a list of instructional events with section data attached
+                        const events = [];
+                        for (const section of sections) {
+                            const { course, instructionalEvents} = section;
+                            for (const event of instructionalEvents) {
+                                const newEvent = {
+                                    ...event,
+                                    course
+                                };
+                                events.push(newEvent);
+                            }
+                        }
+                        events.sort((left, right) => left.startOn.localeCompare(right.startOn));
+                        unstable_batchedUpdates(() => {
+                            setIsErrorState(false);
+                            setDataState('loaded');
+                            setEvents(events);
+
+                            const endTime = new Date().getTime();
+                            setLoadTimes(() => [ ...loadTimes, endTime - startTime]);
+
+                            setLoading(false);
+
+                            emitCustomEvent('today-load-stats', {
+                                type,
+                                time: endTime - startTime
+                            });
+                        });
+
                         // cache it
                         cache.storeItem({
                             key: cacheKey,
@@ -89,12 +100,12 @@ export function TodayClassesProvider({children, type, getTodaysClasses}) {
                 }
             })();
         }
-    }, [refreshData])
+    }, [dataState])
 
     const requestRefreshData = useCallback(() => {
-        setRefreshData(true);
+        setDataState('reload');
         setLoading(true);
-    }, [setRefreshData])
+    }, [setDataState])
 
     useCustomEventListener(`refresh-${type}`, () => {
         requestRefreshData();
@@ -102,12 +113,13 @@ export function TodayClassesProvider({children, type, getTodaysClasses}) {
 
     const contextValue = useMemo(() => {
         return {
+            isErrorState,
             events,
             loading,
             loadTimes,
             refreshData: requestRefreshData
         }
-    }, [ events, loading, loadTimes, requestRefreshData ]);
+    }, [ isErrorState, events, loading, loadTimes, requestRefreshData ]);
 
     if (process.env.NODE_ENV === 'development') {
         useEffect(() => {

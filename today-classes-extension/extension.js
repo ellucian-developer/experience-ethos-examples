@@ -1,9 +1,9 @@
 module.exports = {
   name: 'Today\'s Classes',
-  publisher: 'Ellucian',
+  publisher: '',
   cards: [{
     type: 'TodayClassesGraphQLProxy',
-    source: './src/cards/TodayClassesGraphQLProxy',
+    source: './src/graphql-proxy/cards/TodayClasses',
     title: 'Today\'s Classes - GraphQL Proxy',
     displayCardType: 'Today\'s Classes - GraphQL Proxy',
     description: 'Today\'s Classes via GraphQL Proxy',
@@ -76,13 +76,13 @@ module.exports = {
               query todaysSections($personId: ID, $yesterday: Date, $tomorrow: Date){
                   sectionRegistrations : {sectionRegistrations}(
                       filter: {
-                          {registrant@persons}: {
-                              id: {EQ: $personId}
-                          }
-                          {section}: {
-                          startOn: {BEFORE: $tomorrow}
-                          endOn: {AFTER: $yesterday}
-                          }
+                        {registrant@persons}: {
+                            id: {EQ: $personId}
+                        }
+                        {section}: {
+                            startOn: {BEFORE: $tomorrow}
+                            endOn: {AFTER: $yesterday}
+                        }
                       }
                   ){
                       edges {
@@ -108,7 +108,7 @@ module.exports = {
     }
     }, {
         type: 'TodayClassesLambda',
-        source: './src/cards/TodayClassesLambda',
+        source: './src/lambda/cards/TodayClasses',
         title: 'Today\'s Classes - Lambda',
         displayCardType: 'Today\'s Classes - Lambda',
         description: 'Today\'s Classes via Lambda',
@@ -122,13 +122,13 @@ module.exports = {
             server: [{
                 key: 'apiKey',
                 label: 'Ethos API Key',
-                type: 'string',
+                type: 'password',
                 require: false
             }]
         }
     }, {
         type: 'TodayClassesNode',
-        source: './src/cards/TodayClassesNode',
+        source: './src/node/cards/TodayClasses',
         title: 'Today\'s Classes - Node',
         displayCardType: 'Today\'s Classes - Node',
         description: 'Today\'s Classes via Node',
@@ -142,7 +142,7 @@ module.exports = {
             server: [{
                 key: 'apiKey',
                 label: 'Ethos API Key',
-                type: 'string',
+                type: 'password',
                 require: false
             }]
         }

@@ -1,5 +1,5 @@
 /* eslint-disable global-require */
-import ENGLISH_TRANSLATION from '../i18n/en.json';
+import ENGLISH_TRANSLATION from './en.json';
 
 export const getMessages = (userLocale) => {
     const {messages: baseMessages } = ENGLISH_TRANSLATION;

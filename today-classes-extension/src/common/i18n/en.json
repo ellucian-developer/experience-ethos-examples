@@ -2,6 +2,8 @@
     "messages": {
         "Classes.courseAbbrNumberTitle": "{courseAbbreviation} {courseNumber} {courseTitle}",
         "Classes.time": "Retrieve time: {time}",
+        "Classes.contact.administrator": "Contact Your Administrator",
+        "Classes.data.error": "There was an error retrieving your data",
         "Dash.source": "Source",
         "Dash.count": "Count",
         "Dash.average": "Average",

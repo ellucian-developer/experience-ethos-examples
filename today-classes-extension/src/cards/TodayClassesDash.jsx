@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
+
 
 import { emitCustomEvent, useCustomEventListener } from 'react-custom-events';
 import capitalize from 'lodash/capitalize';
@@ -13,9 +15,8 @@ import { withStyles } from '@ellucian/react-design-system/core/styles';
 
 import { ExtensionProvider, useCache } from '@ellucian/experience-extension-hooks';
 
-import { withIntl } from '../components/ReactIntlProviderWrapper';
-import { IntlProvider, useIntl } from '../context/intl';
-import { randomPathColor } from '../util/path';
+import { randomPathColor } from '../common/util/path';
+import { withIntl } from '../common/components/ReactIntlProviderWrapper';
 
 const styles = () => ({
     root: {
@@ -56,7 +57,7 @@ for ( const type of types ) {
 
 const TodayClassesDash = ({classes}) => {
     const cache = useCache();
-    const {intl} = useIntl();
+    const intl = useIntl();
     const { width, height, ref: resizeRef } = useResizeDetector();
 
     const [mode, setMode] = useState('table');
@@ -227,9 +228,7 @@ const TodayClassesDashWithStyle = withStyles(styles)(TodayClassesDash);
 function CardWithProviders(props) {
     return (
         <ExtensionProvider {...props}>
-            <IntlProvider {...props}>
-                <TodayClassesDashWithStyle/>
-            </IntlProvider>
+            <TodayClassesDashWithStyle/>
         </ExtensionProvider>
     )
 }
