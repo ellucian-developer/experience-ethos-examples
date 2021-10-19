@@ -35,14 +35,17 @@ provider:
   lambdaHashingVersion: 20201221
   httpApi:
     useProviderTags: true
-    cors:
-      allowedOrigins:
-        - https://experience-dev-devinternal.elluciancloud.com
-        - https://experience-test-internal.elluciancloud.com
-        - https://experience-test.elluciancloud.com
-        - https://experience.elluciancloud.com
-      allowedMethods:
-        - GET
+    cors: true
+# When deploying to AWS, using the following to restrict CORS to be allowed only for Ellucian Experience
+#    cors:
+#      allowedOrigins:
+# The internal instances are for Ellucian employee, use. Not needed for Ellucian customers.
+#        - https://experience-dev-devinternal.elluciancloud.com
+#        - https://experience-test-internal.elluciancloud.com
+#        - https://experience-test.elluciancloud.com
+#        - https://experience.elluciancloud.com
+#      allowedMethods:
+#        - GET
 custom:
   stage: ${opt:stage, env:STAGE}
 plugins:

@@ -11,11 +11,6 @@ if (!process.env.ETHOS_INTEGRATION_URL) {
     process.exit(1);
 }
 
-if (!process.env.ETHOS_API_KEY) {
-    console.error("Missing ETHOS_API_KEY environment variable");
-    process.exit(1);
-}
-
 app.use(express.json());
 app.use(express.urlencoded({
     extended: true
@@ -24,5 +19,5 @@ app.use(express.urlencoded({
 app.use('/api', api);
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`today-classes at http://localhost:${port}/api/today-classes`);
 });

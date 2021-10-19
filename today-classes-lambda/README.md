@@ -21,9 +21,18 @@ To run the Lambda function locally in offline mode do the following
 
 1. Open a terminal and cd to the today-classes-lambda directory.
 1. Execute `npm install` to install all the node modules needed.
+1. Create .env. Copy the sample.env file to .env and add the JWT_SECRET and EXTENSION_API_TOKEN from Experience Setup Extension Management. Other .env vars described below.
 1. Execute `npm start` that will run the npm script 'npx serverless offline --stage dev'.
 
 It will start an endpoint listening on port 3000. It will show you in a box with the GET URL. Copy this URL to use to configure the card.
+
+## JWT secret and extension API Token
+You will need to create a JWT secret to share with the Extension Management and use in the .env file. This secret needs to be between 32 to 50 characters.
+
+Once the extension is uploaded, an Extension API Token needs to be generated. Use Experience Setup Extension Management and edit the extension. Enter the JWT secret and then click on the "GENERATE API TOKEN" button. This will generate a Token that the server side can use to call back to Experience and get card configuration. Copy the generated token and add it to the .env file as the value for EXTENSION_API_TOKEN
+
+## Other .env values for AWS Tags
+The following vars are listed in sample.env can be used for tagging the AWS resources. See the serverless.yml blocks for tags. You can use or remove as desired.
 
 ## Configure Card
 
@@ -33,3 +42,7 @@ Login to Experience as a user with permission to use Card Mangement. Locate the 
 
 1. Lambda Today Classes URL - set this to the URL shown when starting the offline serverless
 1. Ethos API Key - set this to an Ethos API key that has access to the GraphQL resources as described in [Ethos Guide](../docs/today-classes-ethos-guide.md).
+
+## CORS and Serverless Offline
+
+When running this the first time, serverless offline won't properly return CORS headers if you use the allowedOrigins block. The work around it to set the httpApi.cors value in serverless.yml to 'true' initially or always when using serverless offline (running locally). When you deploy to AWS, it is recommended you use the commented out cors block to be more restrictive of what websites can access your Lambda endpoints.
