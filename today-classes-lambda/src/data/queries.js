@@ -33,7 +33,7 @@ query todaysSections($personId: ID, $yesterday: Date, $tomorrow: Date){
 
 export const instructionalEventsBySectionV8 = `
 query instructionalEventsBySection($sectionId: ID){
-    instructionalEvents : instructionalEvents11(
+    instructionalEvents : instructionalEvents8(
       filter: {
         section16: {
           id: {EQ: $sectionId}
@@ -65,7 +65,7 @@ query instructionalEventsBySection($sectionId: ID){
             location {
               room: room10 { 
                 number
-                building: building11 {
+                building: building6 {
                   title
                 }
               }
