@@ -122,7 +122,7 @@ module.exports = {
             server: [{
                 key: 'apiKey',
                 label: 'Ethos API Key',
-                type: 'string',
+                type: 'password',
                 require: false
             }]
         }
@@ -142,7 +142,7 @@ module.exports = {
             server: [{
                 key: 'apiKey',
                 label: 'Ethos API Key',
-                type: 'string',
+                type: 'password',
                 require: false
             }]
         }

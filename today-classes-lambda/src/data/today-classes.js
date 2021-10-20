@@ -1,5 +1,5 @@
 import { integrationUtil } from '@ellucian/experience-extension-server-util';
-import { instructionalEventsBySection, todaysSections } from './queries';
+import { instructionalEventsBySectionV8, instructionalEventsBySectionV11, todaysSections } from './queries';
 
 const allDaysOfWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
@@ -19,8 +19,8 @@ export async function fetchTodayClasses ({ apiKey, date, personId }) {
         };
 
         const ethosContext = {};
-        const { data: { sectionRegistrations: { edges: sectionRegistrations } } } =
-            await integrationUtil.graphql({ apiKey, context: ethosContext, query: todaysSections, variables });
+        const sectionsResult = await integrationUtil.graphql({ apiKey, context: ethosContext, query: todaysSections, variables });
+        const sectionRegistrations = sectionsResult?.data?.sectionRegistrations?.edges;
 
         const sections = [];
 
@@ -32,7 +32,8 @@ export async function fetchTodayClasses ({ apiKey, date, personId }) {
                     integrationUtil.graphql({
                         apiKey,
                         context: ethosContext,
-                        query: instructionalEventsBySection,
+                        query: process.env.RESOURCE_INSTRUCTIONAL_EVENTS_VERSION === 'v11' ?
+                            instructionalEventsBySectionV11 : instructionalEventsBySectionV8,
                         variables: {
                             sectionId: section.id
                         }
@@ -48,7 +49,7 @@ export async function fetchTodayClasses ({ apiKey, date, personId }) {
                 const { course: { number, subject: { abbreviation }, titles } } = dataSection;
                 const title = titles && titles.length > 0 ? titles[0].value : '';
 
-                const { data: { instructionalEvents: { edges: instructionalEvents } } } = result;
+                const instructionalEvents = result?.data?.instructionalEvents?.edges || [];
                 const events = instructionalEvents.map(edge => edge.node);
 
                 const section = {

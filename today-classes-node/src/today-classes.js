@@ -35,15 +35,22 @@ async function getSectionsByIds({apiKey, context, sectionIds}) {
 
 async function getInstructionalEvents({apiKey, context, sectionIds}) {
     const promises = sectionIds.map(sectionId => {
+        const searchParams = process.env.RESOURCE_INSTRUCTIONAL_EVENTS_VERSION === 'v11' ?
+            {
+                criteria: {
+                    section: { id: sectionId }
+                }
+            } : {
+                criteria: {
+                    section: sectionId
+                }
+            };
+
         return integrationUtil.get({
             apiKey,
             context,
             resource: 'instructional-events',
-            searchParams: {
-                criteria: {
-                    section: sectionId
-                }
-            }
+            searchParams
         });
     });
 
@@ -51,8 +58,8 @@ async function getInstructionalEvents({apiKey, context, sectionIds}) {
 
     const resultMap = {};
     sectionIds.forEach((sectionId, index) => {
-        const {data: instructionalEvent} = results[index];
-        resultMap[sectionId] = instructionalEvent;
+        const {data: instructionalEvents} = results[index] || {};
+        resultMap[sectionId] = instructionalEvents || [];
     });
 
     return resultMap;
@@ -139,7 +146,7 @@ async function getCourseDetails({apiKey, context, resultSections}) {
 
 export async function getTodayClasses(personId, date, jwt) {
     if (process.env.DEBUG === 'true') {
-        console.debug(`getTodayClasses personId: ${personId} date: ${date}`)
+        console.debug(`getTodayClasses personId: ${personId} date: ${date}`);
     }
 
     const { card: { cardServerConfigurationApiUrl }} = jwt;
@@ -147,19 +154,20 @@ export async function getTodayClasses(personId, date, jwt) {
     const { config, error } = await experienceUtil.getCardServerConfiguration({
         url: cardServerConfigurationApiUrl,
         token: process.env.EXTENSION_API_TOKEN
-    })
+    });
 
     if (!config || error) {
-        const throwError = new Error(error.message)
-        throwError.statusCode = error.statusCode
+        const throwError = new Error(error.message);
+        throwError.statusCode = error.statusCode;
 
-        throw throwError
+        throw throwError;
     }
 
     const { apiKey } = config;
     const eventDate = date ? new Date(`${date}T00:00:00`): new Date();
 
     const context = {};
+
     // Section Registrations
     const sectionRegistrations = await getSectionRegistrationsForPerson({apiKey, context, personId});
 

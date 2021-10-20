@@ -15,7 +15,7 @@ export async function fetchTodayClassesWithGraphQLProxy({getEthosQuery}) {
 
         const result = await getEthosQuery({queryId: 'today-sections', properties});
 
-        const { data: { sectionRegistrations: {edges: sectionRegistrations } } } = result;
+        const sectionRegistrations = result?.data?.sectionRegistrations?.edges || [];
 
         const sections = [];
         if (sectionRegistrations) {
@@ -34,7 +34,7 @@ export async function fetchTodayClassesWithGraphQLProxy({getEthosQuery}) {
                 const { course: { number, subject: { abbreviation }, titles }, id} = dataSection;
                 const title = titles && titles.length > 0 ? titles[0].value : '';
 
-                const { data: { instructionalEvents: { edges: instructionalEvents }}} = result;
+                const instructionalEvents = result?.data?.instructionalEvents?.edges;
                 const events = instructionalEvents.map( edge => edge.node );
 
                 const section = {

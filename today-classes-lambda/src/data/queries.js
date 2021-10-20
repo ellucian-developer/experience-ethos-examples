@@ -29,11 +29,11 @@ query todaysSections($personId: ID, $yesterday: Date, $tomorrow: Date){
         }
     }
 }
-`
+`;
 
-export const instructionalEventsBySection = `
+export const instructionalEventsBySectionV8 = `
 query instructionalEventsBySection($sectionId: ID){
-    instructionalEvents : instructionalEvents8(
+    instructionalEvents : instructionalEvents11(
       filter: {
         section16: {
           id: {EQ: $sectionId}
@@ -42,7 +42,6 @@ query instructionalEventsBySection($sectionId: ID){
     ){
       edges {
         node {
-          id
           recurrence {
             timePeriod {
               startOn,
@@ -66,7 +65,7 @@ query instructionalEventsBySection($sectionId: ID){
             location {
               room: room10 { 
                 number
-                building: building6 {
+                building: building11 {
                   title
                 }
               }
@@ -76,4 +75,50 @@ query instructionalEventsBySection($sectionId: ID){
       }
     }
   }
-`
+`;
+
+export const instructionalEventsBySectionV11 = `
+query instructionalEventsBySection($sectionId: ID){
+    instructionalEvents : instructionalEvents11(
+      filter: {
+        section16: {
+          id: {EQ: $sectionId}
+        }
+      }
+    ){
+      edges {
+        node {
+          recurrence {
+            timePeriod {
+              startOn,
+              endOn
+            }
+            repeatRule {
+              type
+              interval
+              ends {
+                repetitions,
+                date
+              }
+              daysOfWeek
+              repeatBy {
+                dayOfMonth,
+                dayOfMonth
+              }
+            }
+          }
+          locations {
+            location {
+              room: room10 { 
+                number
+                building: building11 {
+                  title
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
