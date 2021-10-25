@@ -1,17 +1,14 @@
-import React, { Fragment, Suspense, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { CircularProgress, Divider, List } from '@ellucian/react-design-system/core'
+import { Divider, List } from '@ellucian/react-design-system/core'
 import { withStyles } from '@ellucian/react-design-system/core/styles';
 import { spacing40 } from '@ellucian/react-design-system/core/styles/tokens';
 
 import { useExtensionControl } from '@ellucian/experience-extension-hooks';
 
+import Event from './Event';
 import { useTodayData } from '../context/today-classes';
-
-// just for fun we will load Event lazily. This will package the Course component separately
-// const Course = React.lazy(() => import('./Course'));
-const Event = React.lazy(() => import('./Event'));
 
 const styles = () => ({
     root: {
@@ -22,13 +19,6 @@ const styles = () => ({
         marginLeft: spacing40,
         display: 'flex',
         flexDirection: 'column'
-    },
-    loading: {
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     list: {
         flex: '1 1 auto',
@@ -65,19 +55,17 @@ const TodayClasses = ({classes}) => {
 
     return (
         <div className={classes.root}>
-            <Suspense fallback={<div className={classes.loading}><CircularProgress/></div>}>
-                <List className={classes.list}>
-                    {events.map( (event, index) => (
-                        <Fragment key={event.id}>
-                            {/* <Course key={section.id} section={section}/> */}
-                            <Event event={event} colorContext={colorContext}/>
-                            {index !== lastEventIndex && (
-                                <Divider className={classes.divider} variant={'middle'} />
-                            )}
-                        </Fragment>
-                    ))}
-                </List>
-            </Suspense>
+            <List className={classes.list}>
+                {events.map( (event, index) => (
+                    <Fragment key={event.id}>
+                        {/* <Course key={section.id} section={section}/> */}
+                        <Event event={event} colorContext={colorContext}/>
+                        {index !== lastEventIndex && (
+                            <Divider className={classes.divider} variant={'middle'} />
+                        )}
+                    </Fragment>
+                ))}
+            </List>
         </div>
     );
 };
