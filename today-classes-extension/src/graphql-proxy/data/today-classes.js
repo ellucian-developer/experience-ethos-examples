@@ -1,10 +1,6 @@
-/* eslint-disable max-depth */
-
-import { fetchJsonData } from './json-data';
-
 const allDaysOfWeek = [ 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday' ];
 
-export async function fetchTodayClassesWithGraphQLProxy({getEthosQuery}) {
+export async function fetchTodayClasses({getEthosQuery}) {
     try {
         // the query needs yesterday and tomorrow dates
         const start = new Date();
@@ -90,60 +86,8 @@ export async function fetchTodayClassesWithGraphQLProxy({getEthosQuery}) {
             });
         }
 
-        console.log('fetchTodayClassesWithGraphQLProxy time:', new Date().getTime() - start.getTime());
+        console.log('GraphQL Proxy fetchTodayClasses time:', new Date().getTime() - start.getTime());
         return sections;
-    } catch (error) {
-        console.error('unable to fetch data sources: ', error);
-        return {data: [], error: error.message};
-    }
-}
-
-export async function fetchTodayClassesFromLambda({ getExtensionJwt, url: urlBase }) {
-    try {
-        const start = new Date();
-        const now = process.env.DATE ? new Date(process.env.DATE) : new Date();
-
-        // send browser date rather than using server's
-        const date = new Date(now.toLocaleDateString()).toISOString().slice(0, 10);
-
-        const searchParams = new URLSearchParams();
-        searchParams.append('date', date);
-        const url = `${urlBase}?${searchParams.toString()}`
-
-        const {data: sections = []} = await fetchJsonData({
-            url,
-            getJwt: getExtensionJwt
-        });
-
-        console.log('fetchTodayClassesFromLambda time:', new Date().getTime() - start.getTime());
-        return  sections;
-    } catch (error) {
-        console.error('unable to fetch data sources: ', error);
-        return {data: [], error: error.message};
-    }
-}
-
-export async function fetchTodayClassesFromNode({ getExtensionJwt, url: urlBase }) {
-    try {
-        const start = new Date();
-        const now = process.env.DATE ? new Date(process.env.DATE) : new Date();
-
-        // send browser date rather than using server's
-        const date = new Date(now.toLocaleDateString()).toISOString().slice(0, 10);
-
-        // build URL
-        const url = new URL(urlBase);
-        const searchParams = new URLSearchParams(url.searchParams);
-        searchParams.append('date', date);
-        url.search = searchParams.toString();
-
-        const {data: sections = []} = await fetchJsonData({
-            url,
-            getJwt: getExtensionJwt
-        });
-
-        console.log('fetchTodayClassesFromLambda time:', new Date().getTime() - start.getTime());
-        return  sections;
     } catch (error) {
         console.error('unable to fetch data sources: ', error);
         return {data: [], error: error.message};

@@ -13,9 +13,9 @@ import { withStyles } from '@ellucian/react-design-system/core/styles';
 
 import { ExtensionProvider, useCache } from '@ellucian/experience-extension-hooks';
 
-import { withIntl } from '../components/ReactIntlProviderWrapper';
-import { IntlProvider, useIntl } from '../context/intl';
-import { randomPathColor } from '../util/path';
+import { withIntl } from '../common/components/ReactIntlProviderWrapper';
+import { IntlProvider, useIntl } from '../common/context/intl';
+import { randomPathColor } from '../common/util/path';
 
 const styles = () => ({
     root: {

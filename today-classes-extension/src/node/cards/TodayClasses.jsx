@@ -6,13 +6,13 @@ import { withStyles } from '@ellucian/react-design-system/core/styles';
 
 import {ExtensionProvider, useCardInfo, useData } from '@ellucian/experience-extension-hooks';
 
-import { withIntl } from '../components/ReactIntlProviderWrapper';
-import { IntlProvider } from '../context/intl';
-import { TodayClassesProvider } from '../context/today-classes';
-import { fetchTodayClassesFromNode } from '../data/today-classes';
+import { withIntl } from '../../common/components/ReactIntlProviderWrapper';
+import { IntlProvider } from '../../common/context/intl';
+import { TodayClassesProvider } from '../../common/context/today-classes';
+import { fetchTodayClasses } from '../data/today-classes';
 
 // load TodayClasses lazily to trim overal size
-const TodayClasses = React.lazy(() => import('../components/TodayClasses'));
+const TodayClasses = React.lazy(() => import('../../common/components/TodayClasses'));
 
 const styles = () => ({
     loading: {
@@ -27,7 +27,7 @@ const styles = () => ({
 const TodayClassesCard = ({classes}) => {
     const { getExtensionJwt } = useData();
     const { configuration: {nodeUrl: url} = {} } = useCardInfo();
-    const getTodaysClasses = () => fetchTodayClassesFromNode({getExtensionJwt, url});
+    const getTodaysClasses = () => fetchTodayClasses({getExtensionJwt, url});
 
     return (
         <TodayClassesProvider type={'node'} getTodaysClasses={getTodaysClasses}>

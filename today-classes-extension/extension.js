@@ -3,7 +3,7 @@ module.exports = {
   publisher: 'Ellucian',
   cards: [{
     type: 'TodayClassesGraphQLProxy',
-    source: './src/cards/TodayClassesGraphQLProxy',
+    source: './src/graphql-proxy/cards/TodayClasses',
     title: 'Today\'s Classes - GraphQL Proxy',
     displayCardType: 'Today\'s Classes - GraphQL Proxy',
     description: 'Today\'s Classes via GraphQL Proxy',
@@ -108,7 +108,7 @@ module.exports = {
     }
     }, {
         type: 'TodayClassesLambda',
-        source: './src/cards/TodayClassesLambda',
+        source: './src/lambda/cards/TodayClasses',
         title: 'Today\'s Classes - Lambda',
         displayCardType: 'Today\'s Classes - Lambda',
         description: 'Today\'s Classes via Lambda',
@@ -128,7 +128,7 @@ module.exports = {
         }
     }, {
         type: 'TodayClassesNode',
-        source: './src/cards/TodayClassesNode',
+        source: './src/node/cards/TodayClasses',
         title: 'Today\'s Classes - Node',
         displayCardType: 'Today\'s Classes - Node',
         description: 'Today\'s Classes via Node',
