@@ -76,13 +76,13 @@ module.exports = {
               query todaysSections($personId: ID, $yesterday: Date, $tomorrow: Date){
                   sectionRegistrations : {sectionRegistrations}(
                       filter: {
-                          {registrant@persons}: {
-                              id: {EQ: $personId}
-                          }
-                          {section}: {
-                          startOn: {BEFORE: $tomorrow}
-                          endOn: {AFTER: $yesterday}
-                          }
+                        {registrant@persons}: {
+                            id: {EQ: $personId}
+                        }
+                        {section}: {
+                            startOn: {BEFORE: $tomorrow}
+                            endOn: {AFTER: $yesterday}
+                        }
                       }
                   ){
                       edges {

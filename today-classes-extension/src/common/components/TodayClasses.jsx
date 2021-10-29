@@ -58,7 +58,6 @@ const TodayClasses = ({classes}) => {
             <List className={classes.list}>
                 {events.map( (event, index) => (
                     <Fragment key={event.id}>
-                        {/* <Course key={section.id} section={section}/> */}
                         <Event event={event} colorContext={colorContext}/>
                         {index !== lastEventIndex && (
                             <Divider className={classes.divider} variant={'middle'} />

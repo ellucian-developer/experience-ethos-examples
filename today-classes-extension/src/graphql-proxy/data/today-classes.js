@@ -72,8 +72,8 @@ export async function fetchTodayClasses({getEthosQuery}) {
                     if (meetsOnDate) {
                         section.instructionalEvents.push({
                             id,
-                            startOn: `${now.toISOString().slice(0, 10)}${startOn.slice(10)}`,
-                            endOn: `${now.toISOString().slice(0, 10)}${endOn.slice(10)}`,
+                            startOn,
+                            endOn,
                             locations
                         });
                     }

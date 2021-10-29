@@ -90,8 +90,8 @@ export async function fetchTodayClasses ({ apiKey, date, personId }) {
                     if (meetsOnDate) {
                         section.instructionalEvents.push({
                             id,
-                            startOn: `${dateToUseDate.toISOString().slice(0, 10)}${startOn.slice(10)}`,
-                            endOn: `${dateToUseDate.toISOString().slice(0, 10)}${endOn.slice(10)}`,
+                            startOn,
+                            endOn,
                             locations
                         });
                     }
