@@ -7,7 +7,6 @@ import { withStyles } from '@ellucian/react-design-system/core/styles';
 import {ExtensionProvider, useCardInfo, useData } from '@ellucian/experience-extension-hooks';
 
 import { withIntl } from '../../common/components/ReactIntlProviderWrapper';
-import { IntlProvider } from '../../common/context/intl';
 import { TodayClassesProvider } from '../../common/context/today-classes';
 import { fetchTodayClasses } from '../data/today-classes';
 
@@ -47,9 +46,7 @@ const TodayClasseCardWithStyles = withStyles(styles)(TodayClassesCard);
 function CardWithProviders(props) {
     return (
         <ExtensionProvider {...props}>
-            <IntlProvider {...props}>
-                <TodayClasseCardWithStyles/>
-            </IntlProvider>
+            <TodayClasseCardWithStyles/>
         </ExtensionProvider>
     )
 }
