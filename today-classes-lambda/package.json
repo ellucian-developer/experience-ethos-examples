@@ -1,6 +1,6 @@
 {
   "name": "today-classes-lambda",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Provides an Experience authorized endpoint to retrieve Today's Classes with a lambda function",
   "scripts": {
     "start": "npx serverless offline --stage dev",
@@ -8,7 +8,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@ellucian/experience-extension-server-util": "github:ellucian-developer/experience-extension-server-util.git#1.0.1",
+    "@ellucian/experience-extension-server-util": "github:ellucian-developer/experience-extension-server-util.git#1.0.2",
     "@middy/core": "^2.5.1",
     "@middy/http-error-handler": "^2.5.1",
     "@middy/http-header-normalizer": "^2.5.1",

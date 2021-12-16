@@ -10,6 +10,9 @@ import { withIntl } from '../../common/components/ReactIntlProviderWrapper';
 import { TodayClassesProvider } from '../../common/context/today-classes';
 import { fetchTodayClasses } from '../data/today-classes';
 
+import { initializeLogging } from '../../util/log-level';
+initializeLogging('Today');
+
 // load TodayClasses lazily to trim overal size
 const TodayClasses = React.lazy(() => import('../../common/components/TodayClasses'));
 

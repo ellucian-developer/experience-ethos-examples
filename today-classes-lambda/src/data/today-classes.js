@@ -1,6 +1,9 @@
 import { integrationUtil } from '@ellucian/experience-extension-server-util';
 import { instructionalEventsBySectionV8, instructionalEventsBySectionV11, todaysSections } from './queries';
 
+import { logUtil } from '@ellucian/experience-extension-server-util';
+const logger = logUtil.getLogger();
+
 const allDaysOfWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
 export async function fetchTodayClasses ({ apiKey, date, personId }) {
@@ -103,18 +106,14 @@ export async function fetchTodayClasses ({ apiKey, date, personId }) {
                 }
             });
         } else {
-            if (process.env.DEBUG === 'true') {
-                console.debug(`user: ${personId} has no sections for date: ${date}`);
-            }
+            logger.debug(`user: ${personId} has no sections for date: ${date}`);
         }
 
-        if (process.env.DEBUG === 'true') {
-            console.debug('time:', new Date().getTime() - start.getTime());
-            console.debug('Ethos GraphQL count:', ethosContext.ethosGraphQLCount);
-        }
+        logger.debug('time:', new Date().getTime() - start.getTime());
+        logger.debug('Ethos GraphQL count:', ethosContext.ethosGraphQLCount);
         return sections;
     } catch (error) {
-        console.error('unable to fetch data sources: ', error);
+        logger.error('unable to fetch data sources: ', error);
         return { data: [], error: error.message };
     }
 }

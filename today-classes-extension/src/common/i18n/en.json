@@ -4,6 +4,7 @@
         "Classes.time": "Retrieve time: {time}",
         "Classes.contact.administrator": "Contact Your Administrator",
         "Classes.data.error": "There was an error retrieving your data",
+        "Classes.no.classes": "You have no classes today",
         "Dash.source": "Source",
         "Dash.count": "Count",
         "Dash.average": "Average",
