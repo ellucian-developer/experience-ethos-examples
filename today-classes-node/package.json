@@ -9,7 +9,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@ellucian/experience-extension-server-util": "github:ellucian-developer/experience-extension-server-util#1.0.1",
+    "@ellucian/experience-extension-server-util": "github:ellucian-developer/experience-extension-server-util#1.0.2",
     "@middy/core": "^2.5.3",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",

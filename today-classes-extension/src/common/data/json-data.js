@@ -2,6 +2,9 @@ import 'whatwg-fetch';
 
 import jwtDecode from 'jwt-decode';
 
+import log from 'loglevel';
+const logger = log.getLogger('Today');
+
 const defaultOptions = {
     method: 'GET',
     headers: {
@@ -65,7 +68,7 @@ export const fetchJsonData = async ({url, options, getJwt, token}) => {
     try {
         response = await fetch(url, requestOptions);
     } catch(error) {
-        console.log('error: ', error);
+        logger.error('error: ', error);
         return  {
             error: 'NO_DATA'
         };
@@ -205,7 +208,7 @@ export const deleteJsonData = async ({url, options, getExtensionJwt}) => {
     try {
         response = await fetch(url, requestOptions);
     } catch(error) {
-        console.log('error: ', error);
+        logger.error('error: ', error);
     }
 
     if (response) {

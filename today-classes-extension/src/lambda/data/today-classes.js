@@ -1,6 +1,7 @@
-/* eslint-disable max-depth */
-
 import { fetchJsonData } from '../../common/data/json-data';
+
+import log from 'loglevel';
+const logger = log.getLogger('Today');
 
 export async function fetchTodayClasses({ getExtensionJwt, url: urlBase }) {
     try {
@@ -19,10 +20,10 @@ export async function fetchTodayClasses({ getExtensionJwt, url: urlBase }) {
             getJwt: getExtensionJwt
         });
 
-        console.log('Lambda fetchTodayClasses time:', new Date().getTime() - start.getTime());
+        logger.debug('Lambda fetchTodayClasses time:', new Date().getTime() - start.getTime());
         return  { data: sections };
     } catch (error) {
-        console.error('unable to fetch data sources: ', error);
+        logger.error('unable to fetch data sources: ', error);
         return {error: error.message};
     }
 }

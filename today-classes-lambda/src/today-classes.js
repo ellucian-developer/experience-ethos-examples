@@ -5,10 +5,12 @@ import { StatusCodes } from 'http-status-codes';
 import { fetchTodayClasses } from './data/today-classes.js';
 import { experienceUtil, lambdaUtil } from '@ellucian/experience-extension-server-util';
 
+import { logUtil } from '@ellucian/experience-extension-server-util';
+logUtil.initializeLogging();
+const logger = logUtil.getLogger();
+
 async function todayClassesHandler (event) {
-    if (process.env.DEBUG === 'true') {
-        console.debug('inbound event: ', event);
-    }
+    logger.debug('inbound event: ', event);
 
     const { jwt: { card: { cardServerConfigurationApiUrl } = {}, user: { id: personId } = {} } = {} } = event;
 
@@ -23,7 +25,7 @@ async function todayClassesHandler (event) {
 
     if (apiKey && !error) {
         const { date } = event.queryStringParameters || {};
-        console.log('date', date);
+        logger.debug('date', date);
         const sections = await fetchTodayClasses({ apiKey, date, personId });
 
         return lambdaUtil.buildResponse({

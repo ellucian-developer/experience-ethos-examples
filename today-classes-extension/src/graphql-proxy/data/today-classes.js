@@ -1,3 +1,6 @@
+import log from 'loglevel';
+const logger = log.getLogger('Today');
+
 const allDaysOfWeek = [ 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday' ];
 
 export async function fetchTodayClasses({getEthosQuery}) {
@@ -86,10 +89,10 @@ export async function fetchTodayClasses({getEthosQuery}) {
             });
         }
 
-        console.log('GraphQL Proxy fetchTodayClasses time:', new Date().getTime() - start.getTime());
+        logger.debug('GraphQL Proxy fetchTodayClasses time:', new Date().getTime() - start.getTime());
         return { data: sections };
     } catch (error) {
-        console.error('unable to fetch data sources: ', error);
+        logger.error('unable to fetch data sources: ', error);
         return { error };
     }
 }

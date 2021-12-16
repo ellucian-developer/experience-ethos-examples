@@ -7,6 +7,9 @@ import { emitCustomEvent, useCustomEventListener } from 'react-custom-events';
 
 import { useCache } from '@ellucian/experience-extension-hooks';
 
+import log from 'loglevel';
+const logger = log.getLogger('Today');
+
 const Context = createContext()
 
 const cacheKey = 'sections';
@@ -121,15 +124,13 @@ export function TodayClassesProvider({children, type, getTodaysClasses}) {
         }
     }, [ isErrorState, events, loading, loadTimes, requestRefreshData ]);
 
-    if (process.env.NODE_ENV === 'development') {
-        useEffect(() => {
-            console.log('TodayClassesProvider mounted');
+    useEffect(() => {
+        logger.debug('TodayClassesProvider mounted');
 
-            return () => {
-                console.log('TodayClassesProvider unmounted');
-            }
-        }, []);
-    }
+        return () => {
+            logger.debug('TodayClassesProvider unmounted');
+        }
+    }, []);
 
     return (
         <Context.Provider value={contextValue}>

@@ -3,6 +3,9 @@ import cors from 'cors';
 import { expressUtil } from '@ellucian/experience-extension-server-util';
 import { getTodayClasses } from '../today-classes.js';
 
+import { logUtil } from '@ellucian/experience-extension-server-util';
+const logger = logUtil.getLogger();
+
 const apiRouter = express.Router();
 
 apiRouter.use(cors({
@@ -17,7 +20,7 @@ apiRouter.get('/today-classes', async (request, response) => {
     try {
         response.send(await getTodayClasses(personId, date, jwt));
     } catch(error) {
-        console.error(error);
+        logger.error(error);
         response.status(error.statusCode || 500).send({ error: {message: error.message }});
     }
 });

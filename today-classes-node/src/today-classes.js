@@ -1,4 +1,7 @@
-import { experienceUtil, integrationUtil } from '@ellucian/experience-extension-server-util'
+import { experienceUtil, integrationUtil } from '@ellucian/experience-extension-server-util';
+
+import { logUtil } from '@ellucian/experience-extension-server-util';
+const logger = logUtil.getLogger();
 
 const allDaysOfWeek = [ 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday' ];
 
@@ -145,9 +148,7 @@ async function getCourseDetails({apiKey, context, resultSections}) {
 }
 
 export async function getTodayClasses(personId, date, jwt) {
-    if (process.env.DEBUG === 'true') {
-        console.debug(`getTodayClasses personId: ${personId} date: ${date}`);
-    }
+    logger.debug(`getTodayClasses personId: ${personId} date: ${date}`);
 
     const { card: { cardServerConfigurationApiUrl }} = jwt;
 
@@ -172,7 +173,7 @@ export async function getTodayClasses(personId, date, jwt) {
     const sectionRegistrations = await getSectionRegistrationsForPerson({apiKey, context, personId});
 
     if (!sectionRegistrations) {
-        console.error('failed to get section-registrations');
+        logger.error('failed to get section-registrations');
     }
 
     const sectionIds = sectionRegistrations.map(sectionRegistration => sectionRegistration.section.id);
@@ -239,10 +240,8 @@ export async function getTodayClasses(personId, date, jwt) {
     await getLocationDetails({apiKey, context, resultSections});
 
     await getCourseDetails({apiKey, context, resultSections});
-
-    if (process.env.DEBUG === 'true') {
-        console.debug('Ethos GET count:', context.ethosGetCount);
-    }
+    logger.debug('resultSections', resultSections);
+    logger.debug('Ethos GET count:', context.ethosGetCount);
 
     return resultSections;
 }

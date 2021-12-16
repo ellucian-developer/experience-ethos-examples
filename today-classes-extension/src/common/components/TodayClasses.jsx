@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
-import { Divider, List } from '@ellucian/react-design-system/core'
+import { Divider, Illustration, IMAGES, List, Typography } from '@ellucian/react-design-system/core'
 import { withStyles } from '@ellucian/react-design-system/core/styles';
 import { colorFillAlertError, spacing40 } from '@ellucian/react-design-system/core/styles/tokens';
 
@@ -34,6 +34,13 @@ const styles = () => ({
     time: {
         display: 'flex',
         justifyContent: 'flex-end'
+    },
+    noClasses: {
+        height: '100%',
+        display: 'flex',
+        flexFlow: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
 
@@ -65,6 +72,17 @@ const TodayClasses = ({classes}) => {
     }
 
     const lastEventIndex = Array.isArray(events) ? events.length - 1 : 0;
+
+    if (events && events.length === 0) {
+        return (
+            <div className={classes.noClasses}>
+                <Illustration name={IMAGES.NEWS} />
+                <Typography color="textSecondary">
+                    {intl.formatMessage({id: 'Classes.no.classes'})}
+                </Typography>
+            </div>
+        );
+    }
 
     return (
         <div className={classes.root}>

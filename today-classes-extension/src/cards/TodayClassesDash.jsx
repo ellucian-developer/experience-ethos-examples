@@ -18,6 +18,9 @@ import { ExtensionProvider, useCache } from '@ellucian/experience-extension-hook
 import { randomPathColor } from '../common/util/path';
 import { withIntl } from '../common/components/ReactIntlProviderWrapper';
 
+import { initializeLogging } from '../util/log-level';
+initializeLogging('Today');
+
 const styles = () => ({
     root: {
         height: '100%',
