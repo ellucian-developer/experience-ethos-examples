@@ -1,3 +1,5 @@
+// Copyright 2021-2022 Ellucian Company L.P. and its affiliates.
+
 import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';

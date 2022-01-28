@@ -1,3 +1,5 @@
+// Copyright 2021-2022 Ellucian Company L.P. and its affiliates.
+
 import express from 'express';
 import cors from 'cors';
 import { expressUtil } from '@ellucian/experience-extension-server-util';

@@ -1,3 +1,5 @@
+// Copyright 2021-2022 Ellucian Company L.P. and its affiliates.
+
 import 'whatwg-fetch';
 
 import jwtDecode from 'jwt-decode';

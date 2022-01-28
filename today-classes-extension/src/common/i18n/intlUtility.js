@@ -1,3 +1,5 @@
+// Copyright 2021-2022 Ellucian Company L.P. and its affiliates.
+
 /* eslint-disable global-require */
 import ENGLISH_TRANSLATION from './en.json';
 

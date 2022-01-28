@@ -1,3 +1,5 @@
+// Copyright 2021-2022 Ellucian Company L.P. and its affiliates.
+
 import { fetchJsonData } from '../../common/data/json-data';
 
 import log from 'loglevel';
