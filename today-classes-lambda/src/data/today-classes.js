@@ -1,3 +1,5 @@
+// Copyright 2021-2022 Ellucian Company L.P. and its affiliates.
+
 import { integrationUtil } from '@ellucian/experience-extension-server-util';
 import { instructionalEventsBySectionV8, instructionalEventsBySectionV11, todaysSections } from './queries';
 

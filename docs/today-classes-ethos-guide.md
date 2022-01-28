@@ -49,3 +49,5 @@ The following resources will need to be loaded into Data Access and permission g
 * section-registrations
 * sections
 * subjects
+
+Copyright 2021–2022 Ellucian Company L.P. and its affiliates.

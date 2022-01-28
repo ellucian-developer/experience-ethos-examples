@@ -1,3 +1,5 @@
+# Copyright 2021–2022 Ellucian Company L.P. and its affiliates.
+
 service: today-classes-lambda
 frameworkVersion: '2'
 useDotenv: true

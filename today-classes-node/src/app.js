@@ -1,3 +1,5 @@
+// Copyright 2021-2022 Ellucian Company L.P. and its affiliates.
+
 import dotenv from 'dotenv';
 import express from 'express';
 import api from './routes/api.js';
