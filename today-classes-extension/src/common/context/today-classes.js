@@ -28,19 +28,19 @@ export function TodayClassesProvider({children, type, getTodaysClasses}) {
     useEffect(() => {
         if (dataState !== 'loaded') {
             (async () => {
-                let loadedFromCache = false;
+                // let loadedFromCache = false;
 
-                let cacheExpired = false;
+                // let cacheExpired = false;
                 if (dataState !== 'reload') {
-                    const { data: cacheData, expired } = await cache.getItem({key: cacheKey});
+                    const { data: cacheData } = await cache.getItem({key: cacheKey});
 
-                    cacheExpired = expired;
+                    // cacheExpired = expired;
 
                     if (cacheData) {
                         const { fetchDate, events } = cacheData;
                         const today = new Date().toISOString().slice(0, 10);
                         if (today === fetchDate) {
-                            loadedFromCache = true;
+                            // loadedFromCache = true;
                             unstable_batchedUpdates(() => {
                                 setDataState('loaded');
                                 setEvents(events);
@@ -51,7 +51,7 @@ export function TodayClassesProvider({children, type, getTodaysClasses}) {
                 }
 
                 let sections = [];
-                if (!loadedFromCache || cacheExpired) {
+                // if (!loadedFromCache || cacheExpired) {
                     const startTime = new Date().getTime();
 
                     const {data, error} = await getTodaysClasses();
@@ -102,7 +102,7 @@ export function TodayClassesProvider({children, type, getTodaysClasses}) {
                             }
                         });
                     }
-                }
+                // }
             })();
         }
     }, [dataState])

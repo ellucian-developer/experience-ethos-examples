@@ -1,0 +1,834 @@
+[
+	{
+		"academicPeriod": {
+			"id": "154101f2-5111-4898-8937-2ba095ad04e1"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 7000
+		},
+		"fundingDestination": {
+			"id": "6a3875c3-317f-41d6-99ad-cb855c6f8a4a"
+		},
+		"fundingSource": {
+			"id": "6a3875c3-317f-41d6-99ad-cb855c6f8a4a"
+		},
+		"id": "841c645a-366e-4da6-a114-17c4ac0bbec6",
+		"overrideDescription": "American Express Payment",
+		"paidOn": "1995-04-25T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "154101f2-5111-4898-8937-2ba095ad04e1"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 535
+		},
+		"fundingDestination": {
+			"id": "850d5270-bb0e-4bb2-ade1-6d21ec149cbd"
+		},
+		"fundingSource": {
+			"id": "850d5270-bb0e-4bb2-ade1-6d21ec149cbd"
+		},
+		"id": "4179b72e-6821-4052-8d4e-2faa1eb9b034",
+		"overrideDescription": "Check",
+		"paidOn": "1995-05-05T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "589245b8-6263-4318-901d-95e6f5a420ac"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 100
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"id": "fac4bbc5-b7c3-4f2a-9f83-c65391e7b9a3",
+		"overrideDescription": "Cash",
+		"paidOn": "2017-06-27T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "589245b8-6263-4318-901d-95e6f5a420ac"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 200
+		},
+		"fundingDestination": {
+			"id": "850d5270-bb0e-4bb2-ade1-6d21ec149cbd"
+		},
+		"fundingSource": {
+			"id": "850d5270-bb0e-4bb2-ade1-6d21ec149cbd"
+		},
+		"id": "c960b043-7894-469a-8e0c-d011b6abdb10",
+		"overrideDescription": "Check",
+		"paidOn": "2017-06-27T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "77ea2862-d565-401b-bc42-8ca85245d005"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 1000
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"id": "e98fd146-f461-4ff0-87d6-fccd566a9a39",
+		"overrideDescription": "Cash",
+		"paidOn": "2018-08-30T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "58a991a7-5aa8-48a6-a6fa-84cafe113dcd"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 20000
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"id": "66f0808e-35e4-4708-a025-6f66e423494c",
+		"overrideDescription": "Cash",
+		"paidOn": "2019-09-05T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "2761fabc-7c00-4f91-b1ea-210607afb1fc"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 5000
+		},
+		"fundingDestination": {
+			"id": "850d5270-bb0e-4bb2-ade1-6d21ec149cbd"
+		},
+		"fundingSource": {
+			"id": "850d5270-bb0e-4bb2-ade1-6d21ec149cbd"
+		},
+		"id": "f792c143-5126-4096-8ed5-42809feba97f",
+		"overrideDescription": "Check",
+		"paidOn": "2020-09-05T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "77ea2862-d565-401b-bc42-8ca85245d005"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 10
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"id": "9f808a44-e01f-45cc-ab02-4fd1039edab9",
+		"overrideDescription": "Cash",
+		"paidOn": "2018-09-13T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "77ea2862-d565-401b-bc42-8ca85245d005"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 10
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"id": "614ec790-7341-4453-b4c2-8bf9e2af3245",
+		"overrideDescription": "Cash",
+		"paidOn": "2018-09-13T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "77ea2862-d565-401b-bc42-8ca85245d005"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 10
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"id": "c0a7c04f-a096-4b5e-b0bf-18ac083920ff",
+		"overrideDescription": "Cash",
+		"paidOn": "2018-09-13T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "77ea2862-d565-401b-bc42-8ca85245d005"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 10
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"id": "a8054d3d-dabd-462c-a862-d96cbc10fe5f",
+		"overrideDescription": "Cash",
+		"paidOn": "2018-09-13T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "77ea2862-d565-401b-bc42-8ca85245d005"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 10
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"id": "eed111d6-1258-42f0-945a-c2d5ef24c58c",
+		"overrideDescription": "Cash",
+		"paidOn": "2018-09-13T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "77ea2862-d565-401b-bc42-8ca85245d005"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 10
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"id": "73be88fe-0a3a-40a7-8a2f-d45cb77c3d50",
+		"overrideDescription": "Cash",
+		"paidOn": "2018-09-13T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "77ea2862-d565-401b-bc42-8ca85245d005"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 10
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"id": "35d5e52d-d4cd-4f5e-9f6d-5b3edef76f6d",
+		"overrideDescription": "Cash",
+		"paidOn": "2018-09-13T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "77ea2862-d565-401b-bc42-8ca85245d005"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 10
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"id": "b8d1f2a6-390e-425c-8a45-80181dbd8ee9",
+		"overrideDescription": "Cash",
+		"paidOn": "2018-09-13T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "77ea2862-d565-401b-bc42-8ca85245d005"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 10
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"id": "d42609c7-96db-4faa-9ba7-b4d3a921b717",
+		"overrideDescription": "Cash",
+		"paidOn": "2018-09-13T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "77ea2862-d565-401b-bc42-8ca85245d005"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 10
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"id": "fd86451e-dbff-4a43-846a-888221360999",
+		"overrideDescription": "Cash",
+		"paidOn": "2018-09-13T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "77ea2862-d565-401b-bc42-8ca85245d005"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 10
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"id": "adff411f-b1b2-432d-900d-87c615239361",
+		"overrideDescription": "Cash",
+		"paidOn": "2018-09-13T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "77ea2862-d565-401b-bc42-8ca85245d005"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 10
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"id": "04da7a9b-b3ab-4b7d-a6bf-4c572b18b0ff",
+		"overrideDescription": "Cash",
+		"paidOn": "2018-09-13T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "77ea2862-d565-401b-bc42-8ca85245d005"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 10
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"id": "6a68f551-4d53-46a9-b9ad-b460f2e5b46d",
+		"overrideDescription": "Cash",
+		"paidOn": "2018-09-13T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "77ea2862-d565-401b-bc42-8ca85245d005"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 10
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"id": "3caa8713-b417-4bf2-9887-975cd42947fa",
+		"overrideDescription": "Cash",
+		"paidOn": "2018-09-13T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "77ea2862-d565-401b-bc42-8ca85245d005"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 10
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"id": "64ede984-ebf0-434f-8b96-0a0db98f3149",
+		"overrideDescription": "Cash",
+		"paidOn": "2018-09-13T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "77ea2862-d565-401b-bc42-8ca85245d005"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 10
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"id": "0e1d793a-7512-4103-a2a3-abd83cd513cf",
+		"overrideDescription": "Cash",
+		"paidOn": "2018-09-13T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "1d5ac6a6-1f68-41fb-9392-9ac23d574db3"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 100
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"id": "1bc804d7-106a-4be2-95f7-967db3d7bd9d",
+		"overrideDescription": "xxxxxx",
+		"paidOn": "2018-09-19T01:37:18Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "90e7c92b-58bf-4f12-b8ce-351ceeee8e70"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 27
+		},
+		"fundingDestination": {
+			"id": "41e52ed3-dddd-4afa-80b4-d2dc3fd28005"
+		},
+		"fundingSource": {
+			"id": "41e52ed3-dddd-4afa-80b4-d2dc3fd28005"
+		},
+		"id": "08532198-e541-47e2-ae6c-80979666d471",
+		"overrideDescription": "Meal Deposit",
+		"paidOn": "2022-01-20T16:05:30Z",
+		"paymentType": "deposit",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "90e7c92b-58bf-4f12-b8ce-351ceeee8e70"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 73
+		},
+		"fundingDestination": {
+			"id": "41e52ed3-dddd-4afa-80b4-d2dc3fd28005"
+		},
+		"fundingSource": {
+			"id": "41e52ed3-dddd-4afa-80b4-d2dc3fd28005"
+		},
+		"id": "027eb9e4-3934-4a8f-9722-6065d00ae0b2",
+		"overrideDescription": "Meal Deposit",
+		"paidOn": "2022-02-04T16:00:43Z",
+		"paymentType": "deposit",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "154101f2-5111-4898-8937-2ba095ad04e1"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 2453
+		},
+		"fundingDestination": {
+			"id": "6a3875c3-317f-41d6-99ad-cb855c6f8a4a"
+		},
+		"fundingSource": {
+			"id": "6a3875c3-317f-41d6-99ad-cb855c6f8a4a"
+		},
+		"id": "0809a5f5-bccd-4a47-8749-f7da47db05a8",
+		"overrideDescription": "American Express Payment",
+		"paidOn": "2022-02-18T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "154101f2-5111-4898-8937-2ba095ad04e1"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 2453
+		},
+		"fundingDestination": {
+			"id": "6a3875c3-317f-41d6-99ad-cb855c6f8a4a"
+		},
+		"fundingSource": {
+			"id": "6a3875c3-317f-41d6-99ad-cb855c6f8a4a"
+		},
+		"id": "ce640076-584e-4de6-ab82-8d80cc13ca19",
+		"overrideDescription": "Bret Payment",
+		"paidOn": "2022-02-18T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "154101f2-5111-4898-8937-2ba095ad04e1"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 100
+		},
+		"fundingDestination": {
+			"id": "6a3875c3-317f-41d6-99ad-cb855c6f8a4a"
+		},
+		"fundingSource": {
+			"id": "6a3875c3-317f-41d6-99ad-cb855c6f8a4a"
+		},
+		"id": "b78ddfeb-4eae-4b81-b70b-c35018570343",
+		"overrideDescription": "Troys Payment 1",
+		"paidOn": "2022-02-21T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "154101f2-5111-4898-8937-2ba095ad04e1"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 100
+		},
+		"fundingDestination": {
+			"id": "6a3875c3-317f-41d6-99ad-cb855c6f8a4a"
+		},
+		"fundingSource": {
+			"id": "6a3875c3-317f-41d6-99ad-cb855c6f8a4a"
+		},
+		"id": "eafcd90f-a51b-42b2-ae99-e4059418d03c",
+		"overrideDescription": "Troys Payment 2",
+		"paidOn": "2022-02-21T16:41:46Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "2f234699-c0f3-4312-a9b5-ee27ab32762b"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 7535
+		},
+		"fundingDestination": {
+			"id": "850d5270-bb0e-4bb2-ade1-6d21ec149cbd"
+		},
+		"fundingSource": {
+			"id": "850d5270-bb0e-4bb2-ade1-6d21ec149cbd"
+		},
+		"id": "ce298c6b-175b-4dd2-ab06-1ffaa0970da8",
+		"overrideDescription": "Check",
+		"paidOn": "1995-05-05T00:00:00Z",
+		"paymentType": "cash",
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "af875e89-ae2c-45e3-ab3b-8f758bceb7a2"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": -480
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"overrideDescription": "Refund Authorization",
+		"paidOn": "2018-11-23T00:00:00Z",
+		"paymentType": "cash",
+		"reportingDetail": {
+			"originatedOn": "2018-11-23T00:00:00Z",
+			"usage": "taxReportingOnly"
+		},
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "af875e89-ae2c-45e3-ab3b-8f758bceb7a2"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 980
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"overrideDescription": "online credit",
+		"paidOn": "2018-11-23T00:00:00Z",
+		"paymentType": "cash",
+		"reportingDetail": {
+			"originatedOn": "2018-11-23T00:00:00Z",
+			"usage": "taxReportingOnly"
+		},
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "58a991a7-5aa8-48a6-a6fa-84cafe113dcd"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": -480
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"overrideDescription": "Refund Authorization",
+		"paidOn": "2018-11-23T00:00:00Z",
+		"paymentType": "cash",
+		"reportingDetail": {
+			"originatedOn": "2018-11-23T00:00:00Z",
+			"usage": "taxReportingOnly"
+		},
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "58a991a7-5aa8-48a6-a6fa-84cafe113dcd"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 980
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"overrideDescription": "online credit",
+		"paidOn": "2018-11-23T00:00:00Z",
+		"paymentType": "cash",
+		"reportingDetail": {
+			"originatedOn": "2018-11-23T00:00:00Z",
+			"usage": "taxReportingOnly"
+		},
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "af875e89-ae2c-45e3-ab3b-8f758bceb7a2"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": -480
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"overrideDescription": "Refund Authorization",
+		"paidOn": "2018-11-23T00:00:00Z",
+		"paymentType": "cash",
+		"reportingDetail": {
+			"originatedOn": "2018-11-23T00:00:00Z",
+			"usage": "taxReportingOnly"
+		},
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	},
+	{
+		"academicPeriod": {
+			"id": "af875e89-ae2c-45e3-ab3b-8f758bceb7a2"
+		},
+		"amount": {
+			"currency": "USD",
+			"value": 980
+		},
+		"fundingDestination": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"fundingSource": {
+			"id": "b0ac5ef8-be9b-4d1c-9864-6f5ec6c38589"
+		},
+		"overrideDescription": "online credit",
+		"paidOn": "2018-11-23T00:00:00Z",
+		"paymentType": "cash",
+		"reportingDetail": {
+			"originatedOn": "2018-11-23T00:00:00Z",
+			"usage": "taxReportingOnly"
+		},
+		"student": {
+			"id": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+		}
+	}
+]

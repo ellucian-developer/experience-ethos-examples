@@ -1,6 +1,6 @@
 # Copyright 2021–2022 Ellucian Company L.P. and its affiliates.
 
-service: today-classes-lambda
+service: account-details
 frameworkVersion: '2'
 useDotenv: true
 configValidationMode: error
@@ -23,7 +23,7 @@ provider:
       Product: ${env:TAG_PRODUCT}
       POC: ${env:TAG_POC}
   tags:
-      Name: 'ranger-today-classes-service-${env:ENVIRONMENT}-${self:custom.stage}-${env:REGION}'
+      Name: 'ranger-accound-detail-service-${env:ENVIRONMENT}-${self:custom.stage}-${env:REGION}'
       Environment: ${env:ENVIRONMENT}
       Group: ${env:TAG_GROUP}
       CostCenter: ${env:TAG_COST_CENTER}
@@ -57,11 +57,11 @@ plugins:
   - serverless-provisioned-concurrency-autoscaling
   - serverless-bundle
 functions:
-  today-classes:
-    handler: src/today-classes.handler
+  account-details-reviews:
+    handler: src/account-detail-reviews.middyHandler
     provisionedConcurrency: 1
     concurrencyAutoscaling: true
     events:
       - httpApi:
          method: get
-         path: /api/today-classes
+         path: /api/account-detail-reviews

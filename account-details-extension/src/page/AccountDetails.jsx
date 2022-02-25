@@ -1,0 +1,287 @@
+// Copyright 2021-2022 Ellucian Company L.P. and its affiliates.
+
+import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import PropTypes from 'prop-types';
+import classenames from 'classnames';
+
+import {
+    Button,
+    Pagination,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableRow,
+    Typography
+} from '@ellucian/react-design-system/core'
+import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, widthFluid } from '@ellucian/react-design-system/core/styles/tokens';
+import { withStyles } from '@ellucian/react-design-system/core/styles';
+
+import { useExtensionControl, useUserInfo } from '@ellucian/experience-extension/extension-utilities';
+
+import { AccountDetailsProvider, useAccountDetails } from '../context/account-details';
+
+// initialize logging for this card
+import { initializeLogging } from '../util/log-level';
+initializeLogging('default');
+
+const styles = () => ({
+    root:{
+        height: '100%',
+        overflowY: 'auto'
+    },
+    content: {
+        height: '100%',
+        marginTop: 0,
+        marginRight: spacing40,
+        marginBottom: 0,
+        marginLeft: spacing40,
+        display: 'flex',
+        flexDirection: 'column'
+    },
+    transactionPaper: {
+        width: widthFluid
+    },
+    transactionsTableBox: {
+        marginBottom: spacing30,
+        overflowX: 'auto'
+    },
+    transactionsBox: {
+    },
+    recentTransactions: {
+        marginBottom: spacing30
+    },
+    transactionsTable: {
+        minWidth: 500
+    },
+    transactionAmountPayment: {
+        color: colorTextAlertSuccess
+    },
+    amountBoxRow: {
+        marginTop: spacing40,
+        marginBottom: spacing40,
+        display: 'flex',
+        justifyContent: 'space-between'
+    },
+    amountBox: {
+        display: 'flex',
+        flexDirection: 'column'
+    },
+    amountRow: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    amount: {
+        marginLeft: spacing30
+    },
+    payNowButton: {
+        marginLeft: spacing30
+    }
+});
+
+function AccountDetails({classes}) {
+    const intl = useIntl();
+
+    // Experience SDK hooks
+    const { setErrorMessage, setLoadingStatus } = useExtensionControl();
+    const { locale } = useUserInfo();
+
+    const { data, isError, isLoading } = useAccountDetails();
+
+    const [ transactions, setTransactions ] = useState([]);
+    const [ summary, setSummary ] = useState();
+
+    const [ page, setPage ] = useState(0);
+    const [ rowsPerPage, setRowsPerPage ] = useState(10);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, transactions.length - page * rowsPerPage);
+
+    const [ dateFormater, setDateFormater ] = useState();
+    const [ currentyFormater, setCurrentyFormater ] = useState();
+
+    // set up formaters with user's locale
+    useEffect(() => {
+        if (locale) {
+            setDateFormater(new Intl.DateTimeFormat(locale))
+            setCurrentyFormater(new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }))
+        }
+    }, [locale])
+
+    useEffect(() => {
+        setLoadingStatus(isLoading);
+    }, [isLoading])
+
+    useEffect(() => {
+        if (data) {
+            const [results] = data;
+            let transactions = [];
+            let summarys = [{
+                accountBalance: 0,
+                amountDue: 0
+            }];
+
+            if (results) {
+                ({ TBRACCD: transactions, TBRACCD_CTRL: summarys } = results);
+                transactions.sort((left, right) => (right.transDate.localeCompare(left.transDate)));
+            }
+
+            setTransactions(transactions);
+            setSummary(() => summarys[0]);
+        }
+    }, [data])
+
+    useEffect(() => {
+        if (isError) {
+            setErrorMessage({
+                headerMessage: intl.formatMessage({id: 'AccountDetails.contactAdministrator'}),
+                textMessage: intl.formatMessage({id: 'AccountDetails.dataError'}),
+                iconName: 'warning',
+                iconColor: colorFillAlertError
+            });
+        }
+    }, [isError, setErrorMessage])
+
+    if (!data) {
+        // nothing to show yet
+        return null;
+    }
+
+    function handleChangePage(event, page) {
+        setPage(page);
+    }
+
+    function handleChangeRowsPerPage(event) {
+        setRowsPerPage(event.target.value)
+    }
+
+    const firstDate = Array.isArray(transactions) && transactions.length > 0 ? dateFormater.format(new Date(transactions[0].transDate)) : '';
+    const lastDate = Array.isArray(transactions) && transactions.length > 0 ? dateFormater.format(new Date(transactions[transactions.length - 1].transDate)) : '';
+    return (
+        <div className={classes.root}>
+        <div className={classes.content}>
+            <>
+                {summary && (
+                    <div className={classes.amountBoxRow}>
+                        <div className={classes.amountBox}>
+                            <div className={classes.amountRow}>
+                                <Typography variant={'h4'} component={'div'}>
+                                    {intl.formatMessage({id: 'AccountDetails.accountBalance'})}
+                                </Typography>
+                                <Typography variant={'body2'} component={'div'} className={classes.amount}>
+                                    {currentyFormater.format(summary.accountBalance)}
+                                </Typography>
+                            </div>
+                            <div className={classes.amountRow}>
+                            <Typography variant={'h4'} component={'div'}>
+                                {intl.formatMessage({id: 'AccountDetails.amountDue'})}
+                            </Typography>
+                            <Typography variant={'body2'} component={'div'} className={classes.amount}>
+                                {currentyFormater.format(summary.amountDue)}
+                            </Typography>
+                            </div>
+                        </div>
+                        <Button className={classes.payNowButton} color='secondary'>
+                            {intl.formatMessage({id: 'AccountDetails.payNow'})}
+                        </Button>
+                    </div>
+                )}
+                {Array.isArray(transactions) && transactions.length > 0 && (
+                    <div className={classes.transactionsBox}>
+                        <Typography variant={'h4'} component={'div'} className={classes.recentTransactions}>
+                            {intl.formatMessage({id: 'AccountDetails.transactionHistory'})} {firstDate} - {lastDate}
+                        </Typography>
+                        <Paper className={classes.transactionPaper}>
+                        <div className={classes.transactionsTableBox}>
+                            <Table className={classes.transactionsTable}>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>{intl.formatMessage({id: 'AccountDetails.transactionDate'})}</TableCell>
+                                    <TableCell>{intl.formatMessage({id: 'AccountDetails.description'})}</TableCell>
+                                    <TableCell>{intl.formatMessage({id: 'AccountDetails.type'})}</TableCell>
+                                    <TableCell align="right">{intl.formatMessage({id: 'AccountDetails.amount'})}</TableCell>
+                                </TableRow>
+                            </TableHead>
+                                <TableBody>
+                                    {transactions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(transaction => {
+                                        const { chargeAmount, desc, paymentAmount, transDate, tranNumber } = transaction;
+                                        const transactionDate = dateFormater.format(new Date(transDate));
+                                        const type = chargeAmount ? intl.formatMessage({id: 'AccountDetails.charge'}) : intl.formatMessage({id: 'AccountDetails.payment'});
+                                        const amount = currentyFormater.format(chargeAmount ? chargeAmount : paymentAmount * -1);
+                                        return (
+                                            <TableRow key={tranNumber} className={classes.transactionsTableRow}>
+                                                <TableCell align="left">
+                                                    <Typography variant={'body3'} component={'div'}>
+                                                        {transactionDate}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell align="left">
+                                                    <Typography variant={'body3'} component={'div'}>
+                                                        {desc}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell align="left">
+                                                    <Typography variant={'body3'} component={'div'}>
+                                                        {type}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell align="right">
+                                                    <Typography variant={'body3'} component={'div'} className={classenames({[classes.transactionAmountPayment]: !chargeAmount})}>
+                                                        {amount}
+                                                    </Typography>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                    {emptyRows > 0 && [...Array(emptyRows)].map((value, index) => {
+                                        return (
+                                            <TableRow key={index} className={classes.transactionsTableRow}>
+                                                <TableCell/>
+                                                <TableCell/>
+                                                <TableCell/>
+                                                <TableCell/>
+                                            </TableRow>
+                                        )
+                                    })}
+                                </TableBody>
+                                <TableFooter>
+                                    <TableRow>
+                                        <Pagination
+                                            component="td"
+                                            count={transactions.length}
+                                            rowsPerPage={rowsPerPage}
+                                            rowsPerPageOptions={[10, 20, 50, 100]}
+                                            page={page}
+                                            onChangePage={handleChangePage}
+                                            onChangeRowsPerPage={handleChangeRowsPerPage}
+                                        />
+                                    </TableRow>
+                                </TableFooter>
+                            </Table>
+                        </div>
+                        </Paper>
+                    </div>
+                )}
+            </>
+        </div>
+        </div>
+    );
+}
+
+AccountDetails.propTypes = {
+    classes: PropTypes.object.isRequired
+};
+
+const AccountDetailsWithStyle = withStyles(styles)(AccountDetails);
+
+function AccountDetailsWithProviders() {
+    return (
+        <AccountDetailsProvider>
+            <AccountDetailsWithStyle/>
+        </AccountDetailsProvider>
+    )
+}
+
+export default AccountDetailsWithProviders;

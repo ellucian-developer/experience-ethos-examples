@@ -1,9 +1,9 @@
 # Today's Classes Extension
-This example extension includes cards that show today's classes for the current user. This simple example provides a starting point for other functionality. Additional data and behavior could include more class details, grades, and even third-party integrations with a way-finding provider to find your way to class.
+This example extension includes cards that show today's classes for the current user. This example provides a starting point for other functionality. Additional data and behavior could include more class details, grades, and even third-party integrations with a way-finding provider to find your way to class.
 
 The UI content is primarily provided by the component in src/components/TodayClasses.jsx. This component is wrapped with a React Context that is parameterized by the several cards. Each card employs a different way to retrieve the data through Ethos Integration from the ERP.
 
-This extension included today classes retrieval using the following methods:
+This extension includes cards which retreive today's classes using the following methods:
 1. Experience GraphQL Proxy for extensions
 1. Lambda microservice which uses Ethos GraphQL API
 1. Node microservice which uses Ethos EEDM Proxy API
@@ -14,7 +14,7 @@ This extension included today classes retrieval using the following methods:
 
 Experience provides a proxy to Ethos Integration GraphQL API. See https://resources.elluciancloud.com/bundle/ellucian_experience_acn_use/page/t_extension_graphql_requests.html. This provides an extension card or page the ability to make Ethos Integration GraphQL queries through the Experience server. Experience authorizes the queries and proxies the request to Ethos Integration using Experience's Ethos API Key. Experience ensures that queries to resources that can be queried by persons, use a person filter. This ensures the Experience user only gains access to only their data.
 
-In this extension, there are two GraphQL queries defined in extension.js. The first, today-sections, is used to find the sections the user is registered which span today's date. The second, instructional-events-by-section, is used to retrieve the recurrence pattern for event times and the location of each. This is invoked for each section. The recurrence pattern is then used to determine which classes meet today.
+In this extension, there is a card with the type of TodayClassesGraphQLProxy. This card has two GraphQL queries defined in extension.js. One is today-sections. It is used to find the sections the user is registered to that span today's date. The second, instructional-events-by-section, is used to retrieve the recurrence pattern for event times and the location of each. This is invoked for each section. The recurrence pattern is then used to determine which classes meet today.
 
 This method of retrieving today's classes utilizes the getEthosQuery property that Experience makes available to extensions. getEthosQuery is an asynchronous function that requires a query ID and any needed properties to execute the GraphQL query. Note the user/person ID is not passed from the browser. The query today-sections utilizes the automatically provided personId from the Experience server that is pulled from the user's session.
 

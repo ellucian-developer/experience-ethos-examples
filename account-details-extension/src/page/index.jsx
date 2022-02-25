@@ -1,0 +1,27 @@
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { withIntl } from '../i18n/ReactIntlProviderWrapper';
+
+import { usePageInfo } from '@ellucian/experience-extension/extension-utilities';
+
+import AccountDetails from './AccountDetails';
+
+// initialize logging for this card
+import { initializeLogging } from '../util/log-level';
+initializeLogging('default');
+
+const Page = () => {
+    const { basePath } = usePageInfo();
+
+    return (
+            <Router basename={basePath}>
+                <Switch>
+                    <Route path="/" render={() => (
+                        <AccountDetails/>
+                    )}/>
+                </Switch>
+            </Router>
+    );
+};
+
+export default withIntl(Page);
