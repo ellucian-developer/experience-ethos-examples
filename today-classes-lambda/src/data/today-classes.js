@@ -35,6 +35,13 @@ export async function fetchTodayClasses ({ apiKey, date, personId }) {
 
         const ethosContext = {};
         const sectionsResult = await integrationUtil.graphql({ apiKey, context: ethosContext, query: todaysSections, variables });
+
+        // check for error(s)
+        const errors = sectionsResult?.errors;
+        if (errors && Array.isArray(errors)) {
+            // use the first error message
+            return { data: [], error: errors[0].message };
+        }
         const sectionRegistrations = sectionsResult?.data?.sectionRegistrations?.edges;
 
         const sections = [];
@@ -64,6 +71,12 @@ export async function fetchTodayClasses ({ apiKey, date, personId }) {
                 const { course: { number, subject: { abbreviation }, titles } } = dataSection;
                 const title = titles && titles.length > 0 ? titles[0].value : '';
 
+                // check for error(s)
+                const errors = result?.errors;
+                if (errors && Array.isArray(errors)) {
+                    // use the first error message
+                    return { data: [], error: errors[0].message };
+                }
                 const instructionalEvents = result?.data?.instructionalEvents?.edges || [];
                 const events = instructionalEvents.map(edge => edge.node);
 

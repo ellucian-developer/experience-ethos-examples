@@ -17,12 +17,9 @@ export async function fetchTodayClasses({getEthosQuery}) {
     try {
         // the query needs yesterday and tomorrow dates
         const start = new Date();
-        logger.debug('DATE', process.env.DATE)
         const now = process.env.DATE ? new Date(process.env.DATE) : new Date();
         const yesterday = getLocalIsoDate(new Date(now.getTime() - (1000*60*60*24)));
         const tomorrow = getLocalIsoDate(new Date(now.getTime() + (1000*60*60*24)));
-        logger.debug('yesterday', yesterday)
-        logger.debug('tomorrow', tomorrow)
         const properties = { yesterday, tomorrow };
 
         const result = await getEthosQuery({queryId: 'today-sections', properties});
