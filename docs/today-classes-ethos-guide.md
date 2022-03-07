@@ -4,7 +4,7 @@ The Today's Classes examples use Ethos Integration to retrieve ERP data. Some of
 
 ## Ethos Integration EEDM Setup
 
-The Today's Classes examples need an Ethos Integration Application's API Key to make the API calls to Ethos Integration. You can use the Experience Integration Application (Using the GraphQL Proxy will use Experience's Application) or create another one as needed. To create a new one, you can follow the steps as outlined in the Experience documentation [Create an application in Ethos Integration for Ellucian Experience](https://resources.elluciancloud.com/bundle/ellucian_experience_acn_configure/page/t_create_app_ethos_experience.html) for the purpose of these cards.
+The Today's Classes examples needs an Ethos Integration Application's API Key to make the API calls to Ethos Integration. You can use the Experience Integration Application (Using the GraphQL Proxy will use Experience's Application) or create another one as needed. To create a new one, you can follow the steps as outlined in the Experience documentation [Create an application in Ethos Integration for Ellucian Experience](https://resources.elluciancloud.com/bundle/ellucian_experience_acn_configure/page/t_create_app_ethos_experience.html) for the purpose of these cards.
 
 You will need to ensure the following resources are available on your underlying ERP APIs with the credentials used.
 

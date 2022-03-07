@@ -8,6 +8,14 @@ const logger = logUtil.getLogger();
 
 const allDaysOfWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
+function getLocalIsoDate(date) {
+    const month = date.getMonth() + 1;
+    const monthString = month < 10 ? `0${month}` : `${month}`;
+    const day = date.getDate();
+    const dayString = day < 10 ? `0${day}` : `${day}`;
+    return `${date.getFullYear()}-${monthString}-${dayString}`;
+}
+
 export async function fetchTodayClasses ({ apiKey, date, personId }) {
     try {
         // the query needs yesterday and tomorrow dates
@@ -15,8 +23,10 @@ export async function fetchTodayClasses ({ apiKey, date, personId }) {
         const dateToUse = date || new Date().toISOString().slice(0, 10);
         // use midnight in current timezone on Date object
         const dateToUseDate = new Date(`${dateToUse}T00:00:00`);
-        const yesterday = new Date(dateToUseDate.getTime() - (1000 * 60 * 60 * 24)).toISOString().slice(0, 10);
-        const tomorrow = new Date(dateToUseDate.getTime() + (1000 * 60 * 60 * 24)).toISOString().slice(0, 10);
+        const yesterday = getLocalIsoDate(new Date(dateToUseDate.getTime() - (1000*60*60*24)));
+        const tomorrow = getLocalIsoDate(new Date(dateToUseDate.getTime() + (1000*60*60*24)));
+        logger.debug('yesterday', yesterday);
+        logger.debug('tomorrow', tomorrow);
         const variables = {
             personId,
             yesterday,
@@ -25,6 +35,13 @@ export async function fetchTodayClasses ({ apiKey, date, personId }) {
 
         const ethosContext = {};
         const sectionsResult = await integrationUtil.graphql({ apiKey, context: ethosContext, query: todaysSections, variables });
+
+        // check for error(s)
+        const errors = sectionsResult?.errors;
+        if (errors && Array.isArray(errors)) {
+            // use the first error message
+            return { data: [], error: errors[0].message };
+        }
         const sectionRegistrations = sectionsResult?.data?.sectionRegistrations?.edges;
 
         const sections = [];
@@ -54,6 +71,12 @@ export async function fetchTodayClasses ({ apiKey, date, personId }) {
                 const { course: { number, subject: { abbreviation }, titles } } = dataSection;
                 const title = titles && titles.length > 0 ? titles[0].value : '';
 
+                // check for error(s)
+                const errors = result?.errors;
+                if (errors && Array.isArray(errors)) {
+                    // use the first error message
+                    return { data: [], error: errors[0].message };
+                }
                 const instructionalEvents = result?.data?.instructionalEvents?.edges || [];
                 const events = instructionalEvents.map(edge => edge.node);
 

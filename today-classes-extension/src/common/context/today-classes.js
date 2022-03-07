@@ -32,9 +32,8 @@ export function TodayClassesProvider({children, type, getTodaysClasses}) {
 
                 let cacheExpired = false;
                 if (dataState !== 'reload') {
-                    const { data: cacheData, expired } = await cache.getItem({key: cacheKey});
-
-                    cacheExpired = expired;
+                    let cacheData
+                    ({ data: cacheData, expired: cacheExpired } = await cache.getItem({key: cacheKey}));
 
                     if (cacheData) {
                         const { fetchDate, events } = cacheData;

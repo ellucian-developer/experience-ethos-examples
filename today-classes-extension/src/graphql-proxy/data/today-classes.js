@@ -5,13 +5,21 @@ const logger = log.getLogger('Today');
 
 const allDaysOfWeek = [ 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday' ];
 
+function getLocalIsoDate(date) {
+    const month = date.getMonth() + 1;
+    const monthString = month < 10 ? `0${month}` : `${month}`;
+    const day = date.getDate();
+    const dayString = day < 10 ? `0${day}` : `${day}`;
+    return `${date.getFullYear()}-${monthString}-${dayString}`;
+}
+
 export async function fetchTodayClasses({getEthosQuery}) {
     try {
         // the query needs yesterday and tomorrow dates
         const start = new Date();
         const now = process.env.DATE ? new Date(process.env.DATE) : new Date();
-        const yesterday = new Date(now.getTime() - (1000*60*60*24)).toISOString().slice(0, 10);
-        const tomorrow = new Date(now.getTime() + (1000*60*60*24)).toISOString().slice(0, 10);
+        const yesterday = getLocalIsoDate(new Date(now.getTime() - (1000*60*60*24)));
+        const tomorrow = getLocalIsoDate(new Date(now.getTime() + (1000*60*60*24)));
         const properties = { yesterday, tomorrow };
 
         const result = await getEthosQuery({queryId: 'today-sections', properties});

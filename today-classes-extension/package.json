@@ -1,6 +1,6 @@
 {
   "name": "today-classes-extension",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Description of today-classes-extension",
   "main": "index.js",
   "license": "Apache-2.0",
@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@ellucian/ds-icons": "https://cdn.elluciancloud.com/assets/EDS2/5.4.1/umd/path_design_system_icons.tgz",
+    "@ellucian/experience-extension": "https://cdn.elluciancloud.com/assets/SDK/4.1.1/ellucian-experience-extension-4.1.1.tgz",
     "@ellucian/experience-extension-hooks": "github:ellucian-developer/experience-extension-hooks#1.0.6",
     "@ellucian/react-design-system": "https://cdn.elluciancloud.com/assets/EDS2/5.4.1/umd/path_design_system.tgz",
     "chart.js": "^3.1.0",
@@ -40,7 +41,6 @@
     "@babel/preset-env": "7.12.1",
     "@babel/preset-react": "7.12.1",
     "@calm/eslint-plugin-react-intl": "1.4.1",
-    "@ellucian/experience-extension": "https://cdn.elluciancloud.com/assets/SDK/4.1.1/ellucian-experience-extension-4.1.1.tgz",
     "babel-eslint": "10.1.0",
     "babel-plugin-rewire": "1.2.0",
     "cross-env": "7.0.2",

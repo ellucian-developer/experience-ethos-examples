@@ -9,6 +9,7 @@ provider:
   name: aws
   runtime: nodejs14.x
   architecture: arm64
+  region: ${env:REGION}
   timeout: 15
   deploymentBucket:
     name: ${env:DEPLOYMENT_BUCKET}
@@ -22,7 +23,7 @@ provider:
       Product: ${env:TAG_PRODUCT}
       POC: ${env:TAG_POC}
   tags:
-      Name: 'ranger-covid-service-${env:ENVIRONMENT}-${self:custom.stage}-${env:REGION}'
+      Name: 'ranger-today-classes-service-${env:ENVIRONMENT}-${self:custom.stage}-${env:REGION}'
       Environment: ${env:ENVIRONMENT}
       Group: ${env:TAG_GROUP}
       CostCenter: ${env:TAG_COST_CENTER}

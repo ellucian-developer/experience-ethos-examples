@@ -78,32 +78,34 @@ async function getLocationDetails({apiKey, context, resultSections}) {
 
             event.locations = [];
 
-            for(const location of locations) {
-                const {location: {room: {id: roomId}, type}} = location;
-                if (type === 'room') {
-                    promises.push((async () => {
-                        // Room
-                        const {data: room} = await integrationUtil.get({
-                            apiKey,
-                            context,
-                            id: roomId,
-                            resource: 'rooms'
-                        });
+            if (Array.isArray(locations)) {
+                for(const location of locations) {
+                    const {location: {room: {id: roomId}, type}} = location;
+                    if (type === 'room') {
+                        promises.push((async () => {
+                            // Room
+                            const {data: room} = await integrationUtil.get({
+                                apiKey,
+                                context,
+                                id: roomId,
+                                resource: 'rooms'
+                            });
 
-                        // Building
-                        const {building: {id: buildingId}} = room;
-                        const {data: building} = await integrationUtil.get({
-                            apiKey,
-                            context,
-                            id: buildingId,
-                            resource: 'buildings'
-                        });
+                            // Building
+                            const {building: {id: buildingId}} = room;
+                            const {data: building} = await integrationUtil.get({
+                                apiKey,
+                                context,
+                                id: buildingId,
+                                resource: 'buildings'
+                            });
 
-                        event.locations.push({
-                            buildingTitle: building.title,
-                            roomNumber: room.number
-                        });
-                    })());
+                            event.locations.push({
+                                buildingTitle: building.title,
+                                roomNumber: room.number
+                            });
+                        })());
+                    }
                 }
             }
         }

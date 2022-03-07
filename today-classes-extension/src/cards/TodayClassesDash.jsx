@@ -53,7 +53,7 @@ function onRefresh(type) {
     emitCustomEvent(`refresh-${type}`);
 }
 
-const types = [ 'lambda', 'proxy', 'node' ];
+const types = [ 'lambda', 'node', 'proxy' ];
 const colorContext = {};
 const colors = {};
 for ( const type of types ) {
