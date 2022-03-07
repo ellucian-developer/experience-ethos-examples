@@ -1,6 +1,6 @@
 {
   "name": "account-details-lambda",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "Provides an Experience authorized endpoint to retrieve Account Details from BP API with a lambda function",
   "scripts": {
     "start": "npx serverless offline --stage dev",

@@ -1,6 +1,6 @@
 {
   "name": "account-details-extension",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "Description of account-details-extension",
   "main": "index.js",
   "license": "UNLICENSED",

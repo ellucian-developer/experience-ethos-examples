@@ -1,6 +1,6 @@
 {
   "name": "today-classes-node",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Node server app to connect to Ethos and get today's classes",
   "type": "module",
   "scripts": {
