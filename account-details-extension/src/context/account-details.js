@@ -12,7 +12,6 @@ import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import { useCache, useCardInfo, useData } from '@ellucian/experience-extension/extension-utilities';
 
 import { fetchAccountDetails } from '../data/account-details';
-import mockData from '../data/mock-account-details';
 
 const logger = log.getLogger('default');
 
@@ -60,11 +59,9 @@ function AccountDetailsProviderInternal({children}) {
 
                     if (cacheData) {
                         setCachedData(cacheData);
-                    } else {
-                        setCachedData(mockData);
                     }
 
-                    // setLoadDataFromQuery(true);
+                    setLoadDataFromQuery(true);
                 })
             })();
         }
@@ -78,7 +75,7 @@ function AccountDetailsProviderInternal({children}) {
             }
             setLoadDataFromCache(false);
         }
-    }, [cardId, data]);
+    }, [cachedData, cardId, data]);
 
     const requestRefreshData = useCallback(() => {
         setLoadDataFromQuery(true);

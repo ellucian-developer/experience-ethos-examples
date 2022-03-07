@@ -8,7 +8,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@ellucian/experience-extension-server-util": "github:ellucian-developer/experience-extension-server-util.git#1.0.2",
+    "@ellucian/experience-extension-server-util": "github:ellucian-developer/experience-extension-server-util.git#1.0.4",
     "@middy/core": "^2.5.1",
     "@middy/http-error-handler": "^2.5.1",
     "@middy/http-header-normalizer": "^2.5.1",

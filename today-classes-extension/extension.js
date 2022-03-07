@@ -2,7 +2,7 @@
 
 module.exports = {
   name: 'Today\'s Classes',
-  publisher: 'Ellucian',
+  publisher: '',
   cards: [{
     type: 'TodayClassesGraphQLProxy',
     source: './src/graphql-proxy/cards/TodayClasses',

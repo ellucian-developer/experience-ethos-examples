@@ -14,7 +14,12 @@ const logger = logUtil.getLogger();
 async function handler (event) {
     logger.debug('inbound event: ', event);
 
-    const { jwt: { card: { cardServerConfigurationApiUrl } = {}, user: { id: personId } = {} } = {} } = event;
+    const {
+        jwt: {
+            card: { cardServerConfigurationApiUrl } = {},
+            user: { erpId } = {}
+        } = {}
+    } = event;
 
     const extensionApiToken = process.env.EXTENSION_API_TOKEN;
 
@@ -26,7 +31,7 @@ async function handler (event) {
     const { apiKey } = config || {};
 
     if (apiKey && !error) {
-        const adr = await fetchAccountDetailReviews({ apiKey, personId });
+        const adr = await fetchAccountDetailReviews({ apiKey, erpId });
 
         return lambdaUtil.buildResponse({
             statusCode: StatusCodes.OK,

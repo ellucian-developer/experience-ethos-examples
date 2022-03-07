@@ -26,31 +26,9 @@ export async function fetchAccountDetails({ queryKey }) {
             throw new Error(error);
         }
 
-        // fix the dates in TBRACCD
-        if (Array.isArray(data)) {
-            data.forEach( entry => {
-                const { TBRACCD: transactions = [] } = entry || {};
-                transactions.forEach(transaction => {
-                    transaction.effectiveDate = fixDate(transaction.effectiveDate);
-                    transaction.entryDate = fixDate(transaction.entryDate);
-                    transaction.transDate = fixDate(transaction.transDate);
-                })
-            })
-        }
-
         return  data;
     } catch (error) {
         logger.error('unable to fetch data: ', error);
         throw error;
     }
-}
-
-const bpDateRegEx = /([0-9]{2})\/([0-9]{2})\/([0-9]{4})(.*)/;
-function fixDate(date) {
-    if (!date || typeof date !== 'string' || date.length === 0) {
-        return date;
-    }
-
-    const parsed = bpDateRegEx.exec(date);
-    return `${parsed[3]}-${parsed[2]}-${parsed[1]}${parsed[4]}`;
 }

@@ -1,12 +1,12 @@
 module.exports = {
-    "name": "account-details",
-    "publisher": "Ellucian",
-    "cards": [{
-        "type": "AccountDetailsCard",
-        "source": "./src/cards/AccountDetails.jsx",
-        "title": "Account Details",
-        "displayCardType": "Account Details",
-        "description": "Account Details",
+    name: 'account-details',
+    publisher: '',
+    cards: [{
+        type: 'AccountDetailsCard',
+        source: './src/cards/AccountDetails.jsx',
+        title: 'Account Details',
+        displayCardType: 'Account Details',
+        description: 'Account Details',
         configuration: {
             client: [{
                 key: 'lambdaUrl',
@@ -22,7 +22,7 @@ module.exports = {
             }]
         }
     }],
-    "page": {
-        "source": "./src/page"
+    page: {
+        source: './src/page'
     }
 }

@@ -19,6 +19,8 @@ import { AccountDetailsProvider, useAccountDetails } from '../context/account-de
 import { initializeLogging } from '../util/log-level';
 initializeLogging('default');
 
+const featurePayNow = process.env.FEATURE_PAY_NOW === 'true';
+
 const styles = () => ({
     root:{
         height: '100%',
@@ -52,7 +54,7 @@ const styles = () => ({
         marginTop: spacing40,
         marginBottom: spacing40,
         display: 'flex',
-        justifyContent: 'space-between'
+        justifyContent: featurePayNow ? 'space-between' : 'center'
     },
     amountBox: {
         display: 'flex',
@@ -200,9 +202,11 @@ function AccountDetails({classes}) {
                             </Typography>
                             </div>
                         </div>
-                        <Button className={classes.payNowButton} color='secondary'>
-                            {intl.formatMessage({id: 'AccountDetails.payNow'})}
-                        </Button>
+                        {featurePayNow && (
+                            <Button className={classes.payNowButton} color='secondary'>
+                                {intl.formatMessage({id: 'AccountDetails.payNow'})}
+                            </Button>
+                        )}
                     </div>
                 )}
             </>
