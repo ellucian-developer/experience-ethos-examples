@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { CircularProgress } from '@ellucian/react-design-system/core'
 import { withStyles } from '@ellucian/react-design-system/core/styles';
 
-import {ExtensionProvider, useData } from '@ellucian/experience-extension-hooks';
+import { useData } from '@ellucian/experience-extension/extension-utilities';
 
 import { withIntl } from '../../common/components/ReactIntlProviderWrapper';
 import { TodayClassesProvider } from '../../common/context/today-classes';
@@ -45,14 +45,4 @@ TodayClassesCard.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-const TodayClasseCardWithStyles = withStyles(styles)(TodayClassesCard);
-
-function CardWithProviders(props) {
-    return (
-        <ExtensionProvider {...props}>
-            <TodayClasseCardWithStyles/>
-        </ExtensionProvider>
-    )
-}
-
-export default withIntl(CardWithProviders);
+export default withIntl(withStyles(styles)(TodayClassesCard));

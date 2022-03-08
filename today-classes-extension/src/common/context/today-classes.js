@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { unstable_batchedUpdates } from 'react-dom';
 import { emitCustomEvent, useCustomEventListener } from 'react-custom-events';
 
-import { useCache } from '@ellucian/experience-extension-hooks';
+import { useCache } from '@ellucian/experience-extension/extension-utilities';
 
 import log from 'loglevel';
 const logger = log.getLogger('Today');

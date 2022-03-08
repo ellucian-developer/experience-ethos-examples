@@ -16,7 +16,7 @@ import {
     spacing30
 } from '@ellucian/react-design-system/core/styles/tokens';
 
-import { useUserInfo } from '@ellucian/experience-extension-hooks';
+import { useUserInfo } from '@ellucian/experience-extension/extension-utilities';
 
 import { randomPathColor } from '../util/path';
 

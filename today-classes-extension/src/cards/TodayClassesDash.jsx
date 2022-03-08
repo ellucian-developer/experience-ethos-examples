@@ -15,7 +15,7 @@ import { FormControlLabel, FormGroup, IconButton, Switch, Table, TableBody, Tabl
 import { spacing40 } from '@ellucian/react-design-system/core/styles/tokens';
 import { withStyles } from '@ellucian/react-design-system/core/styles';
 
-import { ExtensionProvider, useCache } from '@ellucian/experience-extension-hooks';
+import { useCache } from '@ellucian/experience-extension/extension-utilities';
 
 import { randomPathColor } from '../common/util/path';
 import { withIntl } from '../common/components/ReactIntlProviderWrapper';
@@ -228,14 +228,4 @@ TodayClassesDash.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-const TodayClassesDashWithStyle = withStyles(styles)(TodayClassesDash);
-
-function CardWithProviders(props) {
-    return (
-        <ExtensionProvider {...props}>
-            <TodayClassesDashWithStyle/>
-        </ExtensionProvider>
-    )
-}
-
-export default withIntl(CardWithProviders);
+export default withIntl(withStyles(styles)(TodayClassesDash));
