@@ -1,6 +1,6 @@
 {
   "name": "today-classes-lambda",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Provides an Experience authorized endpoint to retrieve Today's Classes with a lambda function",
   "scripts": {
     "start": "npx serverless offline --stage dev",
