@@ -91,7 +91,7 @@ function AccountDetails({classes}) {
     // set up formaters with user's locale
     useEffect(() => {
         if (locale) {
-            setDateFormater(new Intl.DateTimeFormat(locale))
+            setDateFormater(new Intl.DateTimeFormat(locale, { year: 'numeric', month: '2-digit', day: '2-digit'}));
             setCurrentyFormater(new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }))
         }
     }, [locale])
