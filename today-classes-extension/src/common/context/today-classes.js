@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 
 // eslint-disable-next-line camelcase
 import { unstable_batchedUpdates } from 'react-dom';
-import { emitCustomEvent, useCustomEventListener } from 'react-custom-events';
+
+import { dispatchEvent, useEventListener } from '../../util/events';
 
 import { useCache } from '@ellucian/experience-extension/extension-utilities';
 
@@ -86,9 +87,13 @@ export function TodayClassesProvider({children, type, getTodaysClasses}) {
 
                             setLoading(false);
 
-                            emitCustomEvent('today-load-stats', {
-                                type,
-                                time: endTime - startTime
+                            dispatchEvent({
+                                name: 'today-load-stats',
+                                data: {
+                                    type,
+                                    time: endTime - startTime
+                                },
+                                globalFlag: true
                             });
                         });
 
@@ -109,11 +114,9 @@ export function TodayClassesProvider({children, type, getTodaysClasses}) {
     const requestRefreshData = useCallback(() => {
         setDataState('reload');
         setLoading(true);
-    }, [setDataState])
+    }, [])
 
-    useCustomEventListener(`refresh-${type}`, () => {
-        requestRefreshData();
-    });
+    useEventListener({name: `refresh-${type}`, handler: requestRefreshData, globalFlag: true});
 
     const contextValue = useMemo(() => {
         return {

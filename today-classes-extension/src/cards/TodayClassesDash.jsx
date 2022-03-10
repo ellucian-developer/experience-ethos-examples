@@ -1,11 +1,9 @@
 // Copyright 2021-2022 Ellucian Company L.P. and its affiliates.
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
-
-import { emitCustomEvent, useCustomEventListener } from 'react-custom-events';
 import capitalize from 'lodash/capitalize';
 import { Line } from 'react-chartjs-2';
 import { useResizeDetector } from 'react-resize-detector';
@@ -19,6 +17,8 @@ import { useCache } from '@ellucian/experience-extension/extension-utilities';
 
 import { randomPathColor } from '../common/util/path';
 import { withIntl } from '../common/components/ReactIntlProviderWrapper';
+
+import { dispatchEvent, useEventListener } from '../util/events';
 
 import { initializeLogging } from '../util/log-level';
 initializeLogging('Today');
@@ -45,12 +45,12 @@ const styles = () => ({
 
 function onRefreshAll() {
     for (const type of types) {
-        emitCustomEvent(`refresh-${type}`);
+        dispatchEvent({name: `refresh-${type}`, globalFlag: true});
     }
 }
 
 function onRefresh(type) {
-    emitCustomEvent(`refresh-${type}`);
+    dispatchEvent({name: `refresh-${type}`, globalFlag: true});
 }
 
 const types = [ 'lambda', 'node', 'proxy' ];
@@ -66,7 +66,7 @@ const TodayClassesDash = ({classes}) => {
     const { width, height, ref: resizeRef } = useResizeDetector();
 
     const [mode, setMode] = useState('table');
-    const [stats, setStatus] = useState({});
+    const [stats, setStats] = useState({});
 
     useEffect(() => {
         // initialize stats
@@ -80,7 +80,7 @@ const TodayClassesDash = ({classes}) => {
             }
         }
         stats.initialized = true;
-        setStatus({...stats});
+        setStats({...stats});
 
         (async () => {
             const { data: mode } = await cache.getItem({key: 'mode'});
@@ -90,7 +90,7 @@ const TodayClassesDash = ({classes}) => {
         })();
     }, []);
 
-    useCustomEventListener('today-load-stats', data => {
+    const processTime = useCallback(data => {
         const { type, time } = data;
 
         let { count, latest, min, max, total } = stats[type];
@@ -105,11 +105,13 @@ const TodayClassesDash = ({classes}) => {
         times.push(time);
 
         // store a new stats object to cause a render
-        setStatus(() => ({
+        setStats(() => ({
             ...stats,
             [type]: { average, count, latest, min, max, total, times }
         }));
-    })
+    }, [stats]);
+
+    useEventListener({ name: 'today-load-stats', handler: processTime, globalFlag: true });
 
     const chartData = useMemo(() => {
         const data = types.reduce(({labels = [], datasets = []}, type) => {
