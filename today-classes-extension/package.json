@@ -1,6 +1,6 @@
 {
   "name": "today-classes-extension",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Description of today-classes-extension",
   "license": "Apache-2.0",
   "private": true,
@@ -25,7 +25,6 @@
     "prop-types": "15.7.2",
     "react": "16.9.0",
     "react-chartjs-2": "^3.0.4",
-    "react-custom-events": "^1.0.3",
     "react-dom": "16.9.0",
     "react-intl": "5.12.5",
     "react-resize-detector": "^6.7.6",
