@@ -86,13 +86,13 @@ function AccountDetails({classes}) {
     const [ transactions, setTransactions ] = useState();
     const [ summary, setSummary ] = useState();
     const [ dateFormater, setDateFormater ] = useState();
-    const [ currentyFormater, setCurrentyFormater ] = useState();
+    const [ currencyFormater, setCurrencyFormater ] = useState();
 
     // set up formaters with user's locale
     useEffect(() => {
         if (locale) {
             setDateFormater(new Intl.DateTimeFormat(locale, { year: 'numeric', month: '2-digit', day: '2-digit'}));
-            setCurrentyFormater(new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }))
+            setCurrencyFormater(new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }))
         }
     }, [locale])
 
@@ -155,7 +155,7 @@ function AccountDetails({classes}) {
                                 <TableBody>
                                     {transactions.map(transaction => {
                                         const { chargeAmount, desc, paymentAmount, transDate, tranNumber } = transaction;
-                                        const amount = currentyFormater.format(chargeAmount ? chargeAmount : paymentAmount * -1);
+                                        const amount = currencyFormater.format(chargeAmount ? chargeAmount : paymentAmount * -1);
                                         const transactionDate = dateFormater.format(new Date(transDate));
                                         return (
                                             <TableRow key={tranNumber} className={classes.transactionsTableRow}>
@@ -190,7 +190,7 @@ function AccountDetails({classes}) {
                                     {intl.formatMessage({id: 'AccountDetails.accountBalance'})}
                                 </Typography>
                                 <Typography variant={'body2'} component={'div'} className={classes.amount}>
-                                    {currentyFormater.format(summary.accountBalance)}
+                                    {currencyFormater.format(summary.accountBalance)}
                                 </Typography>
                             </div>
                             <div className={classes.amountRow}>
@@ -198,7 +198,7 @@ function AccountDetails({classes}) {
                                 {intl.formatMessage({id: 'AccountDetails.amountDue'})}
                             </Typography>
                             <Typography variant={'body2'} component={'div'} className={classes.amount}>
-                                {currentyFormater.format(summary.amountDue)}
+                                {currencyFormater.format(summary.amountDue)}
                             </Typography>
                             </div>
                         </div>
