@@ -11,8 +11,14 @@ module.exports = {
             client: [{
                 key: 'lambdaUrl',
                 label: 'Lambda URL',
-                type: 'string',
+                type: 'text',
                 required: true
+            },
+            {
+                key: 'payNowUrl',
+                label: 'Pay Now URL',
+                type: 'text',
+                required: false
             }],
             server: [{
                 key: 'apiKey',

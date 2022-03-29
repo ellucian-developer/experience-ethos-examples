@@ -11,7 +11,7 @@ import { withStyles } from '@ellucian/react-design-system/core/styles';
 
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 
-import { useCardControl, useExtensionControl, useUserInfo } from '@ellucian/experience-extension/extension-utilities';
+import { useCardControl, useCardInfo, useExtensionControl, useUserInfo } from '@ellucian/experience-extension/extension-utilities';
 
 import { AccountDetailsProvider, useAccountDetails } from '../context/account-details';
 
@@ -78,6 +78,7 @@ function AccountDetails({classes}) {
 
     // Experience SDK hooks
     const { navigateToPage } = useCardControl();
+    const { configuration: { payNowUrl } = {} } = useCardInfo();
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
     const { locale } = useUserInfo();
 
@@ -138,6 +139,12 @@ function AccountDetails({classes}) {
     if (!data) {
         // nothing to show yet
         return null;
+    }
+
+    function onPayNow() {
+        if (payNowUrl) {
+            window.open(payNowUrl, '_blank');
+        }
     }
 
     return (
@@ -203,7 +210,7 @@ function AccountDetails({classes}) {
                             </div>
                         </div>
                         {featurePayNow && (
-                            <Button className={classes.payNowButton} color='secondary'>
+                            <Button className={classes.payNowButton} color='secondary' onClick={onPayNow}>
                                 {intl.formatMessage({id: 'AccountDetails.payNow'})}
                             </Button>
                         )}
