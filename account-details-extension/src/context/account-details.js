@@ -24,10 +24,10 @@ const queryClient = new QueryClient();
 function AccountDetailsProviderInternal({children}) {
     // Experience SDK hooks
     const { getItem, storeItem } = useCache();
-    const { configuration, cardId } = useCardInfo();
+    const { configuration, cardConfiguration, cardId } = useCardInfo();
     const { getExtensionJwt } = useData();
 
-    const {lambdaUrl} = configuration || {};
+    const { lambdaUrl } = configuration || cardConfiguration || {};
 
     const [ loadDataFromQuery, setLoadDataFromQuery ] = useState(false);
     const [ loadDataFromCache, setLoadDataFromCache ] = useState(true);

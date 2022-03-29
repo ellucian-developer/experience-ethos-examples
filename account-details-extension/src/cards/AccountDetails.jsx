@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
-import classenames from 'classnames';
+import classnames from 'classnames';
 
 import { Button, Table, TableBody, TableCell, TableRow, Typography } from '@ellucian/react-design-system/core'
 import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40 } from '@ellucian/react-design-system/core/styles/tokens';
@@ -112,7 +112,7 @@ function AccountDetails({classes}) {
 
             if (results) {
                 ({ TBRACCD: transactions, TBRACCD_CTRL: summarys } = results);
-                transactions.sort((left, right) => (right.transDate.localeCompare(left.transDate)));
+                transactions.sort((left, right) => (right.transDate?.localeCompare(left.transDate)));
             }
 
             setTransactions(() => transactions.slice(0, 5));
@@ -163,7 +163,7 @@ function AccountDetails({classes}) {
                                     {transactions.map(transaction => {
                                         const { chargeAmount, desc, paymentAmount, transDate, tranNumber } = transaction;
                                         const amount = currencyFormater.format(chargeAmount ? chargeAmount : paymentAmount * -1);
-                                        const transactionDate = dateFormater.format(new Date(transDate));
+                                        const transactionDate = transDate ? dateFormater.format(new Date(transDate)) : '';
                                         return (
                                             <TableRow key={tranNumber} className={classes.transactionsTableRow}>
                                                 <TableCell align="left" padding={'none'}>
@@ -177,7 +177,7 @@ function AccountDetails({classes}) {
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell align="right" padding={'none'}>
-                                                    <Typography variant={'body3'} component={'div'} className={classenames({[classes.transactionAmountPayment]: !chargeAmount})}>
+                                                    <Typography variant={'body3'} component={'div'} className={classnames({[classes.transactionAmountPayment]: !chargeAmount})}>
                                                         {amount}
                                                     </Typography>
                                                 </TableCell>
@@ -209,7 +209,7 @@ function AccountDetails({classes}) {
                             </Typography>
                             </div>
                         </div>
-                        {featurePayNow && (
+                        {featurePayNow && payNowUrl && (
                             <Button className={classes.payNowButton} color='secondary' onClick={onPayNow}>
                                 {intl.formatMessage({id: 'AccountDetails.payNow'})}
                             </Button>
