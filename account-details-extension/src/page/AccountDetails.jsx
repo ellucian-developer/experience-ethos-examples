@@ -20,13 +20,15 @@ import {
 import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, widthFluid } from '@ellucian/react-design-system/core/styles/tokens';
 import { withStyles } from '@ellucian/react-design-system/core/styles';
 
-import { useExtensionControl, useUserInfo } from '@ellucian/experience-extension/extension-utilities';
+import { useCardInfo, useExtensionControl, useUserInfo } from '@ellucian/experience-extension/extension-utilities';
 
 import { AccountDetailsProvider, useAccountDetails } from '../context/account-details';
 
 // initialize logging for this card
 import { initializeLogging } from '../util/log-level';
 initializeLogging('default');
+
+const featurePayNow = process.env.FEATURE_PAY_NOW === 'true';
 
 const styles = () => ({
     root:{
@@ -87,8 +89,11 @@ function AccountDetails({classes}) {
     const intl = useIntl();
 
     // Experience SDK hooks
+    const { configuration, cardConfiguration } = useCardInfo();
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
     const { locale } = useUserInfo();
+
+    const { payNowUrl } = configuration || cardConfiguration || {};
 
     const { data, isError, isLoading } = useAccountDetails();
 
@@ -105,7 +110,7 @@ function AccountDetails({classes}) {
     // set up formaters with user's locale
     useEffect(() => {
         if (locale) {
-            setDateFormater(new Intl.DateTimeFormat(locale))
+            setDateFormater(new Intl.DateTimeFormat(locale, { year: 'numeric', month: '2-digit', day: '2-digit'}));
             setCurrentyFormater(new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }))
         }
     }, [locale])
@@ -125,7 +130,7 @@ function AccountDetails({classes}) {
 
             if (results) {
                 ({ TBRACCD: transactions, TBRACCD_CTRL: summarys } = results);
-                transactions.sort((left, right) => (right.transDate.localeCompare(left.transDate)));
+                transactions.sort((left, right) => (right.transDate?.localeCompare(left.transDate)));
             }
 
             setTransactions(transactions);
@@ -157,8 +162,14 @@ function AccountDetails({classes}) {
         setRowsPerPage(event.target.value)
     }
 
-    const firstDate = Array.isArray(transactions) && transactions.length > 0 ? dateFormater.format(new Date(transactions[0].transDate)) : '';
-    const lastDate = Array.isArray(transactions) && transactions.length > 0 ? dateFormater.format(new Date(transactions[transactions.length - 1].transDate)) : '';
+    function onPayNow() {
+        if (payNowUrl) {
+            window.open(payNowUrl, '_blank');
+        }
+    }
+
+    const firstDate = Array.isArray(transactions) && transactions.length > 0 && transactions[0].transDate ? dateFormater.format((new Date(transactions[0]?.transDate) || Date.now)) : '';
+    const lastDate = Array.isArray(transactions) && transactions.length > 0 && transactions[transactions.length - 1].transDate ? dateFormater.format(new Date(transactions[transactions.length - 1].transDate)) : '';
     return (
         <div className={classes.root}>
         <div className={classes.content}>
@@ -183,9 +194,11 @@ function AccountDetails({classes}) {
                             </Typography>
                             </div>
                         </div>
-                        <Button className={classes.payNowButton} color='secondary'>
-                            {intl.formatMessage({id: 'AccountDetails.payNow'})}
-                        </Button>
+                        {featurePayNow && payNowUrl && (
+                            <Button className={classes.payNowButton} color='secondary' onClick={onPayNow}>
+                                {intl.formatMessage({id: 'AccountDetails.payNow'})}
+                            </Button>
+                        )}
                     </div>
                 )}
                 {Array.isArray(transactions) && transactions.length > 0 && (
@@ -207,7 +220,7 @@ function AccountDetails({classes}) {
                                 <TableBody>
                                     {transactions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(transaction => {
                                         const { chargeAmount, desc, paymentAmount, transDate, tranNumber } = transaction;
-                                        const transactionDate = dateFormater.format(new Date(transDate));
+                                        const transactionDate = transDate ? dateFormater.format(new Date(transDate)) : '';
                                         const type = chargeAmount ? intl.formatMessage({id: 'AccountDetails.charge'}) : intl.formatMessage({id: 'AccountDetails.payment'});
                                         const amount = currentyFormater.format(chargeAmount ? chargeAmount : paymentAmount * -1);
                                         return (

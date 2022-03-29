@@ -1,6 +1,6 @@
 // Copyright 2021-2022 Ellucian Company L.P. and its affiliates.
 
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line camelcase
 import { unstable_batchedUpdates } from 'react-dom';
@@ -19,26 +19,21 @@ const Context = createContext()
 
 const cacheKey = 'account-details';
 
-const queryClient = new QueryClient({
-    defaultOptions: {
-        queries: {
-            // refetchOnWindowFocus: false
-        }
-    }
-});
+const queryClient = new QueryClient();
 
 function AccountDetailsProviderInternal({children}) {
+    // Experience SDK hooks
     const { getItem, storeItem } = useCache();
-    const { configuration, cardId } = useCardInfo();
-    const {lambdaUrl} = configuration || {};
+    const { configuration, cardConfiguration, cardId } = useCardInfo();
     const { getExtensionJwt } = useData();
+
+    const { lambdaUrl } = configuration || cardConfiguration || {};
 
     const [ loadDataFromQuery, setLoadDataFromQuery ] = useState(false);
     const [ loadDataFromCache, setLoadDataFromCache ] = useState(true);
 
     const [ cachedData, setCachedData ] = useState();
 
-    logger.debug('loadDataFromQuery', loadDataFromQuery)
     const { data, isError, isLoading } = useQuery(
         ['account-details', {getExtensionJwt, lambdaUrl}],
         fetchAccountDetails,
@@ -69,26 +64,19 @@ function AccountDetailsProviderInternal({children}) {
 
     useEffect(() => {
         if (cardId && data) {
-            if (data !== cachedData) {
-                storeItem({data, key: cacheKey, scope: cardId});
-                setLoadDataFromQuery(false);
-            }
+            storeItem({data, key: cacheKey, scope: cardId});
+            setLoadDataFromQuery(false);
             setLoadDataFromCache(false);
         }
-    }, [cachedData, cardId, data]);
-
-    const requestRefreshData = useCallback(() => {
-        setLoadDataFromQuery(true);
-    }, [])
+    }, [cardId, data]);
 
     const contextValue = useMemo(() => {
         return {
             data: data || cachedData,
             isError,
-            isLoading,
-            refreshData: requestRefreshData
+            isLoading
         }
-    }, [ cachedData, data, isError, isLoading, requestRefreshData ]);
+    }, [ cachedData, data, isError, isLoading ]);
 
     useEffect(() => {
         logger.debug('AccountDetailsProvider mounted');

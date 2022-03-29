@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
-import classenames from 'classnames';
+import classnames from 'classnames';
 
 import { Button, Table, TableBody, TableCell, TableRow, Typography } from '@ellucian/react-design-system/core'
 import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40 } from '@ellucian/react-design-system/core/styles/tokens';
@@ -11,7 +11,7 @@ import { withStyles } from '@ellucian/react-design-system/core/styles';
 
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 
-import { useCardControl, useExtensionControl, useUserInfo } from '@ellucian/experience-extension/extension-utilities';
+import { useCardControl, useCardInfo, useExtensionControl, useUserInfo } from '@ellucian/experience-extension/extension-utilities';
 
 import { AccountDetailsProvider, useAccountDetails } from '../context/account-details';
 
@@ -78,6 +78,7 @@ function AccountDetails({classes}) {
 
     // Experience SDK hooks
     const { navigateToPage } = useCardControl();
+    const { configuration: { payNowUrl } = {} } = useCardInfo();
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
     const { locale } = useUserInfo();
 
@@ -86,13 +87,13 @@ function AccountDetails({classes}) {
     const [ transactions, setTransactions ] = useState();
     const [ summary, setSummary ] = useState();
     const [ dateFormater, setDateFormater ] = useState();
-    const [ currentyFormater, setCurrentyFormater ] = useState();
+    const [ currencyFormater, setCurrencyFormater ] = useState();
 
     // set up formaters with user's locale
     useEffect(() => {
         if (locale) {
-            setDateFormater(new Intl.DateTimeFormat(locale))
-            setCurrentyFormater(new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }))
+            setDateFormater(new Intl.DateTimeFormat(locale, { year: 'numeric', month: '2-digit', day: '2-digit'}));
+            setCurrencyFormater(new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }))
         }
     }, [locale])
 
@@ -111,7 +112,7 @@ function AccountDetails({classes}) {
 
             if (results) {
                 ({ TBRACCD: transactions, TBRACCD_CTRL: summarys } = results);
-                transactions.sort((left, right) => (right.transDate.localeCompare(left.transDate)));
+                transactions.sort((left, right) => (right.transDate?.localeCompare(left.transDate)));
             }
 
             setTransactions(() => transactions.slice(0, 5));
@@ -140,6 +141,12 @@ function AccountDetails({classes}) {
         return null;
     }
 
+    function onPayNow() {
+        if (payNowUrl) {
+            window.open(payNowUrl, '_blank');
+        }
+    }
+
     return (
         <div className={classes.root}>
         <div className={classes.content}>
@@ -155,8 +162,8 @@ function AccountDetails({classes}) {
                                 <TableBody>
                                     {transactions.map(transaction => {
                                         const { chargeAmount, desc, paymentAmount, transDate, tranNumber } = transaction;
-                                        const amount = currentyFormater.format(chargeAmount ? chargeAmount : paymentAmount * -1);
-                                        const transactionDate = dateFormater.format(new Date(transDate));
+                                        const amount = currencyFormater.format(chargeAmount ? chargeAmount : paymentAmount * -1);
+                                        const transactionDate = transDate ? dateFormater.format(new Date(transDate)) : '';
                                         return (
                                             <TableRow key={tranNumber} className={classes.transactionsTableRow}>
                                                 <TableCell align="left" padding={'none'}>
@@ -170,7 +177,7 @@ function AccountDetails({classes}) {
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell align="right" padding={'none'}>
-                                                    <Typography variant={'body3'} component={'div'} className={classenames({[classes.transactionAmountPayment]: !chargeAmount})}>
+                                                    <Typography variant={'body3'} component={'div'} className={classnames({[classes.transactionAmountPayment]: !chargeAmount})}>
                                                         {amount}
                                                     </Typography>
                                                 </TableCell>
@@ -190,7 +197,7 @@ function AccountDetails({classes}) {
                                     {intl.formatMessage({id: 'AccountDetails.accountBalance'})}
                                 </Typography>
                                 <Typography variant={'body2'} component={'div'} className={classes.amount}>
-                                    {currentyFormater.format(summary.accountBalance)}
+                                    {currencyFormater.format(summary.accountBalance)}
                                 </Typography>
                             </div>
                             <div className={classes.amountRow}>
@@ -198,12 +205,12 @@ function AccountDetails({classes}) {
                                 {intl.formatMessage({id: 'AccountDetails.amountDue'})}
                             </Typography>
                             <Typography variant={'body2'} component={'div'} className={classes.amount}>
-                                {currentyFormater.format(summary.amountDue)}
+                                {currencyFormater.format(summary.amountDue)}
                             </Typography>
                             </div>
                         </div>
-                        {featurePayNow && (
-                            <Button className={classes.payNowButton} color='secondary'>
+                        {featurePayNow && payNowUrl && (
+                            <Button className={classes.payNowButton} color='secondary' onClick={onPayNow}>
                                 {intl.formatMessage({id: 'AccountDetails.payNow'})}
                             </Button>
                         )}
