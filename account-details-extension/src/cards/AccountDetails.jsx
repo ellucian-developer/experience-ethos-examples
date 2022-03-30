@@ -54,7 +54,10 @@ const styles = () => ({
         marginTop: spacing40,
         marginBottom: spacing40,
         display: 'flex',
-        justifyContent: featurePayNow ? 'space-between' : 'center'
+        justifyContent: 'center'
+    },
+    amountBoxRowPayNow: {
+        justifyContent: 'space-between'
     },
     amountBox: {
         display: 'flex',
@@ -147,6 +150,8 @@ function AccountDetails({classes}) {
         }
     }
 
+    const showPayNow = featurePayNow && payNowUrl && summary?.accountBalance > 0;
+
     return (
         <div className={classes.root}>
         <div className={classes.content}>
@@ -190,7 +195,7 @@ function AccountDetails({classes}) {
                     </div>
                 )}
                 {summary && (
-                    <div className={classes.amountBoxRow}>
+                    <div className={classnames(classes.amountBoxRow, { [classes.amountBoxRowPayNow]: showPayNow })}>
                         <div className={classes.amountBox}>
                             <div className={classes.amountRow}>
                                 <Typography variant={'h4'} component={'div'}>
@@ -209,7 +214,7 @@ function AccountDetails({classes}) {
                             </Typography>
                             </div>
                         </div>
-                        {featurePayNow && payNowUrl && (
+                        {showPayNow && (
                             <Button className={classes.payNowButton} color='secondary' onClick={onPayNow}>
                                 {intl.formatMessage({id: 'AccountDetails.payNow'})}
                             </Button>
