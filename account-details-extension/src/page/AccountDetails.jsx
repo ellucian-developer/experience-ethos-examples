@@ -168,6 +168,7 @@ function AccountDetails({classes}) {
         }
     }
 
+    const showPayNow = featurePayNow && payNowUrl && summary?.accountBalance > 0;
     const firstDate = Array.isArray(transactions) && transactions.length > 0 && transactions[0].transDate ? dateFormater.format((new Date(transactions[0]?.transDate) || Date.now)) : '';
     const lastDate = Array.isArray(transactions) && transactions.length > 0 && transactions[transactions.length - 1].transDate ? dateFormater.format(new Date(transactions[transactions.length - 1].transDate)) : '';
     return (
@@ -194,7 +195,7 @@ function AccountDetails({classes}) {
                             </Typography>
                             </div>
                         </div>
-                        {featurePayNow && payNowUrl && (
+                        {showPayNow && (
                             <Button className={classes.payNowButton} color='secondary' onClick={onPayNow}>
                                 {intl.formatMessage({id: 'AccountDetails.payNow'})}
                             </Button>
