@@ -39,7 +39,7 @@ function AccountDetailsProviderInternal({children}) {
         fetchAccountDetails,
         {
             enabled: Boolean(loadDataFromQuery && getExtensionJwt && lambdaUrl),
-            placeholderData: cachedData
+            initialData: cachedData
         }
     );
 
@@ -47,7 +47,7 @@ function AccountDetailsProviderInternal({children}) {
         if (cardId && loadDataFromCache) {
             (async () => {
                 // check for cached data
-                const { data: cacheData } = await getItem({key: cacheKey, scope: cardId});
+                const { data: cacheData } = getItem({key: cacheKey, scope: cardId});
 
                 unstable_batchedUpdates(() => {
                     setLoadDataFromCache(false);

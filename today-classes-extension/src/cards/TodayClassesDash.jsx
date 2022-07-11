@@ -83,7 +83,7 @@ const TodayClassesDash = ({classes}) => {
         setStats({...stats});
 
         (async () => {
-            const { data: mode } = await cache.getItem({key: 'mode'});
+            const { data: mode } = cache.getItem({key: 'mode'});
             if (mode) {
                 setMode(mode);
             }
