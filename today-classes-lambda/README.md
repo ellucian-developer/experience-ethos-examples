@@ -47,4 +47,4 @@ Login to Experience as a user with permission to use Card Mangement. Locate the 
 
 When running this the first time, serverless offline won't properly return CORS headers if you use the allowedOrigins block. The work around it to set the httpApi.cors value in serverless.yml to 'true' initially or always when using serverless offline (running locally). When you deploy to AWS, it is recommended you use the commented out cors block to be more restrictive of what websites can access your Lambda endpoints.
 
-Copyright 2021–2022 Ellucian Company L.P. and its affiliates.
+Copyright 2021–2023 Ellucian Company L.P. and its affiliates.

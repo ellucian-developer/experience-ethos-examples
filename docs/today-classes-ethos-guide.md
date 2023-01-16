@@ -50,4 +50,4 @@ The following resources will need to be loaded into Data Access and permission g
 * sections
 * subjects
 
-Copyright 2021–2022 Ellucian Company L.P. and its affiliates.
+Copyright 2021–2023 Ellucian Company L.P. and its affiliates.

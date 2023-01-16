@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Ellucian Company L.P. and its affiliates.
+// Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
 import log from 'loglevel';
 

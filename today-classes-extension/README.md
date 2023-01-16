@@ -54,4 +54,4 @@ The node application is defined as an express node application. This is found in
 
 ![](../docs/images/Todays-Classes-Node.png)
 
-Copyright 2021–2022 Ellucian Company L.P. and its affiliates.
+Copyright 2021–2023 Ellucian Company L.P. and its affiliates.
