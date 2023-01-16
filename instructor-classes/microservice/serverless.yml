@@ -1,0 +1,65 @@
+# Copyright 2021–2023 Ellucian Company L.P. and its affiliates.
+
+service: instructor-classes
+frameworkVersion: '3'
+useDotenv: true
+configValidationMode: error
+provider:
+  name: aws
+  runtime: nodejs18.x
+  architecture: arm64
+  region: ${env:REGION}
+  timeout: 15
+  deploymentBucket:
+    name: ${env:DEPLOYMENT_BUCKET}
+    blockPublicAccess: true
+    serverSideEncryption: AES256
+    tags:
+      Name: '${env:TAG_NAME_BASE}-${env:ENVIRONMENT}-${self:custom.stage}-${env:REGION}'
+      Environment: ${env:ENVIRONMENT}
+      Group: ${env:TAG_GROUP}
+      CostCenter: ${env:TAG_COST_CENTER}
+      Product: ${env:TAG_PRODUCT}
+      POC: ${env:TAG_POC}
+  tags:
+      Name: 'ranger-instructor-classes-service-${env:ENVIRONMENT}-${self:custom.stage}-${env:REGION}'
+      Environment: ${env:ENVIRONMENT}
+      Group: ${env:TAG_GROUP}
+      CostCenter: ${env:TAG_COST_CENTER}
+      Product: ${env:TAG_PRODUCT}
+      POC: ${env:TAG_POC}
+  environment:
+    STAGE: ${self:custom.stage}
+    DEBUG: ${env:DEBUG, "false"}
+    JWT_SECRET: ${env:JWT_SECRET}
+    EXTENSION_API_TOKEN: ${env:EXTENSION_API_TOKEN}
+    ETHOS_INTEGRATION_URL: ${env:ETHOS_INTEGRATION_URL}
+    LOG_LEVEL: ${env:LOG_LEVEL}
+  httpApi:
+    cors: true
+# When deploying to AWS, using the following to restrict CORS to be allowed only for Ellucian Experience
+#    cors:
+#      allowedOrigins:
+# The internal instances are for Ellucian employee, use. Not needed for Ellucian customers.
+#        - https://experience-dev-devinternal.elluciancloud.com
+#        - https://experience-test-internal.elluciancloud.com
+#        - https://experience-test.elluciancloud.com
+#        - https://experience.elluciancloud.com
+#      allowedMethods:
+#        - GET
+custom:
+  stage: ${opt:stage, env:STAGE}
+plugins:
+  - serverless-deployment-bucket
+  - serverless-offline
+  - serverless-provisioned-concurrency-autoscaling
+  - serverless-bundle
+functions:
+  instructor-classes:
+    handler: src/instructor-classes.handler
+    provisionedConcurrency: 1
+    concurrencyAutoscaling: true
+    events:
+      - httpApi:
+         method: get
+         path: /api/instructor-classes

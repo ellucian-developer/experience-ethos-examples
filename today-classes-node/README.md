@@ -39,4 +39,4 @@ Login to Experience as a user with permission to use Card Mangement. Locate the 
 1. Node Today Classes URL - set this to http://localhost:3001/api/today-classes
 1. Ethos API Key - set this to an Ethos API key that has access to the GraphQL resources as described in [Ethos Guide](../docs/today-classes-ethos-guide.md).
 
-Copyright 2021–2022 Ellucian Company L.P. and its affiliates.
+Copyright 2021–2023 Ellucian Company L.P. and its affiliates.

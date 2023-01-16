@@ -1,0 +1,15 @@
+{
+    "messages": {
+        "LeaveBalance.leaveBalance": "Leave Balance",
+        "LeaveBalance.type": "Type",
+        "LeaveBalance.beginBalance": "Begin Balance",
+        "LeaveBalance.balance": "Balance",
+        "LeaveBalance.taken": "Taken",
+        "LeaveBalance.accrued": "Accrued",
+        "LeaveBalance.dateAvail": "Availed",
+        "LeaveBalance.contactAdministrator": "Contact Your Administrator",
+        "LeaveBalance.dataError": "There was an error retrieving your leave balance",
+        "LeaveBalance.details": "DETAILS",
+        "LeaveBalance.description": "Description"
+    }
+}

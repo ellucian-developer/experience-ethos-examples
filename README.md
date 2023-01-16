@@ -12,12 +12,12 @@ These examples are detailed here: [today-classes](docs/today-classes.md)
 ## Account Details Examples
 This set of example projects includes an Experience extension with a card and page that shows the user's account balance and transactions and a microservice which retrieves the data using Banner Business Process API via Ethos Integration.
 
-These examples are detailed here: [account-details](docs/account-details.md)
+These examples are detailed here: [account-details](account-details/README.md)
 
 <br/>
 
-![](docs/images/Account-Details-Lambda.png)
+![](account-details/docs/images/Account-Details-Diagram.png)
 
 <br/>
 
-Copyright 2021–2022 Ellucian Company L.P. and its affiliates.
+Copyright 2021–2023 Ellucian Company L.P. and its affiliates.
