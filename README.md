@@ -1,9 +1,17 @@
-# Experience Ethos Examples
+  # Experience Ethos Examples
 
-## Account Details Examples
-This example, includes a card and page that show the current user their account details and balance. There are two npm projects in this example, an extension and a microservice. The data for the card and page are acquired through the BP API (Banner Business Process API) through Ethos Integration. Additional data and behavior could include using a Pay Now feature that integrates with your payment provider.
+1. [Account Detail](#account-details-example)
+1. [API Dashboard](#api-dashboard-example)
+1. [Instructor Classes](#instructor-classes-example)
+1. [Leave Balance](#leave-balance-example)
+1. [Today Classes GraphQL Proxy](#todays-classes-graphql-proxy-example)
+1. [Today Classes Lambda](#todays-classes-lambda-example)
+1. [Today Classes Node](#todays-classes-node-example)
 
-These examples are detailed here: [account-details](account-details/README.md)
+## Account Details Example
+This example includes a card and page that show the current user their account details and balance. There are two npm projects in this example, an extension, and a microservice. The data for the card and page are acquired through the BP API (Banner Business Process API) through Ethos Integration. Additional data and behavior could include using a Pay Now feature that integrates with your payment provider.
+
+This example is detailed here: [account-details](account-details/README.md)
 
 <br/>
 
@@ -11,10 +19,22 @@ These examples are detailed here: [account-details](account-details/README.md)
 
 <br/>
 
-## Instructor Classes Examples
-This example, includes a card and page that show an instructors classes. There are two npm projects in this example, an extension and a microservice. The data for the card is acquired through the Ethos GraphQL utilizing the same resources as the Today Classes example.
+## API Dashboard Example
+This example includes a card that can be used to observe the other examples of API requests. This simple card is to allow you to do simple comparisons of the various examples by capturing API request times.
 
-These examples are detailed here: [instructor-classes](instructor-classes/README.md)
+This example is detailed here: [api-dashboard](api-dashboard/README.md)
+
+<br/>
+
+![](api-dashboard/docs/images/API-Dashboard-Table.png)
+![](api-dashboard/docs/images/API-Dashboard-Chart.png)
+
+<br/>
+
+## Instructor Classes Example
+This example includes a card and page that show an instructor's classes. There are two npm projects in this example, an extension, and a microservice. The data for the card is acquired through the Ethos GraphQL utilizing the same resources as the Today Classes examples.
+
+This example is detailed here: [instructor-classes](instructor-classes/README.md)
 
 <br/>
 
@@ -22,10 +42,10 @@ These examples are detailed here: [instructor-classes](instructor-classes/README
 
 <br/>
 
-## Leave Balance Examples
-This example, includes a card and page that show the current user, employee, their leave balance. There are two npm projects in this example, an extension and a microservice. The data for the card and page are acquired through the BP API (Banner Business Process API) through Ethos Integration.
+## Leave Balance Example
+This example includes a card and page that show the current user, employee, and their leave balance. There are two npm projects in this example, an extension, and a microservice. The data for the card and page are acquired through the BP API (Banner Business Process API) through Ethos Integration.
 
-These examples are detailed here: [leave-balance](leave-balance/README.md)
+This example is detailed here: [leave-balance](leave-balance/README.md)
 
 <br/>
 
@@ -33,15 +53,39 @@ These examples are detailed here: [leave-balance](leave-balance/README.md)
 
 <br/>
 
-## Today's Classes Examples
-This set of example projects is driven by the use case of having a card that displays the user's classes that meet today. This includes an Experience extension with three cards. Each card displays the same information using a different means of fetching the data through Ethos Integration. This example includes using Experience's GraphQL Proxy, a Lambda microservice using Ethos GraphQL, and a node microservice using Ethos EEDM (Ellucian Education Domain Model).
+## Today's Classes GraphQL Proxy Example
+This example is part of a suite of examples that illustrate multiple methods to access institution data through Ethos from Experience cards and pages. The use case is a card that displays the student's classes that meet today. This example fetches the Ethos data utilizing the Experience GraphQL proxy. Using Experience's GraphQL proxy avoids the need to deploy a microservice. The efficiency of GraphQL also reduces the round trips to Ethos by returning graphs of objects. There is some extra setup effort involved in loading the needed resources into Ellucian Data Access and authorizing the Ethos Application to use those resources.
 
-These examples are detailed here: [today-classes](docs/today-classes.md)
+This example is detailed here: [today-classes-graphql](today-classes-graphql/README.md)
 
 <br/>
 
-![](docs/images/Todays-Classes-Ethos-Example.png)
+![](today-classes-graphql/docs/images/Todays-Classes-Experience-GraphQL-Proxy.png)
+
+<br/>
+
+## Today's Classes Lambda Example
+This example is part of a suite of examples that illustrate multiple methods to access institution data through Ethos from Experience cards and pages. The use case is a card that displays the student's classes that meet today. This example fetches the Ethos data through a Lambda microservice that utilizes Ethos GraphQL. The efficiency of GraphQL also reduces the round trips to Ethos by returning graphs of objects. Using Lambda provides a reduced effort deployment of the microservice endpoints. There is some extra setup effort involved in loading the needed resources into Ellucian Data Access and authorizing the Ethos Application to use those resources.
+
+This example is detailed here: [today-classes-lambda](today-classes-lambda/README.md)
+
+<br/>
+
+![](today-classes-lambda/docs/images/Todays-Classes-Lambda.png)
+
+<br/>
+
+## Today's Classes Node Example
+This example is part of a suite of examples that illustrate multiple methods to access institution data through Ethos from Experience cards and pages. The use case is a card that displays the student's classes that meet today. This example fetches the Ethos data through a Node microservice which retrieves the data using Ethos EEDM resources (Ellucian Ethos Data Model). Accessing the Ethos EEDM resources reduces the setup effort over using GraphQL. Note, this node application will need to be deployed in a scalable manner.
+
+This example is detailed here: [today-classes-node](today-classes-node/README.md)
+
+<br/>
+
+![](today-classes-node/docs/images/Todays-Classes-Node.png)
 
 <br/>
 
 Copyright 2021–2023 Ellucian Company L.P. and its affiliates.
+
+  

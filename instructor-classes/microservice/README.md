@@ -38,7 +38,7 @@ The other vars listed in sample.env can be used for tagging the AWS resources. S
 
 Please follow the readme for the [extension](../extension/README.md) to build and deploy the cards.
 
-Login to Experience as a user with permission to use Card Management. Locate the Instructor's Classes card. This card has two items to configure on step 3.
+Login to Experience as a user with permission to use Card Management. Locate the Instructor's Classes card. This card has two items to configure.
 
 1. Lambda Instructor Classes URL - set this to the URL shown when starting the offline serverless
 1. Ethos API Key - set this to an Ethos API key that has access to the GraphQL resources as described in [Ethos Guide](../docs/ethos-guide.md).

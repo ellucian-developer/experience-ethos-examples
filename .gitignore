@@ -2,7 +2,7 @@
 .env
 .eslintcache
 .scripts
-.vscode
+.vscode/launch.json
 .env.*
 .webpack
 .serverless

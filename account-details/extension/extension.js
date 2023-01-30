@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'account-details',
+    name: 'Account Details',
     publisher: '',
     cards: [{
         type: 'AccountDetailsCard',

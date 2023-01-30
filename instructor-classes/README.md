@@ -2,7 +2,7 @@
 
 This example, includes a card and page that show an instructors classes. There are two npm projects in this example, an extension and a microservice. The data for the card is acquired through the Ethos GraphQL utilizing the same resources as the Today Classes example.
 
-The interaction between the Experience card with Ethos diagram.
+Diagram of the interaction between the Experience card and Ethos.
 
 ![](docs/images/Instructor-Classes-Diagram.png)
 

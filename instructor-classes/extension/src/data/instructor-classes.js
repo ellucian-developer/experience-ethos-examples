@@ -1,6 +1,7 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
 import { fetchJsonData } from './json-data';
+import { dispatchEvent } from '../util/events';
 
 import log from 'loglevel';
 const logger = log.getLogger('Instructor');
@@ -28,7 +29,17 @@ export async function fetchInstructorClasses({ queryKey }) {
             throw error;
         }
 
-        logger.debug('Lambda fetchInstructorClasses time:', new Date().getTime() - start.getTime());
+        const end = new Date();
+        logger.debug('Lambda fetchInstructorClasses time:', end.getTime() - start.getTime());
+
+        dispatchEvent({
+            name: 'api-stat',
+            data: {
+                type: 'instructor-classes',
+                time: end.getTime() - start.getTime()
+            }
+        });
+
         return  data;
     } catch (error) {
         logger.error('unable to fetch data sources: ', error);

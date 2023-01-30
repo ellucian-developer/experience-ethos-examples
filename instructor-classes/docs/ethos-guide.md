@@ -1,16 +1,15 @@
 # Instructor's Classes Ethos Guide
 
-The Instructor's Classes examples use Ethos Integration to retrieve ERP data. It also makes use of GraphQL.
+The Instructor's Classes example calls Ethos GraphQL from a Lambda Function to query for ERP data.
 
-## Ethos Integration EEDM Setup
+## Ethos GraphQL Setup
+The Instructor's Classes example needs an Ethos Integration Application's API Key to make the API calls to Ethos Integration. You can use the Experience Integration Application or create another one as needed. To create a new one, you can follow the steps as outlined in the Experience documentation [Create an application in Ethos Integration for Ellucian Experience](https://resources.elluciancloud.com/bundle/ellucian_experience_acn_configure/page/t_create_app_ethos_experience.html).
 
-The Instructor's Classes examples needs an Ethos Integration Application's API Key to make the API calls to Ethos Integration. You can use the Experience Integration Application (Using the GraphQL Proxy will use Experience's Application) or create another one as needed. To create a new one, you can follow the steps as outlined in the Experience documentation [Create an application in Ethos Integration for Ellucian Experience](https://resources.elluciancloud.com/bundle/ellucian_experience_acn_configure/page/t_create_app_ethos_experience.html) for the purpose of these cards.
-
-Since this example uses GraphQL ther are some additional steps to setup. This includes loading the needed resources into Ellucian Data Access and granting permission to use the Integration GraphQL for these resources.
+Since this example uses GraphQL there are some additional steps to set up. This includes loading the needed resources into Ellucian Data Access and granting permission to use the Integration GraphQL for these resources.
 
 You can follow the Experience documentation [Set up GraphQL requests to Data Access](https://resources.elluciancloud.com/bundle/ellucian_experience_acn_configure/page/c_set_up_graphql.html).
 
-The following resources will need to be loaded into Data Access and permission given to the Ethos Integration Application that you use for these examples:
+The following resources will need to be loaded into Data Access and permission given to the Ethos Integration Application that you use for this example:
 
 * buildings
 * courses

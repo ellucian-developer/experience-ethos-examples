@@ -1,6 +1,7 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
 import { fetchJsonData } from './json-data';
+import { dispatchEvent } from '../util/events';
 
 import log from 'loglevel';
 const logger = log.getLogger('default');
@@ -19,7 +20,16 @@ export async function fetchAccountDetails({ queryKey }) {
             getJwt: getExtensionJwt
         });
 
-        logger.debug('Lambda fetchAccountDetails time:', new Date().getTime() - start.getTime());
+        const end = new Date();
+        logger.debug('Lambda fetchAccountDetails time:', end.getTime() - start.getTime());
+
+        dispatchEvent({
+            name: 'api-stat',
+            data: {
+                type: 'account-details',
+                time: end.getTime() - start.getTime()
+            }
+        });
 
         if (error) {
             logger.debug('fetch received an error', error);

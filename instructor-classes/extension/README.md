@@ -7,12 +7,10 @@ This extension utilizes a microservice that uses Ethos GraphQL API
 
 ## Instructor's Classes Microservice
 
-This example makes CORS (Cross-Origin Resource Sharing) API calls to an AWS Gateway that triggers an AWS Lambda function. This Lambda function authorizes requests and calls Ethos Integration.
+This example makes CORS (Cross-Origin Resource Sharing) API calls to an AWS Gateway that triggers an AWS Lambda function. This Lambda function authorizes requests and queries Ethos GraphQL.
 
 See the readme for details [readme](../microservice/README.md)
 
 <br/>
-
-![](../docs/images/Todays-Classes-Node.png)
 
 Copyright 2021–2023 Ellucian Company L.P. and its affiliates.

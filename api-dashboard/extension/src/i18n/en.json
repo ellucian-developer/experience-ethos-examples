@@ -1,0 +1,10 @@
+{
+    "messages": {
+        "Dash.clear": "Clear",
+        "Dash.refresh": "Refresh",
+        "Dash.source": "Source",
+        "Dash.count": "County",
+        "Dash.average": "Average",
+        "Dash.actions": "Actions"
+    }
+}

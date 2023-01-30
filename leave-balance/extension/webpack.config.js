@@ -24,5 +24,7 @@ module.exports = async (env, options) => {
     // For advanced scenarios, dynamically modify webpackConfig here.
     webpackConfig.plugins.push(new Dotenv());
 
+    webpackConfig.output.filename = `[name]-${Date.now()}.js`
+
     return webpackConfig;
 };

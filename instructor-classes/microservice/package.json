@@ -18,7 +18,7 @@
     "deploy-dev": "npx serverless deploy --stage dev"
   },
   "dependencies": {
-    "@ellucian/experience-extension-server-util": "github:ellucian-developer/experience-extension-server-util#1.0.4",
+    "@ellucian/experience-extension-server-util": "github:ellucian-developer/experience-extension-server-util#1.0.6",
     "@middy/core": "^4.1.0",
     "@middy/http-error-handler": "^4.1.0",
     "@middy/http-header-normalizer": "^4.1.0",
@@ -35,14 +35,5 @@
     "serverless-deployment-bucket": "^1.6.0",
     "serverless-offline": "^12.0.4",
     "serverless-provisioned-concurrency-autoscaling": "^1.9.1"
-  },
-  "overrides": {
-    "decode-uri-component": "^0.4.1",
-    "json5": "^2.2.3",
-    "jsonwebtoken": "^9.0.0",
-    "loader-utils": "^2.0.4",
-    "minimist": "^1.2.7",
-    "moment": "^2.29.4",
-    "terser": "^5.16.1"
   }
 }
