@@ -32,7 +32,7 @@ This example is detailed here: [api-dashboard](api-dashboard/README.md)
 <br/>
 
 ## Instructor Classes Example
-This example includes a card and page that show an instructor's classes. There are two npm projects in this example, an extension, and a microservice. The data for the card is acquired through the Ethos GraphQL utilizing the same resources as the Today Classes examples.
+This example includes a card that shows an instructor's classes. There are two npm projects in this example, an extension, and a microservice. The data for the card is acquired through the Ethos GraphQL utilizing the same resources as the Today Classes examples.
 
 This example is detailed here: [instructor-classes](instructor-classes/README.md)
 
