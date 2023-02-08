@@ -1,7 +1,7 @@
 # Experience Ethos Examples
 
-## Account Details Examples
-This example, includes a card and page that show the current user their account details and balance. There are two npm projects in this example, an extension and a microservice. The data for the card and page are acquired through the BP API (Banner Business Process API) through Ethos Integration. Additional data and behavior could include using a Pay Now feature that integrates with your payment provider.
+## Account Details Example
+This example includes a card and page that show the current user their account details and balance. There are two npm projects in this example, an extension, and a microservice. The data for the card and page are acquired through the BP API (Banner Business Process API) through Ethos Integration. Additional data and behavior could include using a Pay Now feature that integrates with your payment provider.
 
 These examples are detailed here: [account-details](account-details/README.md)
 
@@ -11,8 +11,8 @@ These examples are detailed here: [account-details](account-details/README.md)
 
 <br/>
 
-## Instructor Classes Examples
-This example, includes a card and page that show an instructors classes. There are two npm projects in this example, an extension and a microservice. The data for the card is acquired through the Ethos GraphQL utilizing the same resources as the Today Classes example.
+## Instructor Classes Example
+This example includes a card and page that show an instructor's classes. There are two npm projects in this example, an extension, and a microservice. The data for the card is acquired through the Ethos GraphQL utilizing the same resources as the Today Classes example.
 
 These examples are detailed here: [instructor-classes](instructor-classes/README.md)
 
@@ -22,8 +22,8 @@ These examples are detailed here: [instructor-classes](instructor-classes/README
 
 <br/>
 
-## Leave Balance Examples
-This example, includes a card and page that show the current user, employee, their leave balance. There are two npm projects in this example, an extension and a microservice. The data for the card and page are acquired through the BP API (Banner Business Process API) through Ethos Integration.
+## Leave Balance Example
+This example includes a card and page that show the current employee user their leave balance. There are two npm projects in this example, an extension, and a microservice. The data for the card and page are acquired through the BP API (Banner Business Process API) through Ethos Integration.
 
 These examples are detailed here: [leave-balance](leave-balance/README.md)
 
