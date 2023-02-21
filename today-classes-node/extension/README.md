@@ -6,7 +6,7 @@ This example extension includes a card that shows the student their classes that
 ![](../docs/images/Todays-Classes-Node.png)
 
 <br/>
-To upload and use this extension you will need to do the following from the today-classes-node/extensions directory:
+To upload and use this extension you will need to do the following from the today-classes-node/extension directory:
 
 * Run 'npm install'
 * Set the "publisher" in extension.js. This can be the name of your institution or organization.

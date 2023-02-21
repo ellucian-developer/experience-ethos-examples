@@ -6,7 +6,7 @@ This example extension includes a card that shows the student their classes that
 ![](../docs/images/Todays-Classes-Lambda.png)
 
 <br/>
-To upload and use this extension you will need to do the following from the today-classes-lambda/extensions directory:
+To upload and use this extension you will need to do the following from the today-classes-lambda/extension directory:
 
 * Run 'npm install'
 * Set the "publisher" in extension.js. This can be the name of your institution or organization.
