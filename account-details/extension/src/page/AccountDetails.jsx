@@ -20,7 +20,7 @@ import {
 import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, widthFluid } from '@ellucian/react-design-system/core/styles/tokens';
 import { withStyles } from '@ellucian/react-design-system/core/styles';
 
-import { useCardInfo, useExtensionControl, useUserInfo } from '@ellucian/experience-extension/extension-utilities';
+import { useCardInfo, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
 
 import { AccountDetailsProvider, useAccountDetails } from '../context/account-details';
 

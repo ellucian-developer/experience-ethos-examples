@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 
-import { useCache, useData } from '@ellucian/experience-extension/extension-utilities';
+import { useCache, useData } from '@ellucian/experience-extension-utils';
 
 import { fetchTodayClasses } from '../data/today-classes';
 import { useEventListener } from '../util/events';

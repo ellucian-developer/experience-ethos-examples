@@ -23,21 +23,19 @@
     "start": "webpack serve --mode development --env verbose --env liveReload"
   },
   "dependencies": {
-    "@ellucian/ds-icons": "https://cdn.elluciancloud.com/assets/EDS2/6.6.0/umd/path_design_system_icons.tgz",
-    "@ellucian/experience-extension": "https://cdn.elluciancloud.com/assets/SDK/5.12.0/ellucian-experience-extension-5.12.0.tgz",
-    "@ellucian/react-design-system": "https://cdn.elluciancloud.com/assets/EDS2/6.7.0/umd/path_design_system.tgz",
+    "@ellucian/ds-icons": "https://cdn.elluciancloud.com/assets/EDS2/7.1.1/umd/path_design_system_icons.tgz",
+    "@ellucian/experience-extension-utils": "https://cdn.elluciancloud.com/assets/SDK/utils/1.0.0/ellucian-experience-extension-utils-1.0.0.tgz",
+    "@ellucian/react-design-system": "https://cdn.elluciancloud.com/assets/EDS2/7.1.1/umd/path_design_system.tgz",
     "chart.js": "^3.9.1",
     "classnames": "2.2.6",
     "dotenv-webpack": "^7.1.0",
     "loglevel": "^1.8.0",
     "prop-types": "15.7.2",
-    "react": "16.9.0",
+    "react": "17.0.2",
     "react-chartjs-2": "^3.3.0",
-    "react-dom": "16.9.0",
+    "react-dom": "17.0.2",
     "react-intl": "5.12.5",
-    "react-query": "^3.34.12",
-    "react-resize-detector": "^6.7.8",
-    "react-router-dom": "5.2.0"
+    "react-resize-detector": "^6.7.8"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.17.0",
@@ -45,6 +43,7 @@
     "@babel/preset-env": "7.12.1",
     "@babel/preset-react": "7.12.1",
     "@calm/eslint-plugin-react-intl": "1.4.1",
+    "@ellucian/experience-extension": "https://cdn.elluciancloud.com/assets/SDK/7.0.0/ellucian-experience-extension-7.0.0.tgz",
     "babel-plugin-rewire": "1.2.0",
     "cross-env": "7.0.2",
     "dotenv": "8.2.0",
@@ -57,13 +56,6 @@
     "webpack-dev-server": "4.7.4"
   },
   "overrides": {
-    "async": "^2.6.4",
-    "json5": "^2.2.3",
-    "jsonwebtoken": "^9.0.0",
-    "loader-utils": "^1.4.2",
-    "minimist": "^1.2.7",
-    "node-forge": "^1.3.1",
-    "terser": "^5.16.1",
     "ua-parser-js": "0.7.33"
   }
 }

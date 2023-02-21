@@ -8,7 +8,7 @@ import { Divider, Illustration, IMAGES, List, Typography } from '@ellucian/react
 import { withStyles } from '@ellucian/react-design-system/core/styles';
 import { colorFillAlertError, spacing40 } from '@ellucian/react-design-system/core/styles/tokens';
 
-import { useExtensionControl } from '@ellucian/experience-extension/extension-utilities';
+import { useExtensionControl } from '@ellucian/experience-extension-utils';
 
 import Event from '../components/Event';
 import { withIntl } from '../components/ReactIntlProviderWrapper';

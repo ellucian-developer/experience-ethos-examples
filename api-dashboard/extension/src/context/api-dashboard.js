@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import log from 'loglevel';
 
-import { useCache } from '@ellucian/experience-extension/extension-utilities';
+import { useCache } from '@ellucian/experience-extension-utils';
 
 import { useEventListener } from '../util/events';
 import { randomPathColor } from '../util/path';

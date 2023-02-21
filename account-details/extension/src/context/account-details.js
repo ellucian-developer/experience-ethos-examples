@@ -7,7 +7,7 @@ import log from 'loglevel';
 
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 
-import { useCache, useCardInfo, useData } from '@ellucian/experience-extension/extension-utilities';
+import { useCache, useCardInfo, useData } from '@ellucian/experience-extension-utils';
 
 import { fetchAccountDetails } from '../data/account-details';
 import { useEventListener } from '../util/events';

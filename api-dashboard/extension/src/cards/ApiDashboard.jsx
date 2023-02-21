@@ -24,7 +24,7 @@ import {
 import { spacing40 } from '@ellucian/react-design-system/core/styles/tokens';
 import { withStyles } from '@ellucian/react-design-system/core/styles';
 
-import { useCache } from '@ellucian/experience-extension/extension-utilities';
+import { useCache } from '@ellucian/experience-extension-utils';
 
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 
