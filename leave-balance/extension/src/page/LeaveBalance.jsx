@@ -15,7 +15,7 @@ import {
 import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40 } from '@ellucian/react-design-system/core/styles/tokens';
 import { withStyles } from '@ellucian/react-design-system/core/styles';
 
-import { useExtensionControl, useUserInfo } from '@ellucian/experience-extension/extension-utilities';
+import { useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
 
 import { LeaveBalanceProvider, useLeaveBalance } from '../context/leave-balance';
 

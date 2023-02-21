@@ -4,7 +4,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 
-import { usePageInfo } from '@ellucian/experience-extension/extension-utilities';
+import { usePageInfo } from '@ellucian/experience-extension-utils';
 
 import AccountDetails from './AccountDetails';
 

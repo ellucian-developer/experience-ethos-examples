@@ -10,7 +10,7 @@ import { withStyles } from '@ellucian/react-design-system/core/styles';
 
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 
-import { useCardControl, useExtensionControl } from '@ellucian/experience-extension/extension-utilities';
+import { useCardControl, useExtensionControl } from '@ellucian/experience-extension-utils';
 
 import { LeaveBalanceProvider, useLeaveBalance } from '../context/leave-balance';
 

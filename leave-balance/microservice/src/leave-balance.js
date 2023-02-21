@@ -11,7 +11,7 @@ import { logUtil } from '@ellucian/experience-extension-server-util';
 logUtil.initializeLogging();
 const logger = logUtil.getLogger();
 
-async function handler (event) {
+async function handler(event) {
     logger.debug('inbound event: ', event);
 
     const {

@@ -1,0 +1,31 @@
+{
+  "name": "today-classes-node",
+  "version": "2.0.0",
+  "description": "Node server app to connect to Ethos and get today's classes",
+  "type": "module",
+  "license": "Apache-2.0",
+  "private": true,
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ellucian-developer/experience-ethos-examples",
+    "directory": "today-classes-node/microservice"
+  },
+  "scripts": {
+    "start": "node src/app",
+    "watch": "npx nodemon src/app"
+  },
+  "dependencies": {
+    "@ellucian/experience-extension-server-util": "github:ellucian-developer/experience-extension-server-util#1.0.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "nodemon": "^2.0.20"
+  }
+}

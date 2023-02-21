@@ -1,0 +1,10 @@
+{
+    "messages": {
+        "Dash.clear": "Clear",
+        "Dash.refresh": "Refresh",
+        "Dash.source": "Source",
+        "Dash.count": "Count",
+        "Dash.average": "Average",
+        "Dash.actions": "Actions"
+    }
+}

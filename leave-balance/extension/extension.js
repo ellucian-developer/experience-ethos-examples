@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'leave-balance',
+    name: 'Leave Balance',
     publisher: '',
     cards: [{
         type: 'LeaveBalanceCard',
