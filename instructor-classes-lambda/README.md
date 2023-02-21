@@ -1,6 +1,6 @@
 # Experience Ethos Example - Instructor Classes
 
-This example, includes a card and page that show an instructors classes. There are two npm projects in this example, an extension and a microservice. The data for the card is acquired through the Ethos GraphQL utilizing the same resources as the Today Classes example.
+This example includes a card and page that show an instructor's classes. There are two npm projects in this example, an extension, and a microservice. The data for the card is acquired through the Ethos GraphQL utilizing the same resources as the Today Classes example.
 
 Diagram of the interaction between the Experience card and Ethos.
 
@@ -8,7 +8,7 @@ Diagram of the interaction between the Experience card and Ethos.
 
 ## Instructor Classes Extension
 
-This extension includes a card which displays a list of the classes the instructor is teaching.
+This extension includes a card that displays a list of the classes the instructor is teaching.
 
 For details regarding the extension see: [readme](extension/README.md)
 

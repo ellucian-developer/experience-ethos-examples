@@ -2,7 +2,7 @@
 
 1. [Account Detail](#account-details-example)
 1. [API Dashboard](#api-dashboard-example)
-1. [Instructor Classes](#instructor-classes-example)
+1. [Instructor Classes Lambda](#instructor-classes-lambda-example)
 1. [Leave Balance](#leave-balance-example)
 1. [Today Classes GraphQL Proxy](#todays-classes-graphql-proxy-example)
 1. [Today Classes Lambda](#todays-classes-lambda-example)
@@ -31,14 +31,14 @@ This example is detailed here: [api-dashboard](api-dashboard/README.md)
 
 <br/>
 
-## Instructor Classes Example
+## Instructor Classes Lambda Example
 This example includes a card that shows an instructor's classes. There are two npm projects in this example, an extension, and a microservice. The data for the card is acquired through the Ethos GraphQL utilizing the same resources as the Today Classes examples.
 
-This example is detailed here: [instructor-classes](instructor-classes/README.md)
+This example is detailed here: [instructor-classes-lambda](instructor-classes-lambda/README.md)
 
 <br/>
 
-![](instructor-classes/docs/images/Instructor-Classes-Diagram.png)
+![](instructor-classes-lambda/docs/images/Instructor-Classes-Diagram.png)
 
 <br/>
 

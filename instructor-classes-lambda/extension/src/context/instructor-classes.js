@@ -15,8 +15,8 @@ const logger = log.getLogger('Instructor');
 
 const Context = createContext()
 
-const cacheKey = 'instructor-classes';
-const queryKey = 'instructor-classes';
+const cacheKey = 'instructor-classes-lambda';
+const queryKey = 'instructor-classes-lambda';
 
 const queryClient = new QueryClient();
 

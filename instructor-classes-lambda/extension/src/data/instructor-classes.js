@@ -35,7 +35,7 @@ export async function fetchInstructorClasses({ queryKey }) {
         dispatchEvent({
             name: 'api-stat',
             data: {
-                type: 'instructor-classes',
+                type: 'instructor-classes-lambda',
                 time: end.getTime() - start.getTime()
             }
         });

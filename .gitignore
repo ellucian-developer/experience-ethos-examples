@@ -6,5 +6,6 @@
 .env.*
 .webpack
 .serverless
+.*.drawio.bkp
 dist
 node_modules
