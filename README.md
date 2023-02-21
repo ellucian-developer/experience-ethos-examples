@@ -22,7 +22,7 @@ This example is detailed here: [account-details](account-details/README.md)
 ## API Dashboard Example
 This example includes a card that can be used to observe the other examples of API requests. This simple card is to allow you to do simple comparisons of the various examples by capturing API request times.
 
-This example is detailed here: [api-dashboard](api-dashboard/README.md)
+This example is detailed here: [api-dashboard](api-dashboard/extension/README.md)
 
 <br/>
 
