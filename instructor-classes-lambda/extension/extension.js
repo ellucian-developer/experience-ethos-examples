@@ -2,7 +2,7 @@
 
 module.exports = {
     name: 'Instructor\'s Classes - Lambda',
-    publisher: 'Ranger',
+    publisher: '',
     cards: [{
         type: 'InstructorClassesLambda',
         source: './src/cards/InstructorClasses',
