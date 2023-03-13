@@ -1,6 +1,6 @@
 {
   "name": "account-details-extension",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Description of account-details-extension",
   "license": "Apache-2.0",
   "private": true,
@@ -19,6 +19,7 @@
     "build-prod": "webpack --progress --mode production --env verbose",
     "deploy-dev": "webpack --progress --mode development --env verbose --env upload",
     "deploy-prod": "webpack --progress --mode production --env verbose --env upload",
+    "deploy-prod-force": "webpack --progress --mode production --env verbose --env upload --env forceUpload",
     "watch-and-upload": "webpack --hot --watch --mode development --env verbose --env upload --env forceUpload",
     "start": "webpack serve --mode development --env verbose --env liveReload"
   },
