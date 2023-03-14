@@ -268,8 +268,8 @@ function AccountDetails({classes}) {
                                             rowsPerPage={rowsPerPage}
                                             rowsPerPageOptions={[10, 20, 50, 100]}
                                             page={page}
-                                            onChangePage={handleChangePage}
-                                            onChangeRowsPerPage={handleChangeRowsPerPage}
+                                            onPageChange={handleChangePage}
+                                            onRowsPerPageChange={handleChangeRowsPerPage}
                                         />
                                     </TableRow>
                                 </TableFooter>
