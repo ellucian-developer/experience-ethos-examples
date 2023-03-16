@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'Today\'s Classes - Lambda',
+    name: 'today-classes-lambda',
     publisher: '',
     cards: [{
         type: 'TodayClassesLambda',
