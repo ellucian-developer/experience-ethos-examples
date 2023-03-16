@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'API Dashboard',
+    name: 'api-dashboard',
     publisher: '',
     cards: [{
         type: 'ApiDashboard',

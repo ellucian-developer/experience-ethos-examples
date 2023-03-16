@@ -1,7 +1,7 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
 module.exports = {
-    name: 'Instructor\'s Classes - Lambda',
+    name: 'instructor-classes-lambda',
     publisher: '',
     cards: [{
         type: 'InstructorClassesLambda',

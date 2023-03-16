@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'Today\'s Classes - GraphQL',
+    name: 'today-classes-graphql',
     publisher: '',
     cards: [{
         type: 'TodayClassesGraphQL',
