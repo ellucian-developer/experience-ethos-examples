@@ -38,10 +38,23 @@ async function handler(event) {
             body: adr
         });
     } else {
-        const throwError = new Error(JSON.stringify({ error }));
-        throwError.statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+        const response = { error: {}};
+        if (error) {
+            response.error.message = error.message;
+            response.error.statusCode = error.statusCode;
+        } else if (config) {
+            response.error.message = 'Unable to get apiKey from card server configuration at URL';
+            response.error.statusCode = StatusCodes.NOT_FOUND;
+        } else {
+            response.error.message = 'Unable to get card server configuration at URL';
+            response.error.statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+        }
+        response.error.cardServerConfigurationApiUrl = cardServerConfigurationApiUrl;
 
-        throw throwError;
+        return lambdaUtil.buildResponse({
+            statusCode: response.error.statusCode,
+            body: response
+        });
     }
 }
 

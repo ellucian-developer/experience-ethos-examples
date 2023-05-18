@@ -5,12 +5,12 @@ module.exports = {
         type: 'LeaveBalanceCard',
         source: './src/cards/LeaveBalance.jsx',
         title: 'Leave Balance',
-        displayCardType: 'LeaveBalance',
+        displayCardType: 'Leave Balance',
         description: 'Leave Balance',
         configuration: {
             client: [{
-                key: 'lambdaUrl',
-                label: 'Lambda URL',
+                key: 'serviceUrl',
+                label: 'Service URL',
                 type: 'text',
                 required: true
             }],

@@ -11,8 +11,8 @@ module.exports = {
         description: 'Account Details',
         configuration: {
             client: [{
-                key: 'lambdaUrl',
-                label: 'Lambda URL',
+                key: 'serviceUrl',
+                label: 'Service URL',
                 type: 'text',
                 required: true
             },

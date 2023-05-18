@@ -9,8 +9,8 @@ module.exports = {
         description: 'Today\'s Classes via Lambda',
             configuration: {
             client: [{
-                key: 'microserviceUrl',
-                label: 'Today Classes microservice URL',
+                key: 'serviceUrl',
+                label: 'Service URL',
                 type: 'string',
                 required: true
             }],

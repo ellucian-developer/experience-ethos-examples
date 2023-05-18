@@ -25,16 +25,25 @@ function InstructorClassesProviderInternal({children}) {
     const { getItem, storeItem } = useCache();
     const { getExtensionJwt } = useData();
 
-    const { configuration: { lambdaUrl } = {} } = useCardInfo();
+    const {
+        configuration: {
+            serviceUrl
+        } = {},
+        serverConfigContext: {
+            cardPrefix
+        } = {}
+    } = useCardInfo();
+
+    const inPreviewMode = cardPrefix === 'preview:';
 
     const cachedData = useMemo(() => getItem({key: cacheKey})?.data, []);
     const [ isRefreshing, setIsRefreshing ] = useState(false);
 
-    const { data, isError, isLoading, isRefetching } = useQuery(
-        [queryKey, { getExtensionJwt, lambdaUrl }],
+    const { data: { data, error: dataError } = {}, isError, isFetching, isRefetching } = useQuery(
+        [queryKey, { getExtensionJwt, serviceUrl }],
         fetchInstructorClasses,
         {
-            enabled: Boolean(getExtensionJwt && lambdaUrl),
+            enabled: Boolean(getExtensionJwt && serviceUrl),
             refetchOnWindowFocus: false,
             placeholderData: cachedData
         }
@@ -50,8 +59,6 @@ function InstructorClassesProviderInternal({children}) {
             }
         }
     });
-
-    // const [ events, setEvents ] = useState();
 
     const events = useMemo(() => {
         let events;
@@ -85,11 +92,13 @@ function InstructorClassesProviderInternal({children}) {
 
     const contextValue = useMemo(() => {
         return {
+            dataError,
             events,
+            inPreviewMode,
             isError,
-            isLoading: isLoading || isRefreshing
+            isLoading: isFetching || isRefreshing
         }
-    }, [ events, isError, isLoading, isRefreshing ]);
+    }, [ dataError, events, inPreviewMode, isError, isFetching, isRefreshing ]);
 
     useEffect(() => {
         logger.debug('InstructorClassesProvider mounted');

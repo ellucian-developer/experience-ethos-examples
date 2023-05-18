@@ -1,6 +1,6 @@
 {
   "name": "account-details-lambda",
-  "version": "2.0.0",
+  "version": "2.0.3",
   "description": "Provides an Experience authorized endpoint to retrieve Account Details from BP API with a lambda function",
   "license": "Apache-2.0",
   "private": true,
@@ -30,10 +30,13 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
-    "serverless": "^3.26.0",
+    "serverless": "^3.30.1",
     "serverless-bundle": "^6.0.0",
     "serverless-deployment-bucket": "^1.6.0",
     "serverless-offline": "^12.0.4",
     "serverless-provisioned-concurrency-autoscaling": "^1.9.1"
+  },
+  "overrides": {
+    "webpack": "^5.82.1"
   }
 }

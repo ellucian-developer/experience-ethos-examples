@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import { Button, Table, TableBody, TableCell, TableRow, Typography } from '@ellucian/react-design-system/core'
-import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40 } from '@ellucian/react-design-system/core/styles/tokens';
+import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, spacing80 } from '@ellucian/react-design-system/core/styles/tokens';
 import { withStyles } from '@ellucian/react-design-system/core/styles';
 
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
@@ -73,6 +73,11 @@ const styles = () => ({
     },
     payNowButton: {
         marginLeft: spacing30
+    },
+    message: {
+        marginLeft: spacing80,
+        marginRight: spacing80,
+        textAlign: 'center'
     }
 });
 
@@ -85,7 +90,7 @@ function AccountDetails({classes}) {
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
     const { locale } = useUserInfo();
 
-    const { data, isError, isLoading } = useAccountDetails();
+    const { data, dataError, inPreviewMode, isError, isLoading } = useAccountDetails();
 
     const [ transactions, setTransactions ] = useState();
     const [ summary, setSummary ] = useState();
@@ -139,11 +144,6 @@ function AccountDetails({classes}) {
         navigateToPage({route: '/'});
     }, [navigateToPage])
 
-    if (!data) {
-        // nothing to show yet
-        return null;
-    }
-
     function onPayNow() {
         if (payNowUrl) {
             window.open(payNowUrl, '_blank');
@@ -152,13 +152,22 @@ function AccountDetails({classes}) {
 
     const showPayNow = featurePayNow && payNowUrl && summary?.accountBalance > 0;
 
-    return (
-        <div className={classes.root}>
-        <div className={classes.content}>
-            <>
-                {Array.isArray(transactions) && transactions.length > 0 && (
-                    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-                    <div className={classes.transactionsBox} onClick={onTransactionsClick}>
+    if (!data && inPreviewMode && dataError?.statusCode === 404) {
+        return (
+            <div className={classes.root}>
+                <div className={classes.content}>
+                    <Typography className={classes.message} variant="body1" component="div">
+                        {intl.formatMessage({ id: 'AccountDetails.notConfigured'})}
+                    </Typography>
+                </div>
+            </div>
+        );
+    } else if (data && transactions && Array.isArray(transactions) && transactions.length > 0) {
+        return (
+            <div className={classes.root}>
+            <div className={classes.content}>
+                <>
+                    <div className={classes.transactionsBox} onClick={onTransactionsClick} onKeyUp={onTransactionsClick} role='button' tabIndex={0}>
                         <Typography variant={'h4'} component={'div'} className={classes.recentTransactions}>
                             {intl.formatMessage({id: 'AccountDetails.recentTransactions'})}
                         </Typography>
@@ -193,38 +202,48 @@ function AccountDetails({classes}) {
                             </Table>
                         </div>
                     </div>
-                )}
-                {summary && (
-                    <div className={classnames(classes.amountBoxRow, { [classes.amountBoxRowPayNow]: showPayNow })}>
-                        <div className={classes.amountBox}>
-                            <div className={classes.amountRow}>
+                    {summary && (
+                        <div className={classnames(classes.amountBoxRow, { [classes.amountBoxRowPayNow]: showPayNow })}>
+                            <div className={classes.amountBox}>
+                                <div className={classes.amountRow}>
+                                    <Typography variant={'h4'} component={'div'}>
+                                        {intl.formatMessage({id: 'AccountDetails.accountBalance'})}
+                                    </Typography>
+                                    <Typography variant={'body2'} component={'div'} className={classes.amount}>
+                                        {currencyFormater.format(summary.accountBalance)}
+                                    </Typography>
+                                </div>
+                                <div className={classes.amountRow}>
                                 <Typography variant={'h4'} component={'div'}>
-                                    {intl.formatMessage({id: 'AccountDetails.accountBalance'})}
+                                    {intl.formatMessage({id: 'AccountDetails.amountDue'})}
                                 </Typography>
                                 <Typography variant={'body2'} component={'div'} className={classes.amount}>
-                                    {currencyFormater.format(summary.accountBalance)}
+                                    {currencyFormater.format(summary.amountDue)}
                                 </Typography>
+                                </div>
                             </div>
-                            <div className={classes.amountRow}>
-                            <Typography variant={'h4'} component={'div'}>
-                                {intl.formatMessage({id: 'AccountDetails.amountDue'})}
-                            </Typography>
-                            <Typography variant={'body2'} component={'div'} className={classes.amount}>
-                                {currencyFormater.format(summary.amountDue)}
-                            </Typography>
-                            </div>
+                            {showPayNow && (
+                                <Button className={classes.payNowButton} color='secondary' onClick={onPayNow}>
+                                    {intl.formatMessage({id: 'AccountDetails.payNow'})}
+                                </Button>
+                            )}
                         </div>
-                        {showPayNow && (
-                            <Button className={classes.payNowButton} color='secondary' onClick={onPayNow}>
-                                {intl.formatMessage({id: 'AccountDetails.payNow'})}
-                            </Button>
-                        )}
-                    </div>
-                )}
-            </>
-        </div>
-        </div>
-    );
+                    )}
+                </>
+            </div>
+            </div>
+        );
+    } else {
+        return (
+            <div className={classes.root}>
+                <div className={classes.content}>
+                    <Typography className={classes.message} variant="body1" component="div">
+                        {intl.formatMessage({ id: 'AccountDetails.noTransactions'})}
+                    </Typography>
+                </div>
+            </div>
+        );
+    }
 }
 
 AccountDetails.propTypes = {

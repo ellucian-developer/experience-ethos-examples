@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
 
 import { useCache, useCardInfo, useData } from '@ellucian/experience-extension-utils';
 
@@ -25,16 +25,25 @@ function TodayClassesProviderInternal({children}) {
     const { getItem, storeItem } = useCache();
     const { getExtensionJwt } = useData();
 
-    const { configuration: { microserviceUrl } = {} } = useCardInfo();
+    const {
+        configuration: {
+            serviceUrl
+        } = {},
+        serverConfigContext: {
+            cardPrefix
+        } = {}
+    } = useCardInfo();
+
+    const inPreviewMode = cardPrefix === 'preview:';
 
     const cachedData = useMemo(() => getItem({key: cacheKey})?.data, []);
     const [ isRefreshing, setIsRefreshing ] = useState(false);
 
-    const { data, isError, isLoading, isRefetching } = useQuery(
-        [queryKey, { getExtensionJwt, microserviceUrl }],
+    const { data: { data, error: dataError } = {}, isError, isFetching, isRefetching } = useQuery(
+        [queryKey, { getExtensionJwt, serviceUrl }],
         fetchTodayClasses,
         {
-            enabled: Boolean(getExtensionJwt && microserviceUrl),
+            enabled: Boolean(getExtensionJwt && serviceUrl),
             refetchOnWindowFocus: false,
             placeholderData: cachedData
         }
@@ -83,11 +92,13 @@ function TodayClassesProviderInternal({children}) {
 
     const contextValue = useMemo(() => {
         return {
+            dataError,
             events,
+            inPreviewMode,
             isError,
-            isLoading: isLoading || isRefreshing
+            isLoading: isFetching || isRefreshing
         }
-    }, [ events, isError, isLoading, isRefreshing ]);
+    }, [ dataError, events, inPreviewMode, isError, isFetching, isRefreshing ]);
 
     useEffect(() => {
         logger.debug('TodayClassesProvider mounted');

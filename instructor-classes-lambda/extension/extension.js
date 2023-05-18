@@ -7,12 +7,12 @@ module.exports = {
         type: 'InstructorClassesLambda',
         source: './src/cards/InstructorClasses',
         title: 'Instructor\'s Classes - Lambda',
-        displayCardType: 'Instructor\'s Classes - Lambda',
+        displayCardType: 'Instructor\'s Classes Lambda',
         description: 'Instructor\'s Classes via Lambda',
         configuration: {
             client: [{
-                key: 'lambdaUrl',
-                label: 'Instructor Classes URL',
+                key: 'serviceUrl',
+                label: 'Service URL',
                 type: 'string',
                 required: true
             }],

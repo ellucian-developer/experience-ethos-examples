@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
 
 import { useCache, useData } from '@ellucian/experience-extension-utils';
 
@@ -28,7 +28,7 @@ function TodayClassesProviderInternal({children}) {
     const cachedData = useMemo(() => getItem({key: cacheKey})?.data, []);
     const [ isRefreshing, setIsRefreshing ] = useState(false);
 
-    const { data, isError, isLoading, isRefetching } = useQuery(
+    const { data, isError, isFetching, isRefetching } = useQuery(
         [queryKey, { getEthosQuery }],
         fetchTodayClasses,
         {
@@ -83,9 +83,9 @@ function TodayClassesProviderInternal({children}) {
         return {
             events,
             isError,
-            isLoading: isLoading || isRefreshing
+            isLoading: isFetching || isRefreshing
         }
-    }, [ events, isError, isLoading, isRefreshing ]);
+    }, [ events, isError, isFetching, isRefreshing ]);
 
     useEffect(() => {
         logger.debug('TodayClassesProvider mounted');

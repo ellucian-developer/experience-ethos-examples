@@ -1,7 +1,5 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
-import 'whatwg-fetch';
-
 import jwtDecode from 'jwt-decode';
 
 import log from 'loglevel';
@@ -90,6 +88,7 @@ export const fetchJsonData = async ({url, options, getJwt, token}) => {
             }
             break;
         case 400:
+        case 404:
             if (process.env.MOCK_DATA_ON_ERROR === 'true') {
                 result = {
                     error: 'NO_DATA'
