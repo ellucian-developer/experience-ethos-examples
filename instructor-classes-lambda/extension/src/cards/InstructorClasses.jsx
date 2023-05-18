@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import { Divider, Illustration, IMAGES, List, Typography } from '@ellucian/react-design-system/core'
 import { withStyles } from '@ellucian/react-design-system/core/styles';
-import { colorFillAlertError, spacing40 } from '@ellucian/react-design-system/core/styles/tokens';
+import { colorFillAlertError, spacing40, spacing80 } from '@ellucian/react-design-system/core/styles/tokens';
 
 import { useExtensionControl } from '@ellucian/experience-extension-utils';
 
@@ -47,6 +47,11 @@ const styles = () => ({
         flexFlow: 'column',
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    notConfigured: {
+        marginLeft: spacing80,
+        marginRight: spacing80,
+        textAlign: 'center'
     }
 });
 
@@ -56,7 +61,7 @@ const InstructorClasses = ({classes}) => {
     // Experience SDK hooks
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
 
-    const { events, isError, isLoading } = useInstructorData();
+    const { dataError, events, inPreviewMode, isError, isLoading } = useInstructorData();
     const [ colorContext ] = useState({});
 
     useEffect(() => {
@@ -80,7 +85,15 @@ const InstructorClasses = ({classes}) => {
         return null;
     }
 
-    if (!events || events.length === 0) {
+    if (inPreviewMode && dataError?.statusCode === 404) {
+        return (
+            <div className={classes.noClasses}>
+                <Typography className={classes.notConfigured} color="textSecondary">
+                    {intl.formatMessage({id: 'Classes.notConfigured'})}
+                </Typography>
+            </div>
+        );
+    } else if (!events || events.length === 0) {
         return (
             <div className={classes.noClasses}>
                 <Illustration name={IMAGES.NEWS} />
@@ -89,22 +102,22 @@ const InstructorClasses = ({classes}) => {
                 </Typography>
             </div>
         );
+    } else {
+        return (
+            <div className={classes.root}>
+                <List className={classes.list}>
+                    {events.map( (event, index) => (
+                        <Fragment key={event.id}>
+                            <Event event={event} colorContext={colorContext}/>
+                            {index !== lastEventIndex && (
+                                <Divider className={classes.divider} variant={'middle'} />
+                            )}
+                        </Fragment>
+                    ))}
+                </List>
+            </div>
+        );
     }
-
-    return (
-        <div className={classes.root}>
-            <List className={classes.list}>
-                {events.map( (event, index) => (
-                    <Fragment key={event.id}>
-                        <Event event={event} colorContext={colorContext}/>
-                        {index !== lastEventIndex && (
-                            <Divider className={classes.divider} variant={'middle'} />
-                        )}
-                    </Fragment>
-                ))}
-            </List>
-        </div>
-    );
 };
 
 InstructorClasses.propTypes = {

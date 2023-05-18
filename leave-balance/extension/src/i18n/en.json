@@ -10,6 +10,8 @@
         "LeaveBalance.contactAdministrator": "Contact Your Administrator",
         "LeaveBalance.dataError": "There was an error retrieving your leave balance",
         "LeaveBalance.details": "DETAILS",
-        "LeaveBalance.description": "Description"
+        "LeaveBalance.description": "Description",
+        "LeaveBalance.noLeave": "There is no leave data",
+        "LeaveBalance.notConfigured": "The card is not yet configured or configuration is not available except on Step 2 \"Configuration\""
     }
 }

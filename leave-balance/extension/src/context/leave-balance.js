@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import log from 'loglevel';
 
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
 
 import { useCache, useCardInfo, useData } from '@ellucian/experience-extension-utils';
 
@@ -24,10 +24,18 @@ const queryClient = new QueryClient();
 function LeaveBalanceProviderInternal({children}) {
     // Experience SDK hooks
     const { getItem, storeItem } = useCache();
-    const { configuration, cardConfiguration, cardId } = useCardInfo();
+    const {
+        configuration: {
+            serviceUrl
+        } = {},
+        cardId,
+        serverConfigContext: {
+            cardPrefix
+        } = {}
+    } = useCardInfo();
     const { getExtensionJwt } = useData();
 
-    const { lambdaUrl } = configuration || cardConfiguration || {};
+    const inPreviewMode = cardPrefix === 'preview:';
 
     const cachedData = useMemo(() => {
         if (cardId) {
@@ -36,11 +44,11 @@ function LeaveBalanceProviderInternal({children}) {
     }, [cardId]);
     const [ isRefreshing, setIsRefreshing ] = useState(false);
 
-    const { data, isError, isLoading, isRefetching } = useQuery(
-        [queryKey, {getExtensionJwt, lambdaUrl}],
+    const { data: { data, error: dataError } = {}, isError, isFetching, isRefetching } = useQuery(
+        [queryKey, {getExtensionJwt, serviceUrl}],
         fetchLeaveBalance,
         {
-            enabled: Boolean(getExtensionJwt && lambdaUrl),
+            enabled: Boolean(getExtensionJwt && serviceUrl),
             refetchOnWindowFocus: false,
             placeholderData: cachedData
         }
@@ -70,10 +78,12 @@ function LeaveBalanceProviderInternal({children}) {
     const contextValue = useMemo(() => {
         return {
             data: isRefetching && isRefreshing ? undefined : data,
+            dataError,
+            inPreviewMode,
             isError,
-            isLoading: isLoading || isRefreshing
+            isLoading: isFetching || isRefreshing
         }
-    }, [ cachedData, data, isError, isLoading, isRefetching, isRefreshing ]);
+    }, [ cachedData, data, dataError, inPreviewMode, isError, isFetching, isRefetching, isRefreshing ]);
 
     useEffect(() => {
         logger.debug('LeaveBalanceProvider mounted');

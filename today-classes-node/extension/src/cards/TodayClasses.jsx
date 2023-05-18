@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import { Divider, Illustration, IMAGES, List, Typography } from '@ellucian/react-design-system/core'
-import { colorFillAlertError, spacing40 } from '@ellucian/react-design-system/core/styles/tokens';
+import { colorFillAlertError, spacing40, spacing80 } from '@ellucian/react-design-system/core/styles/tokens';
 import { withStyles } from '@ellucian/react-design-system/core/styles';
 
 import { useExtensionControl } from '@ellucian/experience-extension-utils';
@@ -42,12 +42,17 @@ const styles = () => ({
         display: 'flex',
         justifyContent: 'flex-end'
     },
-    noClasses: {
+    messageBox: {
         height: '100%',
         display: 'flex',
         flexFlow: 'column',
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    message: {
+        marginLeft: spacing80,
+        marginRight: spacing80,
+        textAlign: 'center'
     }
 });
 
@@ -57,7 +62,7 @@ function TodayClasses({classes}) {
     // Experience SDK hooks
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
 
-    const { events, isError, isLoading } = useTodayData();
+    const { dataError, events, inPreviewMode, isError, isLoading } = useTodayData();
     const [ colorContext ] = useState({});
 
     useEffect(() => {
@@ -77,13 +82,32 @@ function TodayClasses({classes}) {
 
     const lastEventIndex = Array.isArray(events) ? events.length - 1 : 0;
 
-    if (isLoading && !events) {
-        return null;
-    }
-
-    if (!events || !Array.isArray(events) || events.length === 0) {
+    if (!events  && inPreviewMode && dataError?.statusCode === 404) {
         return (
-            <div className={classes.noClasses}>
+            <div className={classes.messageBox}>
+                <Typography className={classes.message} color="textSecondary">
+                    {intl.formatMessage({id: 'Classes.not.configured'})}
+                </Typography>
+            </div>
+        );
+    } else if (events && Array.isArray(events) && events.length > 0) {
+        return (
+            <div className={classes.root}>
+                <List className={classes.list}>
+                    {events.map( (event, index) => (
+                        <Fragment key={event.id}>
+                            <Event event={event} colorContext={colorContext}/>
+                            {index !== lastEventIndex && (
+                                <Divider className={classes.divider} variant={'middle'} />
+                            )}
+                        </Fragment>
+                    ))}
+                </List>
+            </div>
+        );
+    } else {
+        return (
+            <div className={classes.messageBox}>
                 <Illustration name={IMAGES.NEWS} />
                 <Typography color="textSecondary">
                     {intl.formatMessage({id: 'Classes.no.classes'})}
@@ -91,21 +115,6 @@ function TodayClasses({classes}) {
             </div>
         );
     }
-
-    return (
-        <div className={classes.root}>
-            <List className={classes.list}>
-                {events.map( (event, index) => (
-                    <Fragment key={event.id}>
-                        <Event event={event} colorContext={colorContext}/>
-                        {index !== lastEventIndex && (
-                            <Divider className={classes.divider} variant={'middle'} />
-                        )}
-                    </Fragment>
-                ))}
-            </List>
-        </div>
-    );
 }
 
 TodayClasses.propTypes = {

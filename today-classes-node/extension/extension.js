@@ -5,12 +5,12 @@ module.exports = {
         type: 'TodayClassesNode',
         source: './src/cards/TodayClasses.jsx',
         title: 'Today\'s Classes - Node',
-        displayCardType: 'TodayClassesNode',
+        displayCardType: 'Today Classes Node',
         description: 'Today Classes - Node',
         configuration: {
             client: [{
-                key: 'microserviceUrl',
-                label: 'Today Classes Microservice URL',
+                key: 'serviceUrl',
+                label: 'Service URL',
                 type: 'string',
                 required: true
             }],

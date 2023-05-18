@@ -20,10 +20,17 @@ apiRouter.get('/today-classes', async (request, response) => {
     const { query: { date }, jwt, jwt: { user: { id: personId } } } = request;
 
     try {
-        response.send(await getTodayClasses(personId, date, jwt));
+        const result = await getTodayClasses(personId, date, jwt) || {};
+
+        if (result.error) {
+            response.status(result.error.statusCode);
+        }
+
+        response.send(result);
     } catch(error) {
         logger.error(error);
-        response.status(error.statusCode || 500).send({ error: {message: error.message }});
+        response.status(error.statusCode || 500);
+        response.send({ error: {message: error.message }});
     }
 });
 

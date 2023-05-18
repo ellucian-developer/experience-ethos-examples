@@ -5,17 +5,24 @@ import { dispatchEvent } from '../util/events';
 
 import log from 'loglevel';
 const logger = log.getLogger('default');
+const resourceName = 'leave-balance';
 
 export async function fetchLeaveBalance({ queryKey }) {
     // eslint-disable-next-line no-unused-vars
-    const [ _key, { getExtensionJwt, lambdaUrl }] = queryKey;
+    const [ _key, { getExtensionJwt, serviceUrl }] = queryKey;
 
     try {
         const start = new Date();
 
-        const url = `${lambdaUrl}/leave-balance`;
+        let url = serviceUrl.trim();
+        if (!serviceUrl.endsWith(`/${resourceName}`)) {
+            if (!serviceUrl.endsWith('/')) {
+                url += '/'
+            }
+            url = `${url}${resourceName}`;
+        }
 
-        const { data, error } = await fetchJsonData({
+        const response = await fetchJsonData({
             url,
             getJwt: getExtensionJwt
         });
@@ -31,17 +38,7 @@ export async function fetchLeaveBalance({ queryKey }) {
             }
         });
 
-        if (error) {
-            logger.debug('fetch received an error', error);
-            throw new Error(error);
-        }
-
-        if (!Array.isArray(data)) {
-            logger.error('unable to fetch data: ', error);
-            throw error;
-        }
-
-        return data;
+        return response;
     } catch (error) {
         logger.error('unable to fetch data: ', error);
         throw error;

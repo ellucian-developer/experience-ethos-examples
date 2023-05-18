@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import log from 'loglevel';
 
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
 
 import { useCache, useCardInfo, useData } from '@ellucian/experience-extension-utils';
 
@@ -24,10 +24,18 @@ const queryClient = new QueryClient();
 function AccountDetailsProviderInternal({children}) {
     // Experience SDK hooks
     const { getItem, storeItem } = useCache();
-    const { configuration, cardConfiguration, cardId } = useCardInfo();
+    const {
+        configuration: {
+            serviceUrl
+        } = {},
+        cardId,
+        serverConfigContext: {
+            cardPrefix
+        } = {}
+     } = useCardInfo();
     const { getExtensionJwt } = useData();
 
-    const { lambdaUrl } = configuration || cardConfiguration || {};
+    const inPreviewMode = cardPrefix === 'preview:';
 
     const cachedData = useMemo(() => {
         if (cardId) {
@@ -36,11 +44,11 @@ function AccountDetailsProviderInternal({children}) {
     }, [cardId]);
     const [ isRefreshing, setIsRefreshing ] = useState(false);
 
-    const { data, isError, isLoading, isRefetching } = useQuery(
-        [queryKey, {getExtensionJwt, lambdaUrl}],
+    const { data: { data, error: dataError } = {}, isError, isFetching, isRefetching } = useQuery(
+        [queryKey, {getExtensionJwt, serviceUrl}],
         fetchAccountDetails,
         {
-            enabled: Boolean(getExtensionJwt && lambdaUrl),
+            enabled: Boolean(getExtensionJwt && serviceUrl),
             placeholderData: cachedData,
             refetchOnWindowFocus: false
         }
@@ -58,7 +66,7 @@ function AccountDetailsProviderInternal({children}) {
     });
 
     useEffect(() => {
-        if (cardId && data) {
+        if (cardId && data && Array.isArray(data)) {
             storeItem({data, key: cacheKey, scope: cardId});
         }
 
@@ -72,10 +80,12 @@ function AccountDetailsProviderInternal({children}) {
     const contextValue = useMemo(() => {
         return {
             data,
+            dataError,
+            inPreviewMode,
             isError,
-            isLoading: isLoading || isRefreshing
+            isLoading: isFetching || isRefreshing
         }
-    }, [ data, isError, isLoading, isRefreshing ]);
+    }, [ data, dataError, inPreviewMode, isError, isFetching, isRefreshing ]);
 
     useEffect(() => {
         logger.debug('AccountDetailsProvider mounted');

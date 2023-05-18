@@ -1,5 +1,6 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
+import { StatusCodes } from 'http-status-codes';
 import { experienceUtil, integrationUtil } from '@ellucian/experience-extension-server-util';
 
 import { logUtil } from '@ellucian/experience-extension-server-util';
@@ -162,14 +163,25 @@ export async function getTodayClasses(personId, date, jwt) {
         token: process.env.EXTENSION_API_TOKEN
     });
 
-    if (!config || error) {
-        const throwError = new Error(error.message);
-        throwError.statusCode = error.statusCode;
+    const { ethosApiKey } = config || {};
 
-        throw throwError;
+    if (!config || !ethosApiKey || error) {
+        const response = { error: {}};
+        if (error) {
+            response.error.message = error.message;
+            response.error.statusCode = error.statusCode;
+        } else if (config) {
+            response.error.message = 'Unable to get apiKey from card server configuration at URL';
+            response.error.statusCode = StatusCodes.NOT_FOUND;
+        } else {
+            response.error.message = 'Unable to get card server configuration at URL';
+            response.error.statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+        }
+        response.error.cardServerConfigurationApiUrl = cardServerConfigurationApiUrl;
+
+        return response;
     }
 
-    const { ethosApiKey } = config;
     const eventDate = date ? new Date(`${date}T00:00:00`): new Date();
 
     const context = {};
@@ -248,5 +260,5 @@ export async function getTodayClasses(personId, date, jwt) {
     logger.debug('resultSections', resultSections);
     logger.debug('Ethos GET count:', context.ethosGetCount);
 
-    return resultSections;
+    return { data: resultSections };
 }

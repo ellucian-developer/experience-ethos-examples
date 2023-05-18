@@ -61,8 +61,8 @@ function TodayClasses({classes}) {
     const [ colorContext ] = useState({});
 
     useEffect(() => {
-        setLoadingStatus(isLoading && !events);
-    }, [events, isLoading])
+        setLoadingStatus(isLoading);
+    }, [isLoading])
 
     useEffect(() => {
         if (isError) {
@@ -77,11 +77,22 @@ function TodayClasses({classes}) {
 
     const lastEventIndex = Array.isArray(events) ? events.length - 1 : 0;
 
-    if (isLoading && !events) {
-        return null;
-    }
-
-    if (!events || !Array.isArray(events) || events.length === 0) {
+    if (events && Array.isArray(events) && events.length > 0) {
+        return (
+            <div className={classes.root}>
+                <List className={classes.list}>
+                    {events.map( (event, index) => (
+                        <Fragment key={event.id}>
+                            <Event event={event} colorContext={colorContext}/>
+                            {index !== lastEventIndex && (
+                                <Divider className={classes.divider} variant={'middle'} />
+                            )}
+                        </Fragment>
+                    ))}
+                </List>
+            </div>
+        );
+    } else {
         return (
             <div className={classes.noClasses}>
                 <Illustration name={IMAGES.NEWS} />
@@ -91,21 +102,6 @@ function TodayClasses({classes}) {
             </div>
         );
     }
-
-    return (
-        <div className={classes.root}>
-            <List className={classes.list}>
-                {events.map( (event, index) => (
-                    <Fragment key={event.id}>
-                        <Event event={event} colorContext={colorContext}/>
-                        {index !== lastEventIndex && (
-                            <Divider className={classes.divider} variant={'middle'} />
-                        )}
-                    </Fragment>
-                ))}
-            </List>
-        </div>
-    );
 }
 
 TodayClasses.propTypes = {

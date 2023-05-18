@@ -5,10 +5,11 @@ import { dispatchEvent } from '../util/events';
 
 import log from 'loglevel';
 const logger = log.getLogger('Today');
+const resourceName = 'today-classes';
 
 export async function fetchTodayClasses({ queryKey }) {
     // eslint-disable-next-line no-unused-vars
-    const [ _key, { getExtensionJwt, microserviceUrl }] = queryKey;
+    const [ _key, { getExtensionJwt, serviceUrl = ''}] = queryKey;
 
     try {
         const start = new Date();
@@ -19,9 +20,16 @@ export async function fetchTodayClasses({ queryKey }) {
 
         const searchParams = new URLSearchParams();
         searchParams.append('date', date);
-        const url = `${microserviceUrl}/today-classes?${searchParams.toString()}`
 
-        const {data: sections = []} = await fetchJsonData({
+        let url = serviceUrl.trim();
+        if (!url.endsWith(`/${resourceName}`)) {
+            if (!url.endsWith('/')) {
+                url += '/'
+            }
+            url = `${url}${resourceName}?${searchParams.toString()}`
+        }
+
+        const response = await fetchJsonData({
             url,
             getJwt: getExtensionJwt
         });
@@ -37,7 +45,7 @@ export async function fetchTodayClasses({ queryKey }) {
             }
         });
 
-        return sections;
+        return response;
     } catch (error) {
         logger.error('unable to fetch data sources: ', error);
         return {error: error.message};

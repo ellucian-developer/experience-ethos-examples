@@ -5,29 +5,27 @@ import { dispatchEvent } from '../util/events';
 
 import log from 'loglevel';
 const logger = log.getLogger('Instructor');
+const resourceName = 'instructor-classes';
 
 export async function fetchInstructorClasses({ queryKey }) {
     // eslint-disable-next-line no-unused-vars
-    const [ _key, { getExtensionJwt, lambdaUrl }] = queryKey;
+    const [ _key, { getExtensionJwt, serviceUrl = "" }] = queryKey;
 
     try {
         const start = new Date();
-        const url = `${lambdaUrl}/instructor-classes`;
 
-        const { data, error } = await fetchJsonData({
+        let url = serviceUrl.trim();
+        if (!serviceUrl.endsWith(`/${resourceName}`)) {
+            if (!serviceUrl.endsWith('/')) {
+                url += '/'
+            }
+            url = `${url}${resourceName}`;
+        }
+
+        const response = await fetchJsonData({
             url,
             getJwt: getExtensionJwt
         });
-
-        if (error) {
-            logger.debug('fetch received an error', error);
-            throw new Error(error);
-        }
-
-        if (!Array.isArray(data)) {
-            logger.error('unable to fetch data: ', error);
-            throw error;
-        }
 
         const end = new Date();
         logger.debug('Lambda fetchInstructorClasses time:', end.getTime() - start.getTime());
@@ -40,7 +38,7 @@ export async function fetchInstructorClasses({ queryKey }) {
             }
         });
 
-        return  data;
+        return  response;
     } catch (error) {
         logger.error('unable to fetch data sources: ', error);
         return {error: error.message};

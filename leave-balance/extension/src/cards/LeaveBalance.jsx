@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import { Button, Table, TableBody, TableCell, TableRow, TableHead, Typography } from '@ellucian/react-design-system/core'
-import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40 } from '@ellucian/react-design-system/core/styles/tokens';
+import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, spacing80 } from '@ellucian/react-design-system/core/styles/tokens';
 import { withStyles } from '@ellucian/react-design-system/core/styles';
 
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
@@ -47,6 +47,11 @@ const styles = () => ({
     },
     transactionAmountPayment: {
         color: colorTextAlertSuccess
+    },
+    message: {
+        marginLeft: spacing80,
+        marginRight: spacing80,
+        textAlign: 'center'
     }
 });
 
@@ -57,13 +62,13 @@ function LeaveBalance({classes}) {
     const { navigateToPage } = useCardControl();
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
 
-    const { data, isError, isLoading } = useLeaveBalance();
+    const { data, dataError, inPreviewMode, isError, isLoading } = useLeaveBalance();
 
     const [ leaves, setLeaves ] = useState();
 
     useEffect(() => {
-        setLoadingStatus(isLoading && !data);
-    }, [data, isLoading])
+        setLoadingStatus(isLoading);
+    }, [isLoading])
 
     useEffect(() => {
         if (data && Array.isArray(data)) {
@@ -87,73 +92,91 @@ function LeaveBalance({classes}) {
         navigateToPage({route: '/'});
     }, [navigateToPage])
 
-    if (!data) {
-        // nothing to show yet
-        return null;
+    if (!data && inPreviewMode && dataError?.statusCode === 404) {
+        return (
+            <div className={classes.root}>
+                <div className={classes.content}>
+                    <Typography className={classes.message} variant="body1" component="div">
+                        {intl.formatMessage({ id: 'LeaveBalance.notConfigured'})}
+                    </Typography>
+                </div>
+            </div>
+        );
+    } else if (data && leaves && Array.isArray(leaves) && leaves.length > 0) {
+        return (
+            <div className={classes.root}>
+            <div className={classes.content}>
+                <>
+                    {Array.isArray(leaves) && leaves.length > 0 && (
+                        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+                        <div>
+                            <Typography variant={'h4'} component={'div'} className={classes.leaveBalanceLabel}>
+                                {intl.formatMessage({id: 'LeaveBalance.leaveBalance'})}
+                            </Typography>
+                            <div className={classes.leaveTableBox}>
+                                <Table className={classes.leaveTable}>
+                                    <TableHead>
+                                        <TableRow className={classes.leaveTableRow}>
+                                            <TableCell align="left" padding={'none'}>{intl.formatMessage({id: 'LeaveBalance.type'})}</TableCell>
+                                            <TableCell align="left" padding={'none'}>{intl.formatMessage({id: 'LeaveBalance.taken'})}</TableCell>
+                                            <TableCell align="left" padding={'none'}>{intl.formatMessage({id: 'LeaveBalance.accrued'})}</TableCell>
+                                            <TableCell align="right" padding={'none'} style={{"text-align": "right"}}>{intl.formatMessage({id: 'LeaveBalance.balance'})}</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {leaves.map((leave, index) => {
+                                            const { leavDesc, taken, accrued, totalBalance } = leave;
+                                            // const amount = currencyFormater.format(chargeAmount ? chargeAmount : paymentAmount * -1);
+                                            // const availDate = dateAvail ? dateFormater.format(new Date(dateAvail)) : '';
+                                            return (
+                                                <TableRow key={index} className={classes.leaveTableRow}>
+                                                    <TableCell align="left" padding={'none'}>
+                                                        <Typography variant={'body3'} component={'div'}>
+                                                            {leavDesc}
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell align="left" padding={'none'}>
+                                                        <Typography variant={'body3'} component={'div'}>
+                                                            {taken}
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell align="left" padding={'none'}>
+                                                        <Typography variant={'body3'} component={'div'}>
+                                                            {accrued}
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell align="right" padding={'none'}>
+                                                        <Typography variant={'body3'} component={'div'} >
+                                                            {totalBalance}
+                                                        </Typography>
+                                                    </TableCell>
+                                                </TableRow>
+                                            );
+                                        })}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                            <Button className={classes.leaveDetails} color='secondary' onClick={onLeaveDetailsClick}>
+                                {intl.formatMessage({id: 'LeaveBalance.details'})}
+                            </Button>
+                        </div>
+                    )}
+                </>
+            </div>
+            </div>
+        );
+    } else {
+        return (
+            <div className={classes.root}>
+                <div className={classes.content}>
+                    <Typography className={classes.message} variant="body1" component="div">
+                        {intl.formatMessage({ id: 'LeaveBalance.noLeave'})}
+                    </Typography>
+                </div>
+            </div>
+        );
     }
 
-    return (
-        <div className={classes.root}>
-        <div className={classes.content}>
-            <>
-                {Array.isArray(leaves) && leaves.length > 0 && (
-                    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-                    <div>
-                        <Typography variant={'h4'} component={'div'} className={classes.leaveBalanceLabel}>
-                            {intl.formatMessage({id: 'LeaveBalance.leaveBalance'})}
-                        </Typography>
-                        <div className={classes.leaveTableBox}>
-                            <Table className={classes.leaveTable}>
-                                <TableHead>
-                                    <TableRow className={classes.leaveTableRow}>
-                                        <TableCell align="left" padding={'none'}>{intl.formatMessage({id: 'LeaveBalance.type'})}</TableCell>
-                                        <TableCell align="left" padding={'none'}>{intl.formatMessage({id: 'LeaveBalance.taken'})}</TableCell>
-                                        <TableCell align="left" padding={'none'}>{intl.formatMessage({id: 'LeaveBalance.accrued'})}</TableCell>
-                                        <TableCell align="right" padding={'none'} style={{"text-align": "right"}}>{intl.formatMessage({id: 'LeaveBalance.balance'})}</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {leaves.map((leave, index) => {
-                                        const { leavDesc, taken, accrued, totalBalance } = leave;
-                                        // const amount = currencyFormater.format(chargeAmount ? chargeAmount : paymentAmount * -1);
-                                        // const availDate = dateAvail ? dateFormater.format(new Date(dateAvail)) : '';
-                                        return (
-                                            <TableRow key={index} className={classes.leaveTableRow}>
-                                                <TableCell align="left" padding={'none'}>
-                                                    <Typography variant={'body3'} component={'div'}>
-                                                        {leavDesc}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell align="left" padding={'none'}>
-                                                    <Typography variant={'body3'} component={'div'}>
-                                                        {taken}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell align="left" padding={'none'}>
-                                                    <Typography variant={'body3'} component={'div'}>
-                                                        {accrued}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell align="right" padding={'none'}>
-                                                    <Typography variant={'body3'} component={'div'} >
-                                                        {totalBalance}
-                                                    </Typography>
-                                                </TableCell>
-                                            </TableRow>
-                                        );
-                                    })}
-                                </TableBody>
-                            </Table>
-                        </div>
-                        <Button className={classes.leaveDetails} color='secondary' onClick={onLeaveDetailsClick}>
-                            {intl.formatMessage({id: 'LeaveBalance.details'})}
-                        </Button>
-                    </div>
-                )}
-            </>
-        </div>
-        </div>
-    );
 }
 
 LeaveBalance.propTypes = {
