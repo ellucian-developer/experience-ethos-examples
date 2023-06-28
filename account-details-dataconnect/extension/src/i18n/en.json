@@ -1,0 +1,19 @@
+{
+    "messages": {
+        "AccountDetails.recentTransactions": "Recent Transactions",
+        "AccountDetails.transactionHistory": "Transaction History",
+        "AccountDetails.charge": "Charge",
+        "AccountDetails.payment": "Payment",
+        "AccountDetails.accountBalance": "Account Balance:",
+        "AccountDetails.amountDue": "Amount Due:",
+        "AccountDetails.payNow": "Pay Now",
+        "AccountDetails.contactAdministrator": "Contact Your Administrator",
+        "AccountDetails.dataError": "There was an error retrieving your balance",
+        "AccountDetails.transactionDate": "Transaction Date",
+        "AccountDetails.description": "Description",
+        "AccountDetails.type": "Type",
+        "AccountDetails.amount": "Amount",
+        "AccountDetails.notConfigured": "The card is not yet configured or configuration is not available except on Step 2 \"Configuration\"",
+        "AccountDetails.noTransactions": "There are no transactions on your account"
+    }
+}

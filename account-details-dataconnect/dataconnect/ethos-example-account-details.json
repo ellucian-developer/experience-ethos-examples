@@ -1,0 +1,74 @@
+{
+  "name": "ethos-example-account-details",
+  "parameters": [
+    {
+      "name": "ethosApiKey",
+      "type": "string",
+      "required": true,
+      "sensitive": true,
+      "default": ""
+    },
+    {
+      "name": "testPersonId",
+      "type": "string",
+      "sensitive": true,
+      "default": "1203365a-5277-4a69-b480-78d56176f489"
+    }
+  ],
+  "apiDefinition": {
+    "authType": "userToken",
+    "httpVerb": "GET"
+  },
+  "pipeline": [
+    "Set up user",
+    "Get Person",
+    "JavaScript Transform",
+    "Get account-detail-reviews"
+  ],
+  "segments": {
+    "Set up user": {
+      "class": "JavaScriptTransform",
+      "config": {
+        "pushUndefined": true,
+        "stopOnError": false,
+        "draft": false,
+        "code": "function transform (message, context) {\n  \n  const contextUser = context.get('__user');\n  const testPersonId = context.get('testPersonId');\n\n  const personId = contextUser?.id || testPersonId;\n\n  context.set('personId', personId);\n\n  return { payload:\n    {\n      personId\n    }\n  };\n}\n"
+      }
+    },
+    "Get Person": {
+      "class": "ethosProxyGet",
+      "config": {
+        "resource": "persons",
+        "acceptVersions": [
+          "12"
+        ],
+        "idFromPayload": "$.personId",
+        "target": "person",
+        "cache": false,
+        "ignoreErrors": false
+      }
+    },
+    "JavaScript Transform": {
+      "class": "JavaScriptTransform",
+      "config": {
+        "pushUndefined": true,
+        "stopOnError": false,
+        "draft": false,
+        "code": "function transform (message, context) {\n  const { payload, payload: { person: { credentials } = {} } = {} } = message;\n  \n  const bannerIdCredential = credentials.find(credential => credential.type === 'bannerId');\n  \n  return {\n    ...message,\n    payload: {\n      ...payload,\n      bannerId: bannerIdCredential.value\n    }\n  }\n}\n"
+      }
+    },
+    "Get account-detail-reviews": {
+      "class": "ethosProxyGetFilter",
+      "config": {
+        "resource": "account-detail-reviews",
+        "filter": "?id={{bannerId}}",
+        "acceptVersions": [
+          "1"
+        ],
+        "cache": false,
+        "queryByPost": false,
+        "ignoreErrors": false
+      }
+    }
+  }
+}
