@@ -5,8 +5,7 @@
       "name": "ethosApiKey",
       "type": "string",
       "required": true,
-      "sensitive": true,
-      "default": ""
+      "sensitive": true
     },
     {
       "name": "testPersonId",
