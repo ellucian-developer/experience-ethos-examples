@@ -90,7 +90,7 @@ function AccountDetails({classes}) {
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
     const { locale } = useUserInfo();
 
-    const { data, dataError, inPreviewMode, isError, isLoading } = useAccountDetails();
+    const { data, dataError, inPreviewMode, isError, isLoading, isRefreshing } = useAccountDetails();
 
     const [ transactions, setTransactions ] = useState();
     const [ summary, setSummary ] = useState();
@@ -106,8 +106,8 @@ function AccountDetails({classes}) {
     }, [locale])
 
     useEffect(() => {
-        setLoadingStatus(isLoading);
-    }, [isLoading])
+        setLoadingStatus(isRefreshing || (!data && isLoading));
+    }, [data, isLoading, isRefreshing])
 
     useEffect(() => {
         if (data) {

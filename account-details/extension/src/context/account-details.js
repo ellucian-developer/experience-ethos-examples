@@ -49,7 +49,7 @@ function AccountDetailsProviderInternal({children}) {
         fetchAccountDetails,
         {
             enabled: Boolean(getExtensionJwt && serviceUrl),
-            placeholderData: cachedData,
+            placeholderData: { data: cachedData },
             refetchOnWindowFocus: false
         }
     );
@@ -70,9 +70,8 @@ function AccountDetailsProviderInternal({children}) {
             storeItem({data, key: cacheKey, scope: cardId});
         }
 
-        if (isRefreshing && isRefetching) {
-            return undefined;
-        } else if (isRefreshing) {
+        if (isRefreshing && !isRefetching) {
+            // refresh has completed
             setIsRefreshing(false);
         }
     }, [cardId, data, isRefetching, isRefreshing]);
@@ -83,7 +82,8 @@ function AccountDetailsProviderInternal({children}) {
             dataError,
             inPreviewMode,
             isError,
-            isLoading: isFetching || isRefreshing
+            isLoading: isFetching,
+            isRefreshing
         }
     }, [ data, dataError, inPreviewMode, isError, isFetching, isRefreshing ]);
 

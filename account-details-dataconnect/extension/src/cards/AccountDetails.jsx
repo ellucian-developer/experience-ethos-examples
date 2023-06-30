@@ -91,7 +91,7 @@ function AccountDetails({classes}) {
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
     const { locale } = useUserInfo();
 
-    const { data, dataError, inPreviewMode = false, isError, isLoading } = useEthosQuery(accountDetailReviewsResource);
+    const { data, dataError, inPreviewMode = false, isError, isLoading, isRefreshing } = useEthosQuery(accountDetailReviewsResource);
 
     const [ transactions, setTransactions ] = useState();
     const [ summary, setSummary ] = useState();
@@ -107,8 +107,8 @@ function AccountDetails({classes}) {
     }, [locale])
 
     useEffect(() => {
-        setLoadingStatus(isLoading);
-    }, [isLoading])
+        setLoadingStatus(isRefreshing || (!data && isLoading));
+    }, [data, isLoading, isRefreshing])
 
     useEffect(() => {
         if (data) {

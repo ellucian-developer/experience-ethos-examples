@@ -40,19 +40,24 @@ function ProviderInternal({children, fetch: paramsFetch, queryKeys: paramQueryKe
     }, []);
     const cacheKey = useMemo(() => `ethos-${resource}`, []);
 
-    const [ cachedData, setCachedData ] = useState();
-    const [ cachedDataReady, setCachedDataReady ] = useState(false);
     const [ enabled, setEnabled ] = useState(true);
     const [ fetch, setFetch ] = useState(() => paramsFetch);
     const [ queryKeys, setQueryKeys ] = useState(paramQueryKeys);
     const [ isRefreshing, setIsRefreshing ] = useState(false);
+
+    const cachedData = useMemo(() => {
+        if (cardId) {
+            return getItem({key: buildKey(cacheKey, queryKeys)})?.data;
+        }
+    }, [ cardId, queryKeys ]);
 
     // logger.debug(`ethos useQuery - ${resource} cachedData`, cachedData)
     const { data: { data, error: dataError } = {}, isError, isFetching, isRefetching } = useQuery(
         [resource, { authenticatedEthosFetch, cardId, cardPrefix, ...queryKeys }],
         fetch,
         {
-            enabled: Boolean(authenticatedEthosFetch && fetch && cachedDataReady && enabled),
+            enabled: Boolean(authenticatedEthosFetch && fetch && enabled),
+            placeholderData: { data: cachedData },
             refetchOnWindowFocus: false
         }
     );
@@ -69,22 +74,13 @@ function ProviderInternal({children, fetch: paramsFetch, queryKeys: paramQueryKe
     });
 
     useEffect(() => {
-        (async () => {
-            const cached = await getItem({key: buildKey(cacheKey, queryKeys)});
-            const cachedData = cached?.data;
-            // logger.debug(`getItem - ${cacheKey}:`, JSON.stringify(cachedData));
-            setCachedData(() => cachedData);
-            setCachedDataReady(true);
-        })();
-    }, [ queryKeys ]);
-
-    useEffect(() => {
         if (data) {
             // logger.debug(`storeItem - ${cacheKey}:`, JSON.stringify(data));
             storeItem({data, key: buildKey(cacheKey, queryKeys)});
         }
 
         if (isRefreshing && !isRefetching) {
+            // refresh has completed
             setIsRefreshing(false);
         }
     }, [ cacheKey, data, isRefetching, isRefreshing, queryKeys ]);
@@ -95,7 +91,8 @@ function ProviderInternal({children, fetch: paramsFetch, queryKeys: paramQueryKe
             data: data || cachedData,
             dataError,
             isError,
-            isLoading: isFetching || isRefreshing,
+            isLoading: isFetching,
+            isRefreshing,
             setEnabled,
             setFetch,
             setQueryKeys

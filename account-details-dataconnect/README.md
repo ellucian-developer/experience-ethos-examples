@@ -1,4 +1,4 @@
-# Experience Ethos Example - Account Details
+# Experience Ethos Example - Account Details Data Connect
 
 This example includes a card and page that show the current user their account details and balance. There are two top level directories for this example. The extension and dataconnect.
 Additional data and behavior could include using a Pay Now feature that integrates with your payment provider.

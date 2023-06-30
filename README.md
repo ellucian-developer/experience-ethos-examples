@@ -1,6 +1,7 @@
   # Experience Ethos Examples
 
 1. [Account Detail](#account-details-example)
+1. [Account Detail Data Connect](#account-details-dataconnect-example)
 1. [API Dashboard](#api-dashboard-example)
 1. [Instructor Classes Lambda](#instructor-classes-lambda-example)
 1. [Leave Balance](#leave-balance-example)
@@ -16,6 +17,17 @@ This example is detailed here: [account-details](account-details/README.md)
 <br/>
 
 ![](account-details/docs/images/Account-Details-Diagram.png)
+
+<br/>
+
+## Account Details Data Connect Example
+This example includes a card and page that show the current user their account details and balance. There are two directories in this example, an extension, and dataconnect. The data for the card and page are acquired using Data Connect's Serverless API. The Data Connect API is implemented as pipeline. The pipeline calls a BP API (Banner Business Process API) through Ethos Integration. Additional data and behavior could include using a Pay Now feature that integrates with your payment provider.
+
+This example is detailed here: [account-details-dataconnect](account-details-dataconnect/README.md)
+
+<br/>
+
+![](account-details-dataconnect/docs/images/Account-Details-Diagram.png)
 
 <br/>
 

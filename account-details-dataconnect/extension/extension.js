@@ -2,11 +2,11 @@
 
 module.exports = {
     name: 'account-details-dataconnect',
-    publisher: 'Ranger',
+    publisher: '',
     cards: [{
         type: 'AccountDetailsDataConnectCard',
         source: './src/cards/AccountDetails.jsx',
-        title: 'Account Details',
+        title: 'Account Details - DC',
         displayCardType: 'Account DataConnect Details',
         description: 'Account DataConnect Details',
         configuration: {
