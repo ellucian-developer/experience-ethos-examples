@@ -11,9 +11,9 @@ import { withStyles } from '@ellucian/react-design-system/core/styles';
 
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 
-import { useCardControl, useCardInfo, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
+import { useCardControl, useCardInfo, useData, useExtensionControl, useUserInfo,  } from '@ellucian/experience-extension-utils';
 
-import { AccountDetailsProvider, useAccountDetails } from '../context/account-details';
+import { DataQueryProvider, experienceTokenQuery, useDataQueryData, useDataQueryState } from '@ellucian/experience-extension-extras';
 
 // initialize logging for this card
 import { initializeLogging } from '../util/log-level';
@@ -90,7 +90,8 @@ function AccountDetails({classes}) {
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
     const { locale } = useUserInfo();
 
-    const { data, dataError, inPreviewMode, isError, isLoading, isRefreshing } = useAccountDetails();
+    const { data, dataError } = useDataQueryData('account-detail-reviews');
+    const { inPreviewMode, isError, isLoading, isRefreshing } = useDataQueryState('account-detail-reviews');
 
     const [ transactions, setTransactions ] = useState();
     const [ summary, setSummary ] = useState();
@@ -253,10 +254,23 @@ AccountDetails.propTypes = {
 const AccountDetailsWithStyle = withStyles(styles)(AccountDetails);
 
 function AccountDetailsWithProviders() {
+    const { getExtensionJwt } = useData();
+    const {
+        configuration: {
+            serviceUrl
+        } = {}
+     } = useCardInfo();
+
+    const options = {
+        queryFunction: experienceTokenQuery,
+        queryParameters: { getExtensionJwt, serviceUrl },
+        resource: 'account-detail-reviews'
+    }
+
     return (
-        <AccountDetailsProvider>
+        <DataQueryProvider options={options}>
             <AccountDetailsWithStyle/>
-        </AccountDetailsProvider>
+        </DataQueryProvider>
     )
 }
 

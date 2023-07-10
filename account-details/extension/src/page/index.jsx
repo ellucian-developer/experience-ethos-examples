@@ -12,7 +12,8 @@ import AccountDetails from './AccountDetails';
 import { initializeLogging } from '../util/log-level';
 initializeLogging('default');
 
-const Page = () => {
+const Page = (props) => {
+    console.log('props', props);
     const { basePath } = usePageInfo();
 
     return (

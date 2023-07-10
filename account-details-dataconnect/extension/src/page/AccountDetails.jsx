@@ -20,10 +20,9 @@ import {
 import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, widthFluid } from '@ellucian/react-design-system/core/styles/tokens';
 import { withStyles } from '@ellucian/react-design-system/core/styles';
 
-import { useCardInfo, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
+import { useCardInfo, useData, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
 
-import { EthosQueryProvider, useEthosQuery } from '../context/ethos-query';
-import { fetchAccountDetailReviews, resourceName as accountDetailReviewsResource } from '../data/account-details';
+import { DataQueryProvider, userTokenDataConnectQuery, useDataQueryData, useDataQueryState } from '@ellucian/experience-extension-extras';
 
 // initialize logging for this card
 import { initializeLogging } from '../util/log-level';
@@ -96,7 +95,8 @@ function AccountDetails({classes}) {
 
     const { payNowUrl } = configuration || cardConfiguration || {};
 
-    const { data, isError, isLoading, isRefreshing } = useEthosQuery(accountDetailReviewsResource);
+    const { data } = useDataQueryData('ethos-example-account-details');
+    const { isError, isLoading, isRefreshing } = useDataQueryState('ethos-example-account-details');
 
     const [ transactions, setTransactions ] = useState([]);
     const [ summary, setSummary ] = useState();
@@ -292,10 +292,18 @@ AccountDetails.propTypes = {
 const AccountDetailsWithStyle = withStyles(styles)(AccountDetails);
 
 function AccountDetailsWithProviders() {
+    const { authenticatedEthosFetch } = useData();
+
+    const options = {
+        queryFunction: userTokenDataConnectQuery,
+        queryParameters: { authenticatedEthosFetch },
+        resource: 'ethos-example-account-details'
+    }
+
     return (
-        <EthosQueryProvider fetch={fetchAccountDetailReviews} resource={accountDetailReviewsResource}>
+        <DataQueryProvider options={options}>
             <AccountDetailsWithStyle/>
-        </EthosQueryProvider>
+        </DataQueryProvider>
     )
 }
 

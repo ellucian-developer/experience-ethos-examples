@@ -20,9 +20,9 @@ import {
 import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, widthFluid } from '@ellucian/react-design-system/core/styles/tokens';
 import { withStyles } from '@ellucian/react-design-system/core/styles';
 
-import { useCardInfo, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
+import { useCardInfo, useData, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
 
-import { AccountDetailsProvider, useAccountDetails } from '../context/account-details';
+import { DataQueryProvider, experienceTokenQuery, useDataQueryData, useDataQueryState } from '@ellucian/experience-extension-extras';
 
 // initialize logging for this card
 import { initializeLogging } from '../util/log-level';
@@ -95,7 +95,8 @@ function AccountDetails({classes}) {
 
     const { payNowUrl } = configuration || cardConfiguration || {};
 
-    const { data, isError, isLoading } = useAccountDetails();
+    const { data, isError } = useDataQueryData('account-detail-reviews');
+    const { isLoading, isRefreshing } = useDataQueryState('account-detail-reviews');
 
     const [ transactions, setTransactions ] = useState([]);
     const [ summary, setSummary ] = useState();
@@ -116,8 +117,8 @@ function AccountDetails({classes}) {
     }, [locale])
 
     useEffect(() => {
-        setLoadingStatus(isLoading);
-    }, [isLoading])
+        setLoadingStatus(isRefreshing || (!data && isLoading));
+    }, [data, isLoading, isRefreshing])
 
     useEffect(() => {
         if (data) {
@@ -291,10 +292,23 @@ AccountDetails.propTypes = {
 const AccountDetailsWithStyle = withStyles(styles)(AccountDetails);
 
 function AccountDetailsWithProviders() {
+    const { getExtensionJwt } = useData();
+    const {
+        cardConfiguration: {
+            serviceUrl
+        } = {}
+     } = useCardInfo();
+
+    const options = {
+        queryFunction: experienceTokenQuery,
+        queryParameters: { getExtensionJwt, serviceUrl },
+        resource: 'account-detail-reviews'
+    }
+
     return (
-        <AccountDetailsProvider>
+        <DataQueryProvider options={options}>
             <AccountDetailsWithStyle/>
-        </AccountDetailsProvider>
+        </DataQueryProvider>
     )
 }
 

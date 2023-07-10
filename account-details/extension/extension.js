@@ -2,7 +2,7 @@
 
 module.exports = {
     name: 'account-details',
-    publisher: '',
+    publisher: 'Ranger',
     cards: [{
         type: 'AccountDetailsCard',
         source: './src/cards/AccountDetails.jsx',
