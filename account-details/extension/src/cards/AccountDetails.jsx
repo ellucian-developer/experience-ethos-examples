@@ -2,12 +2,10 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import { Button, Table, TableBody, TableCell, TableRow, Typography } from '@ellucian/react-design-system/core'
+import { Button, makeStyles, Table, TableBody, TableCell, TableRow, Typography } from '@ellucian/react-design-system/core'
 import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, spacing80 } from '@ellucian/react-design-system/core/styles/tokens';
-import { withStyles } from '@ellucian/react-design-system/core/styles';
 
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 
@@ -21,7 +19,7 @@ initializeLogging('default');
 
 const featurePayNow = process.env.FEATURE_PAY_NOW === 'true';
 
-const styles = () => ({
+const useStyles = makeStyles(() => ({
     root:{
         height: '100%',
         overflowY: 'auto'
@@ -79,10 +77,11 @@ const styles = () => ({
         marginRight: spacing80,
         textAlign: 'center'
     }
-});
+}), { index: 2});
 
-function AccountDetails({classes}) {
+function AccountDetails() {
     const intl = useIntl();
+    const classes = useStyles();
 
     // Experience SDK hooks
     const { navigateToPage } = useCardControl();
@@ -247,12 +246,6 @@ function AccountDetails({classes}) {
     }
 }
 
-AccountDetails.propTypes = {
-    classes: PropTypes.object.isRequired
-};
-
-const AccountDetailsWithStyle = withStyles(styles)(AccountDetails);
-
 function AccountDetailsWithProviders() {
     const { getExtensionJwt } = useData();
     const {
@@ -269,7 +262,7 @@ function AccountDetailsWithProviders() {
 
     return (
         <DataQueryProvider options={options}>
-            <AccountDetailsWithStyle/>
+            <AccountDetails/>
         </DataQueryProvider>
     )
 }

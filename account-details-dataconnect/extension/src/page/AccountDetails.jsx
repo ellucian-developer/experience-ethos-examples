@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import PropTypes from 'prop-types';
 import classenames from 'classnames';
 
 import {
     Button,
+    makeStyles,
     Pagination,
     Paper,
     Table,
@@ -18,7 +18,6 @@ import {
     Typography
 } from '@ellucian/react-design-system/core'
 import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, widthFluid } from '@ellucian/react-design-system/core/styles/tokens';
-import { withStyles } from '@ellucian/react-design-system/core/styles';
 
 import { useCardInfo, useData, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
 
@@ -30,7 +29,7 @@ initializeLogging('default');
 
 const featurePayNow = process.env.FEATURE_PAY_NOW === 'true';
 
-const styles = () => ({
+const useStyles = makeStyles(() => ({
     root:{
         height: '100%',
         overflowY: 'auto'
@@ -83,10 +82,11 @@ const styles = () => ({
     payNowButton: {
         marginLeft: spacing30
     }
-});
+}), { index: 2});
 
-function AccountDetails({classes}) {
+function AccountDetails() {
     const intl = useIntl();
+    const classes = useStyles();
 
     // Experience SDK hooks
     const { configuration, cardConfiguration } = useCardInfo();
@@ -285,12 +285,6 @@ function AccountDetails({classes}) {
     );
 }
 
-AccountDetails.propTypes = {
-    classes: PropTypes.object.isRequired
-};
-
-const AccountDetailsWithStyle = withStyles(styles)(AccountDetails);
-
 function AccountDetailsWithProviders() {
     const { authenticatedEthosFetch } = useData();
 
@@ -302,7 +296,7 @@ function AccountDetailsWithProviders() {
 
     return (
         <DataQueryProvider options={options}>
-            <AccountDetailsWithStyle/>
+            <AccountDetails/>
         </DataQueryProvider>
     )
 }
