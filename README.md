@@ -1,7 +1,7 @@
   # Experience Ethos Examples
 
 1. [Account Detail](#account-details-example)
-1. [Account Detail Data Connect](#account-details-dataconnect-example)
+1. [Account Detail Data Connect](#account-details-data-connect-example)
 1. [API Dashboard](#api-dashboard-example)
 1. [Instructor Classes Lambda](#instructor-classes-lambda-example)
 1. [Leave Balance](#leave-balance-example)
