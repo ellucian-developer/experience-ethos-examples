@@ -10,7 +10,7 @@ import { withStyles } from '@ellucian/react-design-system/core/styles';
 
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 
-import { useCardControl, useExtensionControl } from '@ellucian/experience-extension-utils';
+import { useCardControl, useData, useExtensionControl } from '@ellucian/experience-extension-utils';
 
 import { DataQueryProvider, userTokenDataConnectQuery, useDataQueryData, useDataQueryState } from '@ellucian/experience-extension-extras';
 // import { LeaveBalanceProvider, useLeaveBalance } from '../context/leave-balance';
@@ -63,9 +63,9 @@ function LeaveBalance({classes}) {
     const { navigateToPage } = useCardControl();
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
     const { data, dataError } = useDataQueryData('ivan-e3eethosbannerbigtest-leave-balance');
-    const { inPreviewMode = false, isError, isLoading, isRefreshing } = useDataQueryState('ivan-e3eethosbannerbigtest-leave-balance');
+    const { inPreviewMode = false, isError, isLoading} = useDataQueryState('ivan-e3eethosbannerbigtest-leave-balance');
 
-    //const { data, dataError, inPreviewMode, isError, isLoading } = useLeaveBalance();
+    // const { data, dataError, inPreviewMode, isError, isLoading } = useLeaveBalance();
 
     const [ leaves, setLeaves ] = useState();
 

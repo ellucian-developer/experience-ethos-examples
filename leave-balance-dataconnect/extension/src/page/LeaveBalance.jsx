@@ -15,7 +15,7 @@ import {
 import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40 } from '@ellucian/react-design-system/core/styles/tokens';
 import { withStyles } from '@ellucian/react-design-system/core/styles';
 
-import { useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
+import { useExtensionControl, useData, useUserInfo } from '@ellucian/experience-extension-utils';
 
 import { DataQueryProvider, userTokenDataConnectQuery, useDataQueryData, useDataQueryState } from '@ellucian/experience-extension-extras';
 // import { LeaveBalanceProvider, useLeaveBalance } from '../context/leave-balance';
@@ -61,7 +61,7 @@ function LeaveBalance({classes}) {
     const { locale } = useUserInfo();
 
     const { data } = useDataQueryData('ivan-e3eethosbannerbigtest-leave-balance');
-    const { isError, isLoading, isRefreshing } = useDataQueryState('ivan-e3eethosbannerbigtest-leave-balance');
+    const { isError, isLoading} = useDataQueryState('ivan-e3eethosbannerbigtest-leave-balance');
 
     // const { data, isError, isLoading } = useLeaveBalance();
 
