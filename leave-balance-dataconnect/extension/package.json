@@ -9,8 +9,8 @@
     "npm": ">=8.3.0"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/ellucian-developer/experience-ethos-examples",
+    "type": "git",
+    "url": "https://github.com/ellucian-developer/experience-ethos-examples",
     "directory": "leave-balance/extension"
   },
   "scripts": {
@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@ellucian/ds-icons": "https://cdn.elluciancloud.com/assets/EDS2/7.2.1/umd/path_design_system_icons.tgz",
+    "@ellucian/experience-extension-extras": "git+https://git.ellucian.com/scm/rang/experience-extension-extras.git",
     "@ellucian/experience-extension-utils": "https://cdn.elluciancloud.com/assets/SDK/utils/1.0.0/ellucian-experience-extension-utils-1.0.0.tgz",
     "@ellucian/react-design-system": "https://cdn.elluciancloud.com/assets/EDS2/7.2.1/umd/path_design_system.tgz",
     "@tanstack/react-query": "^4.29.5",

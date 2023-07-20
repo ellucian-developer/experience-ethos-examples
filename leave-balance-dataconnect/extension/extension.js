@@ -9,14 +9,14 @@ module.exports = {
         displayCardType: 'Leave Balance',
         description: 'Leave Balance',
         configuration: {
-            client: [{
-                key: 'serviceUrl',
-                label: 'Service URL',
-                type: 'text',
-                required: true
-            }],
+            // client: [{
+            //     key: 'serviceUrl',
+            //     label: 'Service URL',
+            //     type: 'text',
+            //     required: true
+            // }],
             server: [{
-                key: 'apiKey',
+                key: 'ethosApiKey',
                 label: 'Ethos API Key',
                 type: 'password',
                 require: false

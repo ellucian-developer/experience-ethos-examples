@@ -63,7 +63,7 @@ function LeaveBalance({classes}) {
     const { navigateToPage } = useCardControl();
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
     const { data, dataError } = useDataQueryData('ivan-e3eethosbannerbigtest-leave-balance');
-    const { inPreviewMode = false, isError, isLoading} = useDataQueryState('ivan-e3eethosbannerbigtest-leave-balance');
+    const { inPreviewMode, isError, isLoading} = useDataQueryState('ivan-e3eethosbannerbigtest-leave-balance');
 
     // const { data, dataError, inPreviewMode, isError, isLoading } = useLeaveBalance();
 
