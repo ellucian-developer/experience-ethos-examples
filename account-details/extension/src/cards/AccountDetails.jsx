@@ -13,6 +13,8 @@ import { useCardControl, useCardInfo, useData, useExtensionControl, useUserInfo,
 
 import { DataQueryProvider, experienceTokenQuery, useDataQuery } from '@ellucian/experience-extension-extras';
 
+import { useDashboard } from './hooks/dashboard';
+
 // initialize logging for this card
 import { initializeLogging } from '../util/log-level';
 initializeLogging('default');
@@ -88,6 +90,8 @@ function AccountDetails() {
     const { configuration: { payNowUrl } = {} } = useCardInfo();
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
     const { locale } = useUserInfo();
+
+    useDashboard();
 
     const { data, dataError, inPreviewMode, isError, isLoading, isRefreshing } = useDataQuery('account-detail-reviews');
 
