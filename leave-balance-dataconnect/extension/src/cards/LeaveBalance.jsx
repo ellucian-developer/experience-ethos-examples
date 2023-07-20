@@ -10,10 +10,9 @@ import { withStyles } from '@ellucian/react-design-system/core/styles';
 
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 
-import { useCardControl, useData, useExtensionControl } from '@ellucian/experience-extension-utils';
+import { useCardControl, useExtensionControl } from '@ellucian/experience-extension-utils';
 
-import { DataQueryProvider, userTokenDataConnectQuery, useDataQueryData, useDataQueryState } from '@ellucian/experience-extension-extras';
-// import { LeaveBalanceProvider, useLeaveBalance } from '../context/leave-balance';
+import { DataQueryProvider, userTokenDataConnectQuery, useDataQuery } from '@ellucian/experience-extension-extras';
 
 // initialize logging for this card
 import { initializeLogging } from '../util/log-level';
@@ -62,10 +61,7 @@ function LeaveBalance({classes}) {
     // Experience SDK hooks
     const { navigateToPage } = useCardControl();
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
-    const { data, dataError } = useDataQueryData('ivan-e3eethosbannerbigtest-leave-balance');
-    const { inPreviewMode, isError, isLoading} = useDataQueryState('ivan-e3eethosbannerbigtest-leave-balance');
-
-    // const { data, dataError, inPreviewMode, isError, isLoading } = useLeaveBalance();
+    const { data, dataError, inPreviewMode, isError, isLoading} = useDataQuery('ethos-example-leave-balance');
 
     const [ leaves, setLeaves ] = useState();
 
@@ -189,12 +185,9 @@ LeaveBalance.propTypes = {
 const LeaveBalanceWithStyle = withStyles(styles)(LeaveBalance);
 
 function LeaveBalanceWithProviders() {
-    const { authenticatedEthosFetch } = useData();
-
     const options = {
         queryFunction: userTokenDataConnectQuery,
-        queryParameters: { authenticatedEthosFetch },
-        resource: 'ivan-e3eethosbannerbigtest-leave-balance'
+        resource: 'ethos-example-leave-balance'
     }
 
     return (

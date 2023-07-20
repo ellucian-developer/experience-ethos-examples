@@ -7,8 +7,8 @@ module.exports = {
         type: 'AccountDetailsDataConnectCard',
         source: './src/cards/AccountDetails.jsx',
         title: 'Account Details - DC',
-        displayCardType: 'Account DataConnect Details',
-        description: 'Account DataConnect Details',
+        displayCardType: 'Account Details - Data Connect',
+        description: 'Account Details - Data Connect',
         configuration: {
             client: [{
                 key: 'payNowUrl',
