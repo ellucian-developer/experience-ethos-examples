@@ -11,7 +11,7 @@ import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 
 import { useCardControl, useCardInfo, useData, useExtensionControl, useUserInfo,  } from '@ellucian/experience-extension-utils';
 
-import { DataQueryProvider, experienceTokenQuery, useDataQueryData, useDataQueryState } from '@ellucian/experience-extension-extras';
+import { DataQueryProvider, experienceTokenQuery, useDataQuery } from '@ellucian/experience-extension-extras';
 
 // initialize logging for this card
 import { initializeLogging } from '../util/log-level';
@@ -89,8 +89,7 @@ function AccountDetails() {
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
     const { locale } = useUserInfo();
 
-    const { data, dataError } = useDataQueryData('account-detail-reviews');
-    const { inPreviewMode, isError, isLoading, isRefreshing } = useDataQueryState('account-detail-reviews');
+    const { data, dataError, inPreviewMode, isError, isLoading, isRefreshing } = useDataQuery('account-detail-reviews');
 
     const [ transactions, setTransactions ] = useState();
     const [ summary, setSummary ] = useState();

@@ -24,7 +24,6 @@
   },
   "dependencies": {
     "@ellucian/ds-icons": "https://cdn.elluciancloud.com/assets/EDS2/7.2.1/umd/path_design_system_icons.tgz",
-    "@ellucian/experience-data": "file:../../../experience-data",
     "@ellucian/experience-extension-extras": "github:ellucian-developer/experience-extension-extras",
     "@ellucian/experience-extension-utils": "https://cdn.elluciancloud.com/assets/SDK/utils/1.0.0/ellucian-experience-extension-utils-1.0.0.tgz",
     "@ellucian/react-design-system": "https://cdn.elluciancloud.com/assets/EDS2/7.2.1/umd/path_design_system.tgz",
