@@ -21,7 +21,7 @@ import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, width
 
 import { useCardInfo, useData, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
 
-import { DataQueryProvider, userTokenDataConnectQuery, useDataQueryData, useDataQueryState } from '@ellucian/experience-extension-extras';
+import { DataQueryProvider, userTokenDataConnectQuery, useDataQuery } from '@ellucian/experience-extension-extras';
 
 // initialize logging for this card
 import { initializeLogging } from '../util/log-level';
@@ -95,8 +95,7 @@ function AccountDetails() {
 
     const { payNowUrl } = configuration || cardConfiguration || {};
 
-    const { data } = useDataQueryData('ethos-example-account-details');
-    const { isError, isLoading, isRefreshing } = useDataQueryState('ethos-example-account-details');
+    const { data, isError, isLoading, isRefreshing } = useDataQuery('ethos-example-account-details');
 
     const [ transactions, setTransactions ] = useState([]);
     const [ summary, setSummary ] = useState();

@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import PropTypes from 'prop-types';
 import classenames from 'classnames';
 
 import {
@@ -22,7 +21,7 @@ import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, width
 
 import { useCardInfo, useData, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
 
-import { DataQueryProvider, experienceTokenQuery, useDataQueryData, useDataQueryState } from '@ellucian/experience-extension-extras';
+import { DataQueryProvider, experienceTokenQuery, useDataQuery } from '@ellucian/experience-extension-extras';
 
 // initialize logging for this card
 import { initializeLogging } from '../util/log-level';
@@ -96,8 +95,7 @@ function AccountDetails() {
 
     const { payNowUrl } = configuration || cardConfiguration || {};
 
-    const { data, isError } = useDataQueryData('account-detail-reviews');
-    const { isLoading, isRefreshing } = useDataQueryState('account-detail-reviews');
+    const { data, isError, isLoading, isRefreshing } = useDataQuery('account-detail-reviews');
 
     const [ transactions, setTransactions ] = useState([]);
     const [ summary, setSummary ] = useState();
