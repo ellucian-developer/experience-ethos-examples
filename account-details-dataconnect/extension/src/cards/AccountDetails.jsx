@@ -9,7 +9,7 @@ import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, spaci
 
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 
-import { useCardControl, useData, useCardInfo, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
+import { useCardControl, useCardInfo, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
 
 import { DataQueryProvider, userTokenDataConnectQuery, useDataQuery } from '@ellucian/experience-extension-extras';
 
@@ -250,11 +250,8 @@ function AccountDetails() {
 }
 
 function AccountDetailsWithProviders() {
-    const { authenticatedEthosFetch } = useData();
-
     const options = {
         queryFunction: userTokenDataConnectQuery,
-        queryParameters: { authenticatedEthosFetch },
         resource: 'ethos-example-account-details'
     }
 

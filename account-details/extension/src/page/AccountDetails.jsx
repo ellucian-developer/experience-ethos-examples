@@ -19,7 +19,7 @@ import {
 } from '@ellucian/react-design-system/core'
 import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, widthFluid } from '@ellucian/react-design-system/core/styles/tokens';
 
-import { useCardInfo, useData, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
+import { useCardInfo, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
 
 import { DataQueryProvider, experienceTokenQuery, useDataQuery } from '@ellucian/experience-extension-extras';
 
@@ -285,7 +285,6 @@ function AccountDetails() {
 }
 
 function AccountDetailsWithProviders() {
-    const { getExtensionJwt } = useData();
     const {
         cardConfiguration: {
             serviceUrl
@@ -294,7 +293,7 @@ function AccountDetailsWithProviders() {
 
     const options = {
         queryFunction: experienceTokenQuery,
-        queryParameters: { getExtensionJwt, serviceUrl },
+        queryParameters: { serviceUrl },
         resource: 'account-detail-reviews'
     }
 

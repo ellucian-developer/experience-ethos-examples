@@ -19,7 +19,7 @@ import {
 } from '@ellucian/react-design-system/core'
 import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, widthFluid } from '@ellucian/react-design-system/core/styles/tokens';
 
-import { useCardInfo, useData, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
+import { useCardInfo, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
 
 import { DataQueryProvider, userTokenDataConnectQuery, useDataQuery } from '@ellucian/experience-extension-extras';
 
@@ -285,11 +285,8 @@ function AccountDetails() {
 }
 
 function AccountDetailsWithProviders() {
-    const { authenticatedEthosFetch } = useData();
-
     const options = {
         queryFunction: userTokenDataConnectQuery,
-        queryParameters: { authenticatedEthosFetch },
         resource: 'ethos-example-account-details'
     }
 
