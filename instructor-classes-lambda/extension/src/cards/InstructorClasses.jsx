@@ -1,23 +1,24 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import PropTypes from 'prop-types';
 
-import { Divider, Illustration, IMAGES, List, Typography } from '@ellucian/react-design-system/core'
-import { withStyles } from '@ellucian/react-design-system/core/styles';
+import { Divider, Illustration, IMAGES, List, makeStyles, Typography } from '@ellucian/react-design-system/core'
 import { colorFillAlertError, spacing40, spacing80 } from '@ellucian/react-design-system/core/styles/tokens';
 
-import { useExtensionControl } from '@ellucian/experience-extension-utils';
+import { useCardInfo, useExtensionControl } from '@ellucian/experience-extension-utils';
+
+import { DataQueryProvider, experienceTokenQuery, useDataQuery } from '@ellucian/experience-extension-extras';
 
 import Event from '../components/Event';
 import { withIntl } from '../components/ReactIntlProviderWrapper';
-import { InstructorClassesProvider, useInstructorData } from '../context/instructor-classes';
+import { useEvents } from '../hooks/events';
+import { useDashboard } from '../hooks/dashboard';
 
 import { initializeLogging } from '../util/log-level';
 initializeLogging('Instructor Classes');
 
-const styles = () => ({
+const useStyles = makeStyles(() => ({
     root: {
         height: '100%',
         marginTop: 0,
@@ -53,20 +54,25 @@ const styles = () => ({
         marginRight: spacing80,
         textAlign: 'center'
     }
-});
+}), { index: 2});
 
-const InstructorClasses = ({classes}) => {
+const resource = 'instructor-classes';
+
+const InstructorClasses = () => {
     const intl = useIntl();
+    const classes = useStyles();
 
     // Experience SDK hooks
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
 
-    const { dataError, events, inPreviewMode, isError, isLoading } = useInstructorData();
+    const { dataError, inPreviewMode, isError, isLoading, isRefreshing } = useDataQuery(resource);
+    const events = useEvents();
+    useDashboard(resource);
     const [ colorContext ] = useState({});
 
     useEffect(() => {
-        setLoadingStatus(isLoading && !events);
-    }, [events, isLoading])
+        setLoadingStatus(isRefreshing || (isLoading && !events));
+    }, [events, isLoading, isRefreshing])
 
     useEffect(() => {
         if (isError) {
@@ -120,17 +126,23 @@ const InstructorClasses = ({classes}) => {
     }
 };
 
-InstructorClasses.propTypes = {
-    classes: PropTypes.object.isRequired
-};
-
-const InstructorClassesWithStyle = withStyles(styles)(InstructorClasses);
-
 function InstructorClassesWithProviders() {
+    const {
+        configuration: {
+            serviceUrl
+        } = {}
+     } = useCardInfo();
+
+    const options = useMemo(() => ({
+        queryFunction: experienceTokenQuery,
+        queryParameters: { serviceUrl },
+        resource: 'instructor-classes'
+    }));
+
     return (
-        <InstructorClassesProvider>
-            <InstructorClassesWithStyle/>
-        </InstructorClassesProvider>
+        <DataQueryProvider options={options}>
+            <InstructorClasses/>
+        </DataQueryProvider>
     )
 }
 

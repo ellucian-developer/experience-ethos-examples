@@ -1,6 +1,6 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classenames from 'classnames';
 
@@ -26,6 +26,9 @@ import { DataQueryProvider, userTokenDataConnectQuery, useDataQuery } from '@ell
 // initialize logging for this card
 import { initializeLogging } from '../util/log-level';
 initializeLogging('default');
+
+import log from 'loglevel';
+const logger = log.getLogger('default');
 
 const featurePayNow = process.env.FEATURE_PAY_NOW === 'true';
 
@@ -89,13 +92,16 @@ function AccountDetails() {
     const classes = useStyles();
 
     // Experience SDK hooks
-    const { configuration, cardConfiguration } = useCardInfo();
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
     const { locale } = useUserInfo();
+    const {
+        cardConfiguration: {
+            payNowUrl,
+            pipelineApi
+        } = {}
+    } = useCardInfo();
 
-    const { payNowUrl } = configuration || cardConfiguration || {};
-
-    const { data, isError, isLoading, isRefreshing } = useDataQuery('ethos-example-account-details');
+    const { data, isError, isLoading, isRefreshing } = useDataQuery(pipelineApi);
 
     const [ transactions, setTransactions ] = useState([]);
     const [ summary, setSummary ] = useState();
@@ -285,10 +291,23 @@ function AccountDetails() {
 }
 
 function AccountDetailsWithProviders() {
-    const options = {
-        queryFunction: userTokenDataConnectQuery,
-        resource: 'ethos-example-account-details'
+    const {
+        cardConfiguration: {
+            pipelineApi
+        } = {}
+    } = useCardInfo();
+
+    if (!pipelineApi || pipelineApi === '') {
+        const message = '"pipelineApi" is not configured. See card configuration';
+        logger.error(message);
+        throw new Error(message);
     }
+
+    const options = useMemo(() => ({
+        queryFunction: userTokenDataConnectQuery,
+        queryParameters: { acceptVersion: '2' },
+        resource: pipelineApi
+    }), []);
 
     return (
         <DataQueryProvider options={options}>

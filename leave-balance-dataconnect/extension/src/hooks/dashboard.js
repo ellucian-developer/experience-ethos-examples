@@ -2,14 +2,21 @@
 
 import { useEffect, useMemo } from 'react';
 
+import { useCardInfo } from '@ellucian/experience-extension-utils';
 import { useDataQuery } from '@ellucian/experience-extension-extras';
 
-import { dispatchEvent, useEventListener } from '../../util/events';
+import { dispatchEvent, useEventListener } from '../util/events';
 
-const resource = 'ethos-example-account-details';
+const dashboardResource = 'leave-balance-dataconnect';
 
 export function useDashboard() {
-    const { loadTimes, refresh } = useDataQuery(resource);
+    const {
+        configuration: {
+            pipelineApi
+        } = {}
+    } = useCardInfo();
+
+    const { loadTimes, refresh } = useDataQuery(pipelineApi);
 
     useEffect(() => {
         if (loadTimes && loadTimes.length > 0) {
@@ -17,7 +24,7 @@ export function useDashboard() {
             dispatchEvent({
                 name: 'api-stat',
                 data: {
-                    type: resource,
+                    type: dashboardResource,
                     time: loadTimes[loadTimes.length-1].time
                 }
             });
@@ -28,7 +35,7 @@ export function useDashboard() {
         name: 'refresh',
         handler: data => {
             const { type } = data || {};
-            if ((!type || type === resource) && refresh) {
+            if ((!type || type === dashboardResource) && refresh) {
                 refresh();
             }
         }

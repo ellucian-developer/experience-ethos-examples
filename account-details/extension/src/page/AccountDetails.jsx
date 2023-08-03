@@ -1,6 +1,6 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classenames from 'classnames';
 
@@ -28,6 +28,8 @@ import { initializeLogging } from '../util/log-level';
 initializeLogging('default');
 
 const featurePayNow = process.env.FEATURE_PAY_NOW === 'true';
+
+const resource = 'account-detail-reviews';
 
 const useStyles = makeStyles(() => ({
     root:{
@@ -95,7 +97,7 @@ function AccountDetails() {
 
     const { payNowUrl } = configuration || cardConfiguration || {};
 
-    const { data, isError, isLoading, isRefreshing } = useDataQuery('account-detail-reviews');
+    const { data, isError, isLoading, isRefreshing } = useDataQuery(resource);
 
     const [ transactions, setTransactions ] = useState([]);
     const [ summary, setSummary ] = useState();
@@ -291,11 +293,11 @@ function AccountDetailsWithProviders() {
         } = {}
      } = useCardInfo();
 
-    const options = {
+    const options = useMemo(() => ({
         queryFunction: experienceTokenQuery,
         queryParameters: { serviceUrl },
-        resource: 'account-detail-reviews'
-    }
+        resource: resource
+    }));
 
     return (
         <DataQueryProvider options={options}>

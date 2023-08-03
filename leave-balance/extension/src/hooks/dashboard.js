@@ -4,11 +4,11 @@ import { useEffect, useMemo } from 'react';
 
 import { useDataQuery } from '@ellucian/experience-extension-extras';
 
-import { dispatchEvent, useEventListener } from '../../util/events';
+import { dispatchEvent, useEventListener } from '../util/events';
 
-const resource = 'account-detail-reviews';
+const dashboardResource = 'leave-balance-lambda';
 
-export function useDashboard() {
+export function useDashboard(resource) {
     const { loadTimes, refresh } = useDataQuery(resource);
 
     useEffect(() => {
@@ -17,7 +17,7 @@ export function useDashboard() {
             dispatchEvent({
                 name: 'api-stat',
                 data: {
-                    type: resource,
+                    type: dashboardResource,
                     time: loadTimes[loadTimes.length-1].time
                 }
             });
@@ -28,7 +28,7 @@ export function useDashboard() {
         name: 'refresh',
         handler: data => {
             const { type } = data || {};
-            if ((!type || type === resource) && refresh) {
+            if ((!type || type === dashboardResource) && refresh) {
                 refresh();
             }
         }

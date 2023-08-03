@@ -1,7 +1,7 @@
 module.exports = {
-    name: 'leave-balance-dataconnect-2',
+    name: 'leave-balance',
     group: 'Ellucian Experience',
-    publisher: 'Rangers',
+    publisher: '',
     cards: [{
         type: 'LeaveBalanceCard',
         source: './src/cards/LeaveBalance.jsx',

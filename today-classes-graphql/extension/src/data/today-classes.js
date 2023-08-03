@@ -1,29 +1,23 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
-import { dispatchEvent } from '../util/events';
 
 import log from 'loglevel';
 const logger = log.getLogger('Today');
 
 const allDaysOfWeek = [ 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday' ];
 
-function getLocalIsoDate(date) {
-    const month = date.getMonth() + 1;
-    const monthString = month < 10 ? `0${month}` : `${month}`;
-    const day = date.getDate();
-    const dayString = day < 10 ? `0${day}` : `${day}`;
-    return `${date.getFullYear()}-${monthString}-${dayString}`;
+function getLocalIsoDate(date, offset = 0) {
+    const localeDate = new Date(new Date(`${date}T00:00:00`).getTime() + offset);
+    return localeDate.toISOString().slice(0, 10);
 }
 
-export async function fetchTodayClasses({ queryKey }) {
-    // eslint-disable-next-line no-unused-vars
-    const [ _key, { getEthosQuery }] = queryKey;
+export async function todayClassesGraphQlQuery({ queryKeys, queryParameters }) {
+    const { date = new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10) } = queryKeys;
+    const { getEthosQuery } = queryParameters;
 
     try {
         // the query needs yesterday and tomorrow dates
-        const start = new Date();
-        const now = process.env.DATE ? new Date(process.env.DATE) : new Date();
-        const yesterday = getLocalIsoDate(new Date(now.getTime() - (1000*60*60*24)));
-        const tomorrow = getLocalIsoDate(new Date(now.getTime() + (1000*60*60*24)));
+        const yesterday = getLocalIsoDate(date, -1000*60*60*24);
+        const tomorrow = getLocalIsoDate(date, 1000*60*60*24);
         const properties = { yesterday, tomorrow };
 
         const result = await getEthosQuery({queryId: 'today-sections', properties});
@@ -71,7 +65,7 @@ export async function fetchTodayClasses({ queryKey }) {
                         }
                     } = event;
 
-                    const dateDayOfWeek = allDaysOfWeek[now.getDay()];
+                    const dateDayOfWeek = allDaysOfWeek[new Date(`${date}T00:00:00`).getDay()];
 
                     const locations = dataLocations.map( dataLocation => {
                         const { location: { room: { building: { title: buildingTitle }, number: roomNumber } } } = dataLocation;
@@ -97,24 +91,12 @@ export async function fetchTodayClasses({ queryKey }) {
                 }
 
                 if (sectionMeetsOnDate) {
-                    // keep this one
                     sections.push(section);
                 }
             });
         }
 
-        const end = new Date();
-        logger.debug('GraphQL Proxy fetchTodayClasses time:', end.getTime() - start.getTime());
-
-        dispatchEvent({
-            name: 'api-stat',
-            data: {
-                type: 'today-graphql',
-                time: end.getTime() - start.getTime()
-            }
-        });
-
-        return sections;
+        return { data: sections };
     } catch (error) {
         logger.error('unable to fetch data sources: ', error);
         return { error };

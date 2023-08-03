@@ -2,23 +2,25 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import PropTypes from 'prop-types';
 
-import { Button, Table, TableBody, TableCell, TableRow, TableHead, Typography } from '@ellucian/react-design-system/core'
+import { Button, makeStyles, Table, TableBody, TableCell, TableRow, TableHead, Typography } from '@ellucian/react-design-system/core'
 import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, spacing80 } from '@ellucian/react-design-system/core/styles/tokens';
-import { withStyles } from '@ellucian/react-design-system/core/styles';
 
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 
-import { useCardControl, useExtensionControl } from '@ellucian/experience-extension-utils';
+import { useCardControl, useCardInfo, useExtensionControl } from '@ellucian/experience-extension-utils';
 
 import { DataQueryProvider, userTokenDataConnectQuery, useDataQuery } from '@ellucian/experience-extension-extras';
+import { useDashboard } from '../hooks/dashboard';
 
 // initialize logging for this card
 import { initializeLogging } from '../util/log-level';
 initializeLogging('default');
 
-const styles = () => ({
+import log from 'loglevel';
+const logger = log.getLogger('default');
+
+const useStyles = makeStyles(() => ({
     root:{
         height: '100%',
         overflowY: 'auto'
@@ -53,21 +55,29 @@ const styles = () => ({
         marginRight: spacing80,
         textAlign: 'center'
     }
-});
+}), { index: 2});
 
-function LeaveBalance({classes}) {
+function LeaveBalance() {
     const intl = useIntl();
+    const classes = useStyles();
 
     // Experience SDK hooks
     const { navigateToPage } = useCardControl();
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
-    const { data, dataError, inPreviewMode, isError, isLoading} = useDataQuery('ethos-example-leave-balance');
+    const {
+        configuration: {
+            pipelineApi
+        } = {}
+    } = useCardInfo();
+
+    const { data, dataError, inPreviewMode, isError, isLoading, isRefreshing } = useDataQuery(pipelineApi);
+    useDashboard();
 
     const [ leaves, setLeaves ] = useState();
 
     useEffect(() => {
-        setLoadingStatus(isLoading);
-    }, [isLoading])
+        setLoadingStatus(isRefreshing || (!data && isLoading));
+    }, [data, isLoading, isRefreshing])
 
     useEffect(() => {
         if (data && Array.isArray(data)) {
@@ -119,7 +129,7 @@ function LeaveBalance({classes}) {
                                             <TableCell align="left" padding={'none'}>{intl.formatMessage({id: 'LeaveBalance.type'})}</TableCell>
                                             <TableCell align="left" padding={'none'}>{intl.formatMessage({id: 'LeaveBalance.taken'})}</TableCell>
                                             <TableCell align="left" padding={'none'}>{intl.formatMessage({id: 'LeaveBalance.accrued'})}</TableCell>
-                                            <TableCell align="right" padding={'none'} style={{"text-align": "right"}}>{intl.formatMessage({id: 'LeaveBalance.balance'})}</TableCell>
+                                            <TableCell align="right" padding={'none'} style={{"textAlign": "right"}}>{intl.formatMessage({id: 'LeaveBalance.balance'})}</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -178,21 +188,27 @@ function LeaveBalance({classes}) {
 
 }
 
-LeaveBalance.propTypes = {
-    classes: PropTypes.object.isRequired
-};
-
-const LeaveBalanceWithStyle = withStyles(styles)(LeaveBalance);
-
 function LeaveBalanceWithProviders() {
+    const {
+        configuration: {
+            pipelineApi
+        } = {}
+     } = useCardInfo();
+
+     if (!pipelineApi || pipelineApi === '') {
+        const message = '"pipelineApi" is not configured. See card configuration';
+        logger.error(message);
+        throw new Error(message);
+    }
+
     const options = {
         queryFunction: userTokenDataConnectQuery,
-        resource: 'ethos-example-leave-balance'
+        resource: pipelineApi
     }
 
     return (
         <DataQueryProvider options={options}>
-            <LeaveBalanceWithStyle/>
+            <LeaveBalance/>
         </DataQueryProvider>
     )
 }

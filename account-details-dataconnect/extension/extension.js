@@ -2,7 +2,7 @@
 
 module.exports = {
     name: 'account-details-dataconnect',
-    publisher: 'Ranger',
+    publisher: '',
     cards: [{
         type: 'AccountDetailsDataConnectCard',
         source: './src/cards/AccountDetails.jsx',
@@ -11,6 +11,11 @@ module.exports = {
         description: 'Account Details - Data Connect',
         configuration: {
             client: [{
+                key: 'pipelineApi',
+                label: 'Pipeline API',
+                type: 'text',
+                required: true
+            }, {
                 key: 'payNowUrl',
                 label: 'Pay Now URL',
                 type: 'text',

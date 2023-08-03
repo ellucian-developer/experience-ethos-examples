@@ -1,6 +1,6 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classnames from 'classnames';
 
@@ -13,11 +13,14 @@ import { useCardControl, useCardInfo, useExtensionControl, useUserInfo } from '@
 
 import { DataQueryProvider, userTokenDataConnectQuery, useDataQuery } from '@ellucian/experience-extension-extras';
 
-import { useDashboard } from './hooks/dashboard';
+import { useDashboard } from '../hooks/dashboard';
 
 // initialize logging for this card
 import { initializeLogging } from '../util/log-level';
 initializeLogging('default');
+
+import log from 'loglevel';
+const logger = log.getLogger('default');
 
 const featurePayNow = process.env.FEATURE_PAY_NOW === 'true';
 
@@ -87,13 +90,18 @@ function AccountDetails() {
 
     // Experience SDK hooks
     const { navigateToPage } = useCardControl();
-    const { configuration: { payNowUrl } = {} } = useCardInfo();
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
     const { locale } = useUserInfo();
+    const {
+        configuration: {
+            payNowUrl,
+            pipelineApi
+        } = {}
+     } = useCardInfo();
 
     useDashboard();
 
-    const { data, dataError, inPreviewMode, isError, isLoading, isRefreshing } = useDataQuery('ethos-example-account-details');
+    const { data, dataError, inPreviewMode, isError, isLoading, isRefreshing } = useDataQuery(pipelineApi);
 
     const [ transactions, setTransactions ] = useState();
     const [ summary, setSummary ] = useState();
@@ -250,10 +258,23 @@ function AccountDetails() {
 }
 
 function AccountDetailsWithProviders() {
-    const options = {
-        queryFunction: userTokenDataConnectQuery,
-        resource: 'ethos-example-account-details'
+    const {
+        configuration: {
+            pipelineApi
+        } = {}
+    } = useCardInfo();
+
+    if (!pipelineApi || pipelineApi === '') {
+        const message = '"pipelineApi" is not configured. See card configuration';
+        logger.error(message);
+        throw new Error(message);
     }
+
+    const options = useMemo(() => ({
+        queryFunction: userTokenDataConnectQuery,
+        queryParameters: { acceptVersion: '2' },
+        resource: pipelineApi
+    }), []);
 
     return (
         <DataQueryProvider options={options}>

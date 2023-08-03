@@ -1,6 +1,6 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classnames from 'classnames';
 
@@ -10,10 +10,9 @@ import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, spaci
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 
 import { useCardControl, useCardInfo, useExtensionControl, useUserInfo,  } from '@ellucian/experience-extension-utils';
-
 import { DataQueryProvider, experienceTokenQuery, useDataQuery } from '@ellucian/experience-extension-extras';
 
-import { useDashboard } from './hooks/dashboard';
+import { useDashboard } from '../hooks/dashboard';
 
 // initialize logging for this card
 import { initializeLogging } from '../util/log-level';
@@ -81,6 +80,8 @@ const useStyles = makeStyles(() => ({
     }
 }), { index: 2});
 
+const resource = 'account-detail-reviews';
+
 function AccountDetails() {
     const intl = useIntl();
     const classes = useStyles();
@@ -91,9 +92,9 @@ function AccountDetails() {
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
     const { locale } = useUserInfo();
 
-    useDashboard();
+    useDashboard(resource);
 
-    const { data, dataError, inPreviewMode, isError, isLoading, isRefreshing } = useDataQuery('account-detail-reviews');
+    const { data, dataError, inPreviewMode, isError, isLoading, isRefreshing } = useDataQuery(resource);
 
     const [ transactions, setTransactions ] = useState();
     const [ summary, setSummary ] = useState();
@@ -256,11 +257,11 @@ function AccountDetailsWithProviders() {
         } = {}
      } = useCardInfo();
 
-    const options = {
+    const options = useMemo(() => ({
         queryFunction: experienceTokenQuery,
         queryParameters: { serviceUrl },
-        resource: 'account-detail-reviews'
-    }
+        resource: resource
+    }));
 
     return (
         <DataQueryProvider options={options}>

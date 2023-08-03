@@ -1,24 +1,26 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import PropTypes from 'prop-types';
 
-import { Divider, Illustration, IMAGES, List, Typography } from '@ellucian/react-design-system/core'
+import { Divider, Illustration, IMAGES, List, makeStyles, Typography } from '@ellucian/react-design-system/core'
 import { colorFillAlertError, spacing40, spacing80 } from '@ellucian/react-design-system/core/styles/tokens';
-import { withStyles } from '@ellucian/react-design-system/core/styles';
 
-import { useExtensionControl } from '@ellucian/experience-extension-utils';
+import { useCardInfo, useExtensionControl } from '@ellucian/experience-extension-utils';
+import { DataQueryProvider, experienceTokenQuery, useDataQuery } from '@ellucian/experience-extension-extras';
 
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 import Event from '../components/Event';
-import { TodayClassesProvider, useTodayData } from '../context/today-classes';
+import { useDashboard } from '../hooks/dashboard';
+import { useTodayClasses } from '../hooks/today-classes';
 
 // initialize logging for this card
 import { initializeLogging } from '../util/log-level';
 initializeLogging('default');
 
-const styles = () => ({
+const resource = 'today-classes';
+
+const useStyles = makeStyles(() => ({
     root: {
         height: '100%',
         marginTop: 0,
@@ -54,20 +56,24 @@ const styles = () => ({
         marginRight: spacing80,
         textAlign: 'center'
     }
-});
+}), { index: 2});
 
-function TodayClasses({classes}) {
+function TodayClasses() {
     const intl = useIntl();
+    const classes = useStyles();
 
     // Experience SDK hooks
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
 
-    const { dataError, events, inPreviewMode, isError, isLoading } = useTodayData();
+    const { dataError, inPreviewMode, isError, isLoading, isRefreshing } = useDataQuery(resource);
+    const events = useTodayClasses();
+    useDashboard(resource);
+
     const [ colorContext ] = useState({});
 
     useEffect(() => {
-        setLoadingStatus(isLoading && !events);
-    }, [events, isLoading])
+        setLoadingStatus((isLoading && !events) || isRefreshing);
+    }, [events, isLoading, isRefreshing])
 
     useEffect(() => {
         if (isError) {
@@ -117,17 +123,28 @@ function TodayClasses({classes}) {
     }
 }
 
-TodayClasses.propTypes = {
-    classes: PropTypes.object.isRequired
-};
-
-const TodayClassesWithStyle = withStyles(styles)(TodayClasses);
-
 function TodayClassesWithProviders() {
+    const {
+        configuration: {
+            serviceUrl
+        } = {}
+     } = useCardInfo();
+
+    const options = useMemo(() => ({
+        queryKeys: {
+            searchParameters: {
+                date: new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10)
+            }
+        },
+        queryFunction: experienceTokenQuery,
+        queryParameters: { serviceUrl },
+        resource: resource
+    }));
+
     return (
-        <TodayClassesProvider>
-            <TodayClassesWithStyle/>
-        </TodayClassesProvider>
+        <DataQueryProvider options={options}>
+            <TodayClasses/>
+        </DataQueryProvider>
     )
 }
 

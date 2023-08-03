@@ -2,8 +2,14 @@ require('dotenv').config();
 const packageJson = require('./package.json');
 const extensionConfig = require('./extension.js');
 const Dotenv = require('dotenv-webpack');
- 
+
 const { webpackConfigBuilder } = require('@ellucian/experience-extension');
+
+// fill in publisher if missing and defined in dotenv
+const { PUBLISHER } = process.env;
+if (extensionConfig.publisher === '' && PUBLISHER) {
+    extensionConfig.publisher = PUBLISHER;
+}
 
 module.exports = async (env, options) => {
 

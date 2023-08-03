@@ -1,6 +1,6 @@
 module.exports = {
     name: 'leave-balance-dataconnect',
-    publisher: 'Rangers',
+    publisher: '',
     cards: [{
         type: 'LeaveBalanceDataConnectCard',
         source: './src/cards/LeaveBalance.jsx',
@@ -8,6 +8,12 @@ module.exports = {
         displayCardType: 'Leave Balance - Data Connect',
         description: 'Leave Balance - Data Connect',
         configuration: {
+            client: [{
+                key: 'pipelineApi',
+                label: 'Pipeline API',
+                type: 'text',
+                required: true
+            }],
             server: [{
                 key: 'ethosApiKey',
                 label: 'Ethos API Key',
