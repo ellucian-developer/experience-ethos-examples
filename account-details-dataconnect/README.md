@@ -15,7 +15,7 @@ For details regarding the extension see: [readme](extension/README.md)
 
 ## Data Connect API
 
-The dataconnect directory includes an exported Data Connect API pipeline and a readme. The dataconnect pipeline makes a call to EEDM persons API and BP API account-detail-reviews through Ethos Integration.
+The dataconnect directory includes an exported Data Connect API pipeline and a readme. The Data Connect pipeline makes a call to EEDM persons API and BP API account-detail-reviews through Ethos Integration.
 
 For details regarding the Data Connect API see: [readme](dataconnect/README.md)
 
