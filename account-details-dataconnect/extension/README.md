@@ -22,8 +22,8 @@ To upload and use this extension you will need to do the following from the acco
 Login to Experience as a user with permission to use Experience Configuration -> Card Management. Locate the Account Details Data Connect card. This card has three items to configure.
 
 1. Pipeline API - The name of your pipeline as created in Data Connect as a serverless API.
-1. The Pay Now URL is optional. This can be used to link to a payment provider to pay the amount due.
-1. Ethos API Key.
+1. Pay Now URL - is optional. This can be used to link to a payment provider to pay the amount due.
+1. Ethos API Key - set this to an Ethos API key that has access to the resources as described in [Ethos Guide](../docs/ethos-guide.md).
 
 
 <br/>

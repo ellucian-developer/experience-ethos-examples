@@ -20,7 +20,7 @@ To upload and use this extension you will need to do the following from the leav
 Login to Experience as a user with permission to use Experience Configuration -> Card Management. Locate the Leave Balance Data Connect card. This card has two items to configure.
 
 1. Pipeline API - The name of your pipeline as created in Data Connect as a serverless API.
-1. Ethos API Key.
+1. Ethos API Key - set this to an Ethos API key that has access to the resources as described in [Ethos Guide](../docs/ethos-guide.md).
 
 <br/>
 The page view displays all the leave balances with more details.
