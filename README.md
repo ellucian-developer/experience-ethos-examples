@@ -5,6 +5,7 @@
 1. [API Dashboard](#api-dashboard-example)
 1. [Instructor Classes Lambda](#instructor-classes-lambda-example)
 1. [Leave Balance](#leave-balance-example)
+1. [Leave Balance Data Connect](#leave-balance-data-connect-example)
 1. [Today Classes GraphQL Proxy](#todays-classes-graphql-proxy-example)
 1. [Today Classes Lambda](#todays-classes-lambda-example)
 1. [Today Classes Node](#todays-classes-node-example)
