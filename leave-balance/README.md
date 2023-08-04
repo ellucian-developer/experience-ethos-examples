@@ -2,7 +2,7 @@
 
 This example, includes a card and page that show the current user, employee, their leave balance. There are two npm projects in this example, an extension and a microservice. The data for the card and page are acquired through the BP API (Banner Business Process API) through Ethos Integration.
 
-The interaction between the Experience card and page with Ethos is as diagramed.
+The interaction between the Experience card and page with Ethos is as diagrammed.
 
 ![](docs/images/Leave-Balance-Diagram.png)
 

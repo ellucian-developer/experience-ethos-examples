@@ -1,8 +1,8 @@
-# Account Details Extension
+# Account Details Data Connect Extension
 ## The Extension
 This example extension includes a card and page that show the current user their account details and balance. This example provides a starting point for other functionality. Additional data and behavior could include using a Pay Now feature that integrates with your payment provider.
 
-The architecture of this extension is diagramed.
+The architecture of this extension is diagrammed.
 
 <br/>
 
@@ -16,11 +16,12 @@ To upload and use this extension you will need to do the following from the acco
 1. Set the "publisher" in extension.js. This should be the name of your institution or organization.
 1. Copy sample.env to .env. Adding your upload token and uncommenting and editing the other vars as appropriate.
 1. Run one of the deploy scripts in package.json. Such as "watch-and-upload" or "deploy-dev".
-1. Use Experience Setup to enable or verify your new extension is enabled, is associated with an Environment, has a shared secret, and, has an Extension API Token.
+1. Use Experience Setup to enable or verify your new extension is enabled, and is associated with an Environment.
 
 ### Configure the card
-Login to Experience as a user with permission to use Experience Configuration -> Card Management. Locate the Account Details card. This card has two items to configure.
+Login to Experience as a user with permission to use Experience Configuration -> Card Management. Locate the Account Details Data Connect card. This card has three items to configure.
 
+1. Pipeline API - The name of your pipeline as created in Data Connect as a serverless API.
 1. The Pay Now URL is optional. This can be used to link to a payment provider to pay the amount due.
 1. Ethos API Key.
 

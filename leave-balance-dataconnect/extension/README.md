@@ -1,8 +1,8 @@
-# Leave Balance Extension
+# Leave Balance Data Connect Extension
 ## The Extension
-This example extension includes a card and page that show the current user, employee, their leave balance. There are two npm projects in this example, an extension and a microservice. The data for the card and page are acquired through the BP API (Banner Business Process API) through Ethos Integration.
+This example extension includes a card and page that show the current user, an employee their leave balance. The data for the card and page are acquired through the BP API (Banner Business Process API) through Ethos Integration.
 
-The interaction between the Experience card and page with Ethos is as diagramed.
+The interaction between the Experience card and page with Ethos is as diagrammed.
 
 <br/>
 
@@ -14,15 +14,24 @@ To upload and use this extension you will need to do the following from the leav
 * Set the "publisher" in extension.js. Should be the name of your institution or organization.
 * Copy sample.env to .env. Adding your upload token and uncommenting and editing the other vars as appropriate.
 * Run one of the deploy scripts in package.json. Such as "watch-and-upload" or "deploy-dev".
-* Use Experience Setup to enable or verify your new extension is enabled, is associated with an Environment, has a shared secret, and generate and copy an Extension API Token.
+* Use Experience Setup to enable or verify your new extension is enabled, and is associated with an Environment.
 
-Note: it is recommened that you set your JWT secret in the .env file as EXPERIENCE_EXTENSION_SHARED_SECRET. This will avoid having to manually set the JWT secret in Experience Setup for each version.
+### Configure the card
+Login to Experience as a user with permission to use Experience Configuration -> Card Management. Locate the Leave Balance Data Connect card. This card has two items to configure.
 
-## Leave Balance microservice
+1. Pipeline API - The name of your pipeline as created in Data Connect as a serverless API.
+1. Ethos API Key.
 
-This example makes CORS (Cross-Origin Resource Sharing) API calls to an AWS Gateway that triggers an AWS Lambda function. This Lambda function authorizes requests and calls Ethos Integration.
+<br/>
+The page view displays all the leave balances with more details.
 
-See the readme for details [readme](../microservice/README.md)
+![](../docs/images/Leave-Balance-Page.png)
+
+## Leave Balance Data Connect API
+
+This example makes use of a Data Connect API.
+
+See the readme for details [readme](../dataconnect/README.md)
 
 <br/>
 
