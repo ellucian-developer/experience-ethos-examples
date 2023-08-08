@@ -2,7 +2,7 @@
 ## The Extension
 This example extension includes a card and page that show the current user their account details and balance. This example provides a starting point for other functionality. Additional data and behavior could include using a Pay Now feature that integrates with your payment provider.
 
-The interaction between the Experience card and page with Ethos is as diagramed.
+The interaction between the Experience card and page with Ethos is as diagrammed.
 
 <br/>
 

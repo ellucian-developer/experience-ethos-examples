@@ -2,7 +2,7 @@
 
 This example, includes a card and page that show the current user their account details and balance. There are two npm projects in this example, an extension and a microservice. The data for the card and page are acquired through the BP API (Banner Business Process API) through Ethos Integration. Additional data and behavior could include using a Pay Now feature that integrates with your payment provider.
 
-The interaction between the Experience card and page with Ethos is as diagramed.
+The interaction between the Experience card and page with Ethos is as diagrammed.
 
 ![](docs/images/Account-Details-Diagram.png)
 

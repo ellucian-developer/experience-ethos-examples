@@ -1,5 +1,6 @@
 module.exports = {
     name: 'leave-balance',
+    group: 'Ellucian Experience',
     publisher: '',
     cards: [{
         type: 'LeaveBalanceCard',

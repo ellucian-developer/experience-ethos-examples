@@ -1,10 +1,10 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import PropTypes from 'prop-types';
 
 import {
+    makeStyles,
     Table,
     TableBody,
     TableCell,
@@ -13,17 +13,15 @@ import {
     Typography
 } from '@ellucian/react-design-system/core'
 import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40 } from '@ellucian/react-design-system/core/styles/tokens';
-import { withStyles } from '@ellucian/react-design-system/core/styles';
 
-import { useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
-
-import { LeaveBalanceProvider, useLeaveBalance } from '../context/leave-balance';
+import { useCardInfo, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
+import { DataQueryProvider, experienceTokenQuery, useDataQuery } from '@ellucian/experience-extension-extras';
 
 // initialize logging for this card
 import { initializeLogging } from '../util/log-level';
 initializeLogging('default');
 
-const styles = () => ({
+const useStyles = makeStyles(() => ({
     root:{
         height: '100%',
         overflowY: 'auto'
@@ -50,16 +48,17 @@ const styles = () => ({
     transactionAmountPayment: {
         color: colorTextAlertSuccess
     }
-});
+}), { index: 2});
 
-function LeaveBalance({classes}) {
+function LeaveBalance() {
     const intl = useIntl();
+    const classes = useStyles();
 
     // Experience SDK hooks
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
     const { locale } = useUserInfo();
 
-    const { data, isError, isLoading } = useLeaveBalance();
+    const { data, isError, isLoading } = useDataQuery('leave-balance');
 
     const [ leaves, setLeaves ] = useState([]);
 
@@ -173,17 +172,23 @@ function LeaveBalance({classes}) {
     );
 }
 
-LeaveBalance.propTypes = {
-    classes: PropTypes.object.isRequired
-};
-
-const LeaveBalanceWithStyle = withStyles(styles)(LeaveBalance);
-
 function LeaveBalanceWithProviders() {
+    const {
+        cardConfiguration: {
+            serviceUrl
+        } = {}
+     } = useCardInfo();
+
+    const options = useMemo(() => ({
+        queryFunction: experienceTokenQuery,
+        queryParameters: { serviceUrl },
+        resource: 'leave-balance'
+    }));
+
     return (
-        <LeaveBalanceProvider>
-            <LeaveBalanceWithStyle/>
-        </LeaveBalanceProvider>
+        <DataQueryProvider options={options}>
+            <LeaveBalance/>
+        </DataQueryProvider>
     )
 }
 

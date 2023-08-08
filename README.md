@@ -1,9 +1,11 @@
   # Experience Ethos Examples
 
 1. [Account Detail](#account-details-example)
+1. [Account Detail Data Connect](#account-details-data-connect-example)
 1. [API Dashboard](#api-dashboard-example)
 1. [Instructor Classes Lambda](#instructor-classes-lambda-example)
 1. [Leave Balance](#leave-balance-example)
+1. [Leave Balance Data Connect](#leave-balance-data-connect-example)
 1. [Today Classes GraphQL Proxy](#todays-classes-graphql-proxy-example)
 1. [Today Classes Lambda](#todays-classes-lambda-example)
 1. [Today Classes Node](#todays-classes-node-example)
@@ -16,6 +18,19 @@ This example is detailed here: [account-details](account-details/README.md)
 <br/>
 
 ![](account-details/docs/images/Account-Details-Diagram.png)
+
+<br/>
+
+## Account Details Data Connect Example
+This example includes a card and page that show the current user their account details and balance. There are two directories in this example, an extension, and dataconnect. The data for the card and page are acquired using Data Connect's Serverless API. The Data Connect Serverless API pipeline calls a BP API (Banner Business Process API) through Ethos Integration. Additional data and behavior could include using a Pay Now feature that integrates with your payment provider.
+
+Note: Using Data Connect Serverless API allows the extension code in the browser to directly make the API call to Ethos without the need for a microservice. The browser user's identity is used to restrict the execution of the DC pipeline API through Data Connect permissions. The API Key used in the pipeline is configured in the card *server configuration* to protect it from the browser.
+
+This example is detailed here: [account-details-dataconnect](account-details-dataconnect/README.md)
+
+<br/>
+
+![](account-details-dataconnect/docs/images/Account-Details-Diagram.png)
 
 <br/>
 
@@ -43,13 +58,26 @@ This example is detailed here: [instructor-classes-lambda](instructor-classes-la
 <br/>
 
 ## Leave Balance Example
-This example includes a card and page that show the current user, employee, and their leave balance. There are two npm projects in this example, an extension, and a microservice. The data for the card and page are acquired through the BP API (Banner Business Process API) through Ethos Integration.
+This example includes a card and page that show the current user, an employee their leave balance. There are two npm projects in this example, an extension, and a microservice. The data for the card and page are acquired through the BP API (Banner Business Process API) through Ethos Integration.
 
 This example is detailed here: [leave-balance](leave-balance/README.md)
 
 <br/>
 
 ![](leave-balance/docs/images/Leave-Balance-Diagram.png)
+
+<br/>
+
+## Leave Balance Data Connect Example
+This example includes a card and page that show the current user, an employee their leave balance. There are two directories in this example, an extension, and dataconnect. The data for the card and page are acquired using Data Connect's Serverless API. The Data Connect Serverless API pipeline calls a BP API (Banner Business Process API) through Ethos Integration. Additional data and behavior could include using a Pay Now feature that integrates with your payment provider.
+
+Note: Using Data Connect Serverless API allows the extension code in the browser to directly make the API call to Ethos without the need for a microservice. The browser user's identity is used to restrict the execution of the DC pipeline API through Data Connect permissions. The API Key used in the pipeline is configured in the card *server configuration* to protect it from the browser.
+
+This example is detailed here: [leave-balance-dataconnect](leave-balance-dataconnect/README.md)
+
+<br/>
+
+![](leave-balance-dataconnect/docs/images/Leave-Balance-Diagram.png)
 
 <br/>
 

@@ -1,12 +1,12 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import PropTypes from 'prop-types';
 import classenames from 'classnames';
 
 import {
     Button,
+    makeStyles,
     Pagination,
     Paper,
     Table,
@@ -18,11 +18,10 @@ import {
     Typography
 } from '@ellucian/react-design-system/core'
 import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, widthFluid } from '@ellucian/react-design-system/core/styles/tokens';
-import { withStyles } from '@ellucian/react-design-system/core/styles';
 
 import { useCardInfo, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
 
-import { AccountDetailsProvider, useAccountDetails } from '../context/account-details';
+import { DataQueryProvider, experienceTokenQuery, useDataQuery } from '@ellucian/experience-extension-extras';
 
 // initialize logging for this card
 import { initializeLogging } from '../util/log-level';
@@ -30,7 +29,9 @@ initializeLogging('default');
 
 const featurePayNow = process.env.FEATURE_PAY_NOW === 'true';
 
-const styles = () => ({
+const resource = 'account-detail-reviews';
+
+const useStyles = makeStyles(() => ({
     root:{
         height: '100%',
         overflowY: 'auto'
@@ -83,10 +84,11 @@ const styles = () => ({
     payNowButton: {
         marginLeft: spacing30
     }
-});
+}), { index: 2});
 
-function AccountDetails({classes}) {
+function AccountDetails() {
     const intl = useIntl();
+    const classes = useStyles();
 
     // Experience SDK hooks
     const { configuration, cardConfiguration } = useCardInfo();
@@ -95,7 +97,7 @@ function AccountDetails({classes}) {
 
     const { payNowUrl } = configuration || cardConfiguration || {};
 
-    const { data, isError, isLoading } = useAccountDetails();
+    const { data, isError, isLoading, isRefreshing } = useDataQuery(resource);
 
     const [ transactions, setTransactions ] = useState([]);
     const [ summary, setSummary ] = useState();
@@ -116,8 +118,8 @@ function AccountDetails({classes}) {
     }, [locale])
 
     useEffect(() => {
-        setLoadingStatus(isLoading);
-    }, [isLoading])
+        setLoadingStatus(isRefreshing || (!data && isLoading));
+    }, [data, isLoading, isRefreshing])
 
     useEffect(() => {
         if (data) {
@@ -284,17 +286,23 @@ function AccountDetails({classes}) {
     );
 }
 
-AccountDetails.propTypes = {
-    classes: PropTypes.object.isRequired
-};
-
-const AccountDetailsWithStyle = withStyles(styles)(AccountDetails);
-
 function AccountDetailsWithProviders() {
+    const {
+        cardConfiguration: {
+            serviceUrl
+        } = {}
+     } = useCardInfo();
+
+    const options = useMemo(() => ({
+        queryFunction: experienceTokenQuery,
+        queryParameters: { serviceUrl },
+        resource: resource
+    }));
+
     return (
-        <AccountDetailsProvider>
-            <AccountDetailsWithStyle/>
-        </AccountDetailsProvider>
+        <DataQueryProvider options={options}>
+            <AccountDetails/>
+        </DataQueryProvider>
     )
 }
 

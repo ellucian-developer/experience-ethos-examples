@@ -1,24 +1,22 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import PropTypes from 'prop-types';
 
-import { Button, Table, TableBody, TableCell, TableRow, TableHead, Typography } from '@ellucian/react-design-system/core'
+import { Button, makeStyles, Table, TableBody, TableCell, TableRow, TableHead, Typography } from '@ellucian/react-design-system/core'
 import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, spacing80 } from '@ellucian/react-design-system/core/styles/tokens';
-import { withStyles } from '@ellucian/react-design-system/core/styles';
 
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 
-import { useCardControl, useExtensionControl } from '@ellucian/experience-extension-utils';
-
-import { LeaveBalanceProvider, useLeaveBalance } from '../context/leave-balance';
+import { useCardControl, useCardInfo, useExtensionControl } from '@ellucian/experience-extension-utils';
+import { DataQueryProvider, experienceTokenQuery, useDataQuery } from '@ellucian/experience-extension-extras';
+import { useDashboard } from '../hooks/dashboard';
 
 // initialize logging for this card
 import { initializeLogging } from '../util/log-level';
 initializeLogging('default');
 
-const styles = () => ({
+const useStyles = makeStyles(() => ({
     root:{
         height: '100%',
         overflowY: 'auto'
@@ -53,22 +51,26 @@ const styles = () => ({
         marginRight: spacing80,
         textAlign: 'center'
     }
-});
+}), { index: 2});
 
-function LeaveBalance({classes}) {
+const resource = 'leave-balance';
+
+function LeaveBalance() {
     const intl = useIntl();
+    const classes = useStyles();
 
     // Experience SDK hooks
     const { navigateToPage } = useCardControl();
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
 
-    const { data, dataError, inPreviewMode, isError, isLoading } = useLeaveBalance();
+    const { data, dataError, inPreviewMode, isError, isLoading, isRefreshing } = useDataQuery(resource);
+    useDashboard(resource);
 
     const [ leaves, setLeaves ] = useState();
 
     useEffect(() => {
-        setLoadingStatus(isLoading);
-    }, [isLoading])
+        setLoadingStatus(isRefreshing || (!data && isLoading));
+    }, [data, isLoading, isRefreshing])
 
     useEffect(() => {
         if (data && Array.isArray(data)) {
@@ -120,7 +122,7 @@ function LeaveBalance({classes}) {
                                             <TableCell align="left" padding={'none'}>{intl.formatMessage({id: 'LeaveBalance.type'})}</TableCell>
                                             <TableCell align="left" padding={'none'}>{intl.formatMessage({id: 'LeaveBalance.taken'})}</TableCell>
                                             <TableCell align="left" padding={'none'}>{intl.formatMessage({id: 'LeaveBalance.accrued'})}</TableCell>
-                                            <TableCell align="right" padding={'none'} style={{"text-align": "right"}}>{intl.formatMessage({id: 'LeaveBalance.balance'})}</TableCell>
+                                            <TableCell align="right" padding={'none'} style={{"textAlign": "right"}}>{intl.formatMessage({id: 'LeaveBalance.balance'})}</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -179,17 +181,23 @@ function LeaveBalance({classes}) {
 
 }
 
-LeaveBalance.propTypes = {
-    classes: PropTypes.object.isRequired
-};
-
-const LeaveBalanceWithStyle = withStyles(styles)(LeaveBalance);
-
 function LeaveBalanceWithProviders() {
+    const {
+        configuration: {
+            serviceUrl
+        } = {}
+     } = useCardInfo();
+
+    const options = useMemo(() => ({
+        queryFunction: experienceTokenQuery,
+        queryParameters: { serviceUrl },
+        resource: 'leave-balance'
+    }));
+
     return (
-        <LeaveBalanceProvider>
-            <LeaveBalanceWithStyle/>
-        </LeaveBalanceProvider>
+        <DataQueryProvider options={options}>
+            <LeaveBalance/>
+        </DataQueryProvider>
     )
 }
 

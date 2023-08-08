@@ -1,19 +1,18 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import { Button, Table, TableBody, TableCell, TableRow, Typography } from '@ellucian/react-design-system/core'
+import { Button, makeStyles, Table, TableBody, TableCell, TableRow, Typography } from '@ellucian/react-design-system/core'
 import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, spacing80 } from '@ellucian/react-design-system/core/styles/tokens';
-import { withStyles } from '@ellucian/react-design-system/core/styles';
 
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 
-import { useCardControl, useCardInfo, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
+import { useCardControl, useCardInfo, useExtensionControl, useUserInfo,  } from '@ellucian/experience-extension-utils';
+import { DataQueryProvider, experienceTokenQuery, useDataQuery } from '@ellucian/experience-extension-extras';
 
-import { AccountDetailsProvider, useAccountDetails } from '../context/account-details';
+import { useDashboard } from '../hooks/dashboard';
 
 // initialize logging for this card
 import { initializeLogging } from '../util/log-level';
@@ -21,7 +20,7 @@ initializeLogging('default');
 
 const featurePayNow = process.env.FEATURE_PAY_NOW === 'true';
 
-const styles = () => ({
+const useStyles = makeStyles(() => ({
     root:{
         height: '100%',
         overflowY: 'auto'
@@ -79,10 +78,13 @@ const styles = () => ({
         marginRight: spacing80,
         textAlign: 'center'
     }
-});
+}), { index: 2});
 
-function AccountDetails({classes}) {
+const resource = 'account-detail-reviews';
+
+function AccountDetails() {
     const intl = useIntl();
+    const classes = useStyles();
 
     // Experience SDK hooks
     const { navigateToPage } = useCardControl();
@@ -90,7 +92,9 @@ function AccountDetails({classes}) {
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
     const { locale } = useUserInfo();
 
-    const { data, dataError, inPreviewMode, isError, isLoading } = useAccountDetails();
+    useDashboard(resource);
+
+    const { data, dataError, inPreviewMode, isError, isLoading, isRefreshing } = useDataQuery(resource);
 
     const [ transactions, setTransactions ] = useState();
     const [ summary, setSummary ] = useState();
@@ -106,8 +110,8 @@ function AccountDetails({classes}) {
     }, [locale])
 
     useEffect(() => {
-        setLoadingStatus(isLoading);
-    }, [isLoading])
+        setLoadingStatus(isRefreshing || (!data && isLoading));
+    }, [data, isLoading, isRefreshing])
 
     useEffect(() => {
         if (data) {
@@ -246,17 +250,23 @@ function AccountDetails({classes}) {
     }
 }
 
-AccountDetails.propTypes = {
-    classes: PropTypes.object.isRequired
-};
-
-const AccountDetailsWithStyle = withStyles(styles)(AccountDetails);
-
 function AccountDetailsWithProviders() {
+    const {
+        configuration: {
+            serviceUrl
+        } = {}
+     } = useCardInfo();
+
+    const options = useMemo(() => ({
+        queryFunction: experienceTokenQuery,
+        queryParameters: { serviceUrl },
+        resource: resource
+    }));
+
     return (
-        <AccountDetailsProvider>
-            <AccountDetailsWithStyle/>
-        </AccountDetailsProvider>
+        <DataQueryProvider options={options}>
+            <AccountDetails/>
+        </DataQueryProvider>
     )
 }
 
