@@ -26,7 +26,7 @@ This example includes a card and page that show the current user their account d
 
 Note: Using Data Connect Serverless API allows the extension code in the browser to directly make the API call to Ethos without the need for a microservice. The browser user's identity is used to restrict the execution of the DC pipeline API through Data Connect permissions. The API Key used in the pipeline is configured in the card *server configuration* to protect it from the browser.
 
-*Please note that Data Connect Serverless APIs are currently in Select and not Generally Available. If you are interested in joining the Select Program, please contact me at jackie.cygelman@ellucian.com
+*Please note that Data Connect Serverless APIs are currently in Select and not Generally Available. If you'd like to get involved, check out this community post in the [Ellucian Community](https://elluciansupport.service-now.com/esc?id=community_blog&sys_id=119fdfd1876035946fd864ed0ebb350f&view_source=featuredList)
 
 This example is detailed here: [account-details-dataconnect](account-details-dataconnect/README.md)
 
@@ -75,7 +75,7 @@ This example includes a card and page that show the current user, an employee th
 
 Note: Using Data Connect Serverless API allows the extension code in the browser to directly make the API call to Ethos without the need for a microservice. The browser user's identity is used to restrict the execution of the DC pipeline API through Data Connect permissions. The API Key used in the pipeline is configured in the card *server configuration* to protect it from the browser.
 
-*Please note that Data Connect Serverless APIs are currently in Select and not Generally Available. If you are interested in joining the Select Program, please contact me at jackie.cygelman@ellucian.com
+*Please note that Data Connect Serverless APIs are currently in Select and not Generally Available. If you'd like to get involved, check out this community post in the [Ellucian Community](https://elluciansupport.service-now.com/esc?id=community_blog&sys_id=119fdfd1876035946fd864ed0ebb350f&view_source=featuredList)
 
 This example is detailed here: [leave-balance-dataconnect](leave-balance-dataconnect/README.md)
 
