@@ -20,7 +20,17 @@ To create the API in your tenant, you will need to do the following:
 1. Click on "PUBLISH", then after it shows you the version options, click on "PUBLISH". It will take some time to publish.
 1. The API is ready to set up permissions
 
-### Configure Permissions
+### Configure Data Connect Platform Component
+Follow the directions in documentation titled [Publish and execute a serverless API](https://resources.elluciancloud.com/bundle/ethos_data_connect_int_design_acn_use/page/t_dc_designer_publish_execute_serverless_api.html).
+
+### Configire Experience Ethos application Tag
+1. Use Ethos Integration UI and navigate to the Ethos application used by Experience.
+1. Click on the *ADD TAG*
+1. Enter **integration-package** for the name
+1. Enter **data-connect-package-name** for the value. This can be a comma seperated list if using more than one package
+1. Save the Tag.
+
+### Configure Experience Permissions
 
 The Data Connect API is published and ready to use once permissions are assigned.
 
