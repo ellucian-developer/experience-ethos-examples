@@ -305,7 +305,7 @@ function AccountDetailsWithProviders() {
 
     const options = useMemo(() => ({
         queryFunction: userTokenDataConnectQuery,
-        queryParameters: { acceptVersion: '2' },
+        // queryParameters: { acceptVersion: '2' },
         resource: pipelineApi
     }), []);
 
