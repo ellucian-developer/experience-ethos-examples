@@ -1,0 +1,21 @@
+{
+    "messages": {
+        "EmergencyContacts.contactAdministrator": "Contact Your Administrator",
+        "EmergencyContacts.dataError": "There was an error retrieving your balance",
+        "EmergencyContacts.notConfigured": "The card is not yet configured or configuration is not available except on Step 2 \"Configuration\"",
+        "EmergencyContacts.noContacts": "There are no Emergency Contacts on your account",
+        "EmergencyContacts.addContact": "Add Contact",
+        "EmergencyContacts.name": "Name",
+        "EmergencyContacts.phone": "Phone",
+        "EmergencyContacts.cancel": "Cancel",
+        "EmergencyContacts.save": "Save",
+        "EmergencyContacts.delete": "Delete",
+        "EmergencyContacts.editContact.addTitle": "Add Contact",
+        "EmergencyContacts.editContact.editTitle": "Edit Contact",
+        "EmergencyContacts.editContact.instructions": "Enter first and last name and phone number of the contact",
+        "EmergencyContacts.editContact.name.placeholder": "Enter first and last name",
+        "EmergencyContacts.editContact.phone.placeholder": "Enter phone number",
+        "EmergencyContacts.confirmDeleteContact.title": "Confirm Contact Deletion",
+        "EmergencyContacts.confirmDeleteContact.instructions": "Please confirm you wish to delete contact {name}"
+    }
+}
