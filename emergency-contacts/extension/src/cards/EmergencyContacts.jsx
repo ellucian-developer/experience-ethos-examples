@@ -21,7 +21,7 @@ import { colorFillAlertError, spacing20, spacing40, spacing80 } from '@ellucian/
 
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 
-import { useData, useExtensionControl } from '@ellucian/experience-extension-utils';
+import { useCardInfo, useData, useExtensionControl } from '@ellucian/experience-extension-utils';
 
 import { DataQueryProvider, userTokenDataConnectQuery, useDataQuery } from '@ellucian/experience-extension-extras';
 
@@ -107,6 +107,7 @@ function EmergencyContacts() {
     // Experience SDK hooks
     const { setErrorMessage } = useExtensionControl();
     const { authenticatedEthosFetch } = useData();
+    const { serverConfigContext: { cardPrefix }, cardId } = useCardInfo();
 
     useDashboard();
 
@@ -139,37 +140,37 @@ function EmergencyContacts() {
     const addContact = useCallback(async ({name, phone}) => {
         setBusyUntilRefresh(true);
         setBusy(true);
-        const postResult = await addEmergencyContact({ contact: { name, phone }, authenticatedEthosFetch });
+        const postResult = await addEmergencyContact({ authenticatedEthosFetch, cardId, cardPrefix, contact: { name, phone } });
         if (postResult.status === 'success') {
             showSnackbarMessage(`Contact ${name} was added`);
         }
         refresh();
         setBusyUntilRefresh(false);
-    }, [ authenticatedEthosFetch, refresh, showSnackbarMessage, setBusy, setBusyUntilRefresh ]);
+    }, [ authenticatedEthosFetch, cardId, cardPrefix, refresh, showSnackbarMessage, setBusy, setBusyUntilRefresh ]);
 
     const updateContact = useCallback(async ({ contact, name, phone }) => {
         setBusyUntilRefresh(true);
         setBusy(true);
-        const putResult = await updateEmergencyContact({ authenticatedEthosFetch, contact, name, phone });
+        const putResult = await updateEmergencyContact({ authenticatedEthosFetch, cardId, cardPrefix, contact, name, phone });
 
         if (putResult.status === 'success') {
             showSnackbarMessage(`Contact ${name} was updated`);
         }
         refresh();
         setBusyUntilRefresh(false);
-    }, [ authenticatedEthosFetch, refresh, showSnackbarMessage, setBusy, setBusyUntilRefresh ]);
+    }, [ authenticatedEthosFetch, cardId, cardPrefix, refresh, showSnackbarMessage, setBusy, setBusyUntilRefresh ]);
 
     const deleteContact = useCallback(async ({ contact }) => {
         setBusyUntilRefresh(true);
         setBusy(true);
-        const deleteResult = await deleteEmergencyContact({ authenticatedEthosFetch, contact });
+        const deleteResult = await deleteEmergencyContact({ authenticatedEthosFetch, cardId, cardPrefix, contact });
 
         if (deleteResult.status === 'success') {
             showSnackbarMessage(`Contact ${contact.contact.name.fullName} was deleted`);
         }
         refresh();
         setBusyUntilRefresh(false);
-    }, [ authenticatedEthosFetch, refresh, showSnackbarMessage, setBusy, setBusyUntilRefresh ]);
+    }, [ authenticatedEthosFetch, cardId, cardPrefix, refresh, showSnackbarMessage, setBusy, setBusyUntilRefresh ]);
 
     const onAddContact = useCallback(() => {
         setEditContactContext({ addContact, mode: 'add', show: true });
@@ -305,11 +306,6 @@ function EmergencyContacts() {
                                 })}
                             </TableBody>
                         </Table>
-                    </div>
-                    <div className={classes.contentMessage}>
-                        <Typography className={classes.message} variant="body1" component="div">
-                            {intl.formatMessage({ id: 'EmergencyContacts.noContacts'})}
-                        </Typography>
                     </div>
                 </div>
                 {editContactContext.show && (

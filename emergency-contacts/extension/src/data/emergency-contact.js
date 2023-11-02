@@ -3,12 +3,19 @@
 import log from 'loglevel';
 const logger = log.getLogger('default');
 
-export async function addEmergencyContact({ authenticatedEthosFetch, contact }) {
+export async function addEmergencyContact({ authenticatedEthosFetch, cardId, cardPrefix, contact }) {
     const resource = process.env.PIPELINE_POST_EMERGENCY_CONTACTS;
     try {
         const start = new Date();
 
-        const response = await authenticatedEthosFetch(resource, {
+        const urlSearchParameters = new URLSearchParams({
+            cardId,
+            cardPrefix
+        }).toString();
+
+        const resourcePath = `${resource}?${urlSearchParameters}`;
+
+        const response = await authenticatedEthosFetch(resourcePath, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -57,7 +64,7 @@ export async function addEmergencyContact({ authenticatedEthosFetch, contact }) 
     }
 }
 
-export async function updateEmergencyContact({ authenticatedEthosFetch, contact, name, phone }) {
+export async function updateEmergencyContact({ authenticatedEthosFetch, cardId, cardPrefix, contact, name, phone }) {
     const resource = process.env.PIPELINE_PUT_EMERGENCY_CONTACTS;
     try {
         const start = new Date();
@@ -74,7 +81,14 @@ export async function updateEmergencyContact({ authenticatedEthosFetch, contact,
         contactToSend.contact.name.lastName = lastName;
         contactToSend.contact.phones[0].number = phone;
 
-        const response = await authenticatedEthosFetch(resource, {
+        const urlSearchParameters = new URLSearchParams({
+            cardId,
+            cardPrefix
+        }).toString();
+
+        const resourcePath = `${resource}?${urlSearchParameters}`;
+
+        const response = await authenticatedEthosFetch(resourcePath, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -123,12 +137,19 @@ export async function updateEmergencyContact({ authenticatedEthosFetch, contact,
     }
 }
 
-export async function deleteEmergencyContact({ authenticatedEthosFetch, contact }) {
+export async function deleteEmergencyContact({ authenticatedEthosFetch, cardId, cardPrefix, contact }) {
     const resource = process.env.PIPELINE_DELETE_EMERGENCY_CONTACTS;
     try {
         const start = new Date();
 
-        const response = await authenticatedEthosFetch(resource, {
+        const urlSearchParameters = new URLSearchParams({
+            cardId,
+            cardPrefix
+        }).toString();
+
+        const resourcePath = `${resource}?${urlSearchParameters}`;
+
+        const response = await authenticatedEthosFetch(resourcePath, {
             method: 'DELETE',
             headers: {
                 Accept: 'application/json'
