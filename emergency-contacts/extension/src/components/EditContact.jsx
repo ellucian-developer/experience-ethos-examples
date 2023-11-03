@@ -14,30 +14,26 @@ const useStyles = makeStyles(() => ({
 }), { index: 2});
 
 export default function EditContact({
-    close = () => {},
-    editContactContext = { show: false },
+    onClose = () => {},
+    context = { show: false },
 }) {
     const intl = useIntl();
     const classes = useStyles();
 
-    const { addContact, contact = { contact: { name: { fullName: '' }, phones: [ { number: '' } ] } }, mode, show, updateContact } = editContactContext;
+    const { addContact, contact = { contact: { name: { fullName: '' }, phones: [ { number: '' } ] } }, mode, show, updateContact } = context;
 
     const [ name, setName ] = useState(contact.contact.name.fullName);
     const [ phone, setPhone ] = useState(contact.contact.phones[0].number);
 
-    const onClose = useCallback(() => {
-        close();
-    }, [close]);
-
     const onSave = useCallback(() => {
         if (mode === 'add') {
             addContact({ name, phone });
-            close();
+            onClose();
         } else if (mode === 'edit') {
             updateContact({ contact, name, phone });
-            close();
+            onClose();
         }
-    }, [ addContact, close, contact, mode, name, phone, updateContact ]);
+    }, [ addContact, onClose, contact, mode, name, phone, updateContact ]);
 
     const title = useMemo(() => {
         if (mode === 'add') {
@@ -49,7 +45,6 @@ export default function EditContact({
 
     return (
         <Dialog
-            classes={{ paper: classes.jobChangeDialog}}
             open={show}
             onClose={onClose}
             fullWidth
@@ -96,6 +91,6 @@ export default function EditContact({
 }
 
 EditContact.propTypes = {
-    close: PropTypes.func,
-    editContactContext: PropTypes.object,
+    onClose: PropTypes.func,
+    context: PropTypes.object,
 };

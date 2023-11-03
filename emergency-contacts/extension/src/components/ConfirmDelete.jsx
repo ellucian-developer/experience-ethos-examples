@@ -4,24 +4,15 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, makeStyles } from '@ellucian/react-design-system/core';
-import { spacing40 } from '@ellucian/react-design-system/core/styles/tokens';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@ellucian/react-design-system/core';
 
-const useStyles = makeStyles(() => ({
-    textFieldPhone: {
-        marginTop: spacing40,
-    },
-}), { index: 2});
-
-export default function ConfirmDelete({ cancelDelete, confirmDelete, contact }) {
+export default function ConfirmDelete({ onDeleteCancel, onDeleteConfirm, contact }) {
     const intl = useIntl();
-    const classes = useStyles();
 
     return (
         <Dialog
-            classes={{ paper: classes.jobChangeDialog}}
             open={true}
-            onClose={() => cancelDelete()}
+            onClose={() => onDeleteCancel()}
             fullWidth
         >
             <DialogTitle>
@@ -33,11 +24,11 @@ export default function ConfirmDelete({ cancelDelete, confirmDelete, contact }) 
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => cancelDelete()} color="secondary">
+                <Button onClick={() => onDeleteCancel()} color="secondary">
                     {intl.formatMessage({id: 'EmergencyContacts.cancel'})}
                 </Button>
                 <Button
-                    onClick={() => confirmDelete()}
+                    onClick={() => onDeleteConfirm()}
                     color="primary"
                 >
                     {intl.formatMessage({id: 'EmergencyContacts.delete'})}
@@ -48,7 +39,7 @@ export default function ConfirmDelete({ cancelDelete, confirmDelete, contact }) 
 }
 
 ConfirmDelete.propTypes = {
-    cancelDelete: PropTypes.func.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
+    onDeleteCancel: PropTypes.func.isRequired,
+    onDeleteConfirm: PropTypes.func.isRequired,
     contact: PropTypes.object.isRequired,
 };

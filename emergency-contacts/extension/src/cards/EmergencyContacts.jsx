@@ -180,20 +180,19 @@ function EmergencyContacts() {
         setEditContactContext({ contact, mode: 'edit', show: true, updateContact });
     }, [setEditContactContext, updateContact]);
 
-    const closeEditContactDialog = useCallback(() => {
+    const onCloseEditContact = useCallback(() => {
         setEditContactContext({ show: false });
     }, [setEditContactContext]);
 
     const onDeleteContact = useCallback((contact) => {
         setConfirmDelete({ contact });
-        // deleteContact({ contact });
-    }, [/*deleteContact*/]);
+    }, [setConfirmDelete]);
 
-    const cancelConfirmDeleteDialog = useCallback(() => {
+    const onDeleteCancel = useCallback(() => {
         setConfirmDelete();
     }, [setConfirmDelete]);
 
-    const confirmConfirmDeleteDialog = useCallback(() => {
+    const onDeleteConfirmed = useCallback(() => {
         deleteContact(confirmDelete);
         setConfirmDelete();
     }, [confirmDelete, deleteContact, setConfirmDelete]);
@@ -239,7 +238,7 @@ function EmergencyContacts() {
                     </div> 
                 </div>
                 {editContactContext.show && (
-                    <EditContact editContactContext={editContactContext} close={closeEditContactDialog}/>
+                    <EditContact editContactContext={editContactContext} onClose={onCloseEditContact}/>
                 )}
             </div>
         );
@@ -309,10 +308,10 @@ function EmergencyContacts() {
                     </div>
                 </div>
                 {editContactContext.show && (
-                    <EditContact editContactContext={editContactContext} close={closeEditContactDialog}/>
+                    <EditContact context={editContactContext} onClose={onCloseEditContact}/>
                 )}
                 {confirmDelete !== undefined && (
-                    <ConfirmDelete contact={confirmDelete?.contact} cancelDelete={cancelConfirmDeleteDialog} confirmDelete={confirmConfirmDeleteDialog} />
+                    <ConfirmDelete contact={confirmDelete?.contact} onDeleteCancel={onDeleteCancel} onDeleteConfirm={onDeleteConfirmed} />
                 )}
                 <Snackbar
                     open={showSnackbar}
