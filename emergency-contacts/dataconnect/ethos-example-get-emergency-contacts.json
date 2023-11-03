@@ -1,0 +1,48 @@
+{
+  "name": "ethos-example-get-emergency-contacts",
+  "parameters": [
+    {
+      "name": "ethosApiKey",
+      "type": "string",
+      "required": true,
+      "sensitive": true
+    },
+    {
+      "name": "testPersonId",
+      "type": "string",
+      "default": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+    }
+  ],
+  "apiDefinition": {
+    "authType": "userToken",
+    "httpVerb": "GET"
+  },
+  "pipeline": [
+    "Set up user",
+    "Get person-emergency-contacts"
+  ],
+  "segments": {
+    "Set up user": {
+      "class": "JavaScriptTransform",
+      "config": {
+        "pushUndefined": true,
+        "stopOnError": false,
+        "draft": false,
+        "code": "function transform (message, context) {\n  \n  const contextUser = context.get('__user');\n  const testPersonId = context.get('testPersonId');\n\n  const personId = contextUser?.id || testPersonId;\n\n  context.set('personId', personId);\n\n  return { payload: {} };\n}\n"
+      }
+    },
+    "Get person-emergency-contacts": {
+      "class": "ethosProxyGetFilter",
+      "config": {
+        "resource": "person-emergency-contacts",
+        "filter": "?criteria={\"person\":{\"id\":\"{{{context.personId}}}\"}}",
+        "acceptVersions": [
+          "1"
+        ],
+        "cache": false,
+        "queryByPost": false,
+        "ignoreErrors": false
+      }
+    }
+  }
+}

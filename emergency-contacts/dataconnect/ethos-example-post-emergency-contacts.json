@@ -1,0 +1,79 @@
+{
+  "name": "ethos-example-post-emergency-contacts",
+  "parameters": [
+    {
+      "name": "ethosApiKey",
+      "type": "string",
+      "required": true,
+      "sensitive": true
+    },
+    {
+      "name": "testPersonId",
+      "type": "string",
+      "default": "1203365a-5277-4a69-b480-78d56176f489"
+    },
+    {
+      "name": "contactTypeTitle",
+      "description": "emergency-contact-types title to match - Banner",
+      "type": "string",
+      "default": "emergency"
+    },
+    {
+      "name": "contactTypeCode",
+      "description": "emergency-contact-types code to match - Colleague",
+      "type": "string",
+      "default": "EMER"
+    }
+  ],
+  "apiDefinition": {
+    "authType": "userToken",
+    "httpVerb": "POST"
+  },
+  "pipeline": [
+    "setup",
+    "Get emergency-contact-types",
+    "add-contact-type",
+    "Post person-emergency-contacts"
+  ],
+  "segments": {
+    "setup": {
+      "class": "JavaScriptTransform",
+      "config": {
+        "pushUndefined": true,
+        "stopOnError": false,
+        "draft": false,
+        "code": "function transform (message, context) {\n  const { payload: { name = '', phone = '' } = {} } = message;\n  const { '__user': user, testPersonId } = context;\n\n  const personId = user?.id || context.testPersonId;\n\n  const names = name.split(/\\s+/);\n  const firstName = names[0];\n  const lastName = names[names.length - 1];\n\n  const postBody = {\n    id: '00000000-0000-0000-0000-000000000000',\n    person: {\n      id: personId\n    },\n    contact: {\n      name: {\n        firstName,\n        lastName\n      },\n      types: [\n        {\n        }\n      ],\n      phones: [\n        {\n          number: phone\n        }\n      ]\n    }\n  };\n\n  return {\n    header: {\n      postBody\n    },\n    payload: {\n    }\n  };\n}\n"
+      }
+    },
+    "Get emergency-contact-types": {
+      "class": "ethosProxyGet",
+      "config": {
+        "resource": "emergency-contact-types",
+        "acceptVersions": [
+          "1"
+        ],
+        "cache": false,
+        "ignoreErrors": false
+      }
+    },
+    "add-contact-type": {
+      "class": "JavaScriptTransform",
+      "config": {
+        "pushUndefined": true,
+        "stopOnError": false,
+        "draft": false,
+        "code": "function transform (message, context) {\n  const { payload: contactTypes, header: { postBody } = {} } = message;\n  const { contactTypeCode, contactTypeTitle } = context;\n\n  const emergencyType = contactTypes.find(type => {\n    return type.title === contactTypeTitle ||\n    type.code === contactTypeCode\n  });\n  \n  if (!emergencyType) {\n    const message = `Unable to find emergency-contact-type using title: '${contactTypeTitle}' or code '${contactTypeCode}'`;\n    context.set('__httpStatusCode', 404);\n    context.set('__httpStatusMessage', {\n      correlationId: context['__runId'],\n      component: `${context['__pipelineName']}:Get emergency-contact-types`,\n      error: '404',\n      message\n    });\n    throw new Error(message);\n  }\n\n  postBody.contact.types[0].id = emergencyType.id;\n\n  return {\n    payload: {\n      postBody\n    }\n  };\n}\n"
+      }
+    },
+    "Post person-emergency-contacts": {
+      "class": "ethosProxyPost",
+      "config": {
+        "resource": "person-emergency-contacts",
+        "contentVersion": "1",
+        "acceptVersion": "1",
+        "bodyPath": "$.postBody",
+        "ignoreErrors": false
+      }
+    }
+  }
+}

@@ -28,7 +28,6 @@
     "@ellucian/experience-extension-extras": "github:ellucian-developer/experience-extension-extras#1.0.0",
     "@ellucian/experience-extension-utils": "https://cdn.elluciancloud.com/assets/SDK/utils/1.0.0/ellucian-experience-extension-utils-1.0.0.tgz",
     "@ellucian/react-design-system": "https://cdn.elluciancloud.com/assets/EDS2/7.4.0/umd/path_design_system.tgz",
-    "@tanstack/react-query": "^4.32.0",
     "classnames": "^2.3.2",
     "dotenv-webpack": "^7.1.1",
     "jwt-decode": "3.1.2",
@@ -56,5 +55,8 @@
     "webpack": "5.76.1",
     "webpack-cli": "4.10.0",
     "webpack-dev-server": "4.7.4"
+  },
+  "overrides": {
+    "@babel/core": "^7.23.2"
   }
 }

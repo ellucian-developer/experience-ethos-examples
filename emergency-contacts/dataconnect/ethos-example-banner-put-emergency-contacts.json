@@ -1,0 +1,47 @@
+{
+  "name": "ethos-example-banner-put-emergency-contacts",
+  "parameters": [
+    {
+      "name": "ethosApiKey",
+      "type": "string",
+      "required": true,
+      "sensitive": true
+    },
+    {
+      "name": "testPersonId",
+      "type": "string",
+      "default": "1203365a-5277-4a69-b480-78d56176f489"
+    }
+  ],
+  "apiDefinition": {
+    "authType": "userToken",
+    "httpVerb": "PUT"
+  },
+  "pipeline": [
+    "setup",
+    "Put person-emergency-contacts"
+  ],
+  "segments": {
+    "setup": {
+      "class": "JavaScriptTransform",
+      "config": {
+        "pushUndefined": true,
+        "stopOnError": false,
+        "draft": false,
+        "code": "function transform (message, context) {\n  const { payload: contact } = message;\n  const { '__user': user, testPersonId } = context;\n\n  const personId = user?.id || context.testPersonId;\n\n  const putBody = {\n    ...contact\n  };\n\n  return {\n    payload: putBody\n  };\n}\n"
+      }
+    },
+    "Put person-emergency-contacts": {
+      "class": "ethosProxyPut",
+      "config": {
+        "resource": "person-emergency-contacts",
+        "contentVersion": "1",
+        "acceptVersion": "1",
+        "idFromPayload": "$.id",
+        "bodyPath": "$",
+        "ignoreErrors": false,
+        "allowConcurrent": false
+      }
+    }
+  }
+}

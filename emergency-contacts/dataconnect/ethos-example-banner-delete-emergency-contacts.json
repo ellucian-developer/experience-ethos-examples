@@ -1,0 +1,103 @@
+{
+  "name": "ethos-example-banner-delete-emergency-contacts",
+  "parameters": [
+    {
+      "name": "ethosApiKey",
+      "type": "string",
+      "required": true,
+      "sensitive": true
+    },
+    {
+      "name": "testPersonId",
+      "type": "string",
+      "default": "1203365a-5277-4a69-b480-78d56176f489"
+    }
+  ],
+  "apiDefinition": {
+    "authType": "userToken",
+    "httpVerb": "DELETE"
+  },
+  "pipeline": [
+    "setup",
+    "Get persons",
+    "extract-banner-id",
+    "Ethos Auth",
+    "JavaScript Transform",
+    "Delete emergency-contacts"
+  ],
+  "segments": {
+    "setup": {
+      "class": "JavaScriptTransform",
+      "config": {
+        "pushUndefined": true,
+        "stopOnError": false,
+        "draft": false,
+        "code": "function transform (message, context) {\n  const { payload: { firstName = '', lastName = '' } = {} } = message;\n  const { '__user': user, testPersonId } = context;\n\n  const personId = user?.id || context.testPersonId;\n\n  const deleteBody = {\n    'criteria.firstName': firstName,\n    'criteria.lastName': lastName\n  };\n\n  return {\n    header: {\n      deleteBody\n    },\n    payload: {\n      personId\n    }\n  };\n}\n"
+      }
+    },
+    "Get persons": {
+      "class": "ethosProxyGet",
+      "config": {
+        "resource": "persons",
+        "acceptVersions": [
+          "12"
+        ],
+        "idFromPayload": "personId",
+        "target": "person",
+        "cache": false,
+        "ignoreErrors": false
+      }
+    },
+    "extract-banner-id": {
+      "class": "JavaScriptTransform",
+      "config": {
+        "pushUndefined": true,
+        "stopOnError": false,
+        "draft": false,
+        "code": "function transform (message, context) {\n  const { header: { deleteBody } = {}, payload, payload: { person: { credentials } = {} } = {} } = message;\n  \n  const bannerIdCredential = credentials.find(credential => credential.type === 'bannerId');\n\n  deleteBody.id = bannerIdCredential.value;\n  \n  return {\n    header: {\n      deleteBody\n    },\n    payload: { }\n  }\n}\n"
+      }
+    },
+    "Ethos Auth": {
+      "class": "http-fitting",
+      "config": {
+        "method": "POST",
+        "uri": "https://integrate.elluciancloud.com/auth",
+        "target": "auth",
+        "cache": false,
+        "stream": false,
+        "headers": {
+          "Authorization": "Bearer {{context.ethosApiKey}}"
+        },
+        "ignoreErrors": false
+      }
+    },
+    "JavaScript Transform": {
+      "class": "JavaScriptTransform",
+      "config": {
+        "pushUndefined": true,
+        "stopOnError": false,
+        "draft": false,
+        "code": "function transform (message, context) {\n  const { header: { deleteBody } = {}, payload: { auth: ethosApiToken } = {} } = message;\n  \n  context.set('ethosApiToken', ethosApiToken);\n\n  return {\n    payload: deleteBody\n  };\n}\n"
+      }
+    },
+    "Delete emergency-contacts": {
+      "class": "http-fitting",
+      "config": {
+        "method": "DELETE",
+        "uri": "https://integrate.elluciancloud.com/api/emergency-contacts",
+        "cache": false,
+        "stream": false,
+        "headers": {
+          "Accept": "application/json",
+          "Authorization": "Bearer {{context.ethosApiToken}}",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "type": "raw",
+          "content": "{{message.payload}}"
+        },
+        "ignoreErrors": false
+      }
+    }
+  }
+}

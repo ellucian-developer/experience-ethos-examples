@@ -1,0 +1,67 @@
+{
+  "name": "myethosutest3-example-colleague-delete-emergency-contacts",
+  "parameters": [
+    {
+      "name": "ethosApiKey",
+      "type": "string",
+      "required": true,
+      "sensitive": true
+    },
+    {
+      "name": "testPersonId",
+      "type": "string",
+      "default": "95afac62-a2b6-447b-be6c-4c934973369c"
+    }
+  ],
+  "apiDefinition": {
+    "authType": "userToken",
+    "httpVerb": "DELETE"
+  },
+  "pipeline": [
+    "setup",
+    "Get person-emergency-contact",
+    "Confirm person ID matches",
+    "Delete person-emergency-contact"
+  ],
+  "segments": {
+    "setup": {
+      "class": "JavaScriptTransform",
+      "config": {
+        "pushUndefined": true,
+        "stopOnError": false,
+        "draft": false,
+        "code": "function transform (message, context) {\n  const { payload: contact } = message;\n  const { '__user': user, testPersonId } = context;\n\n  const personId = user?.id || context.testPersonId;\n\n  context.set('contactId', contact.id);\n  context.set('personId', personId);\n\n  return {\n    payload: {}\n  };\n}"
+      }
+    },
+    "Get person-emergency-contact": {
+      "class": "ethosProxyGet",
+      "config": {
+        "resource": "person-emergency-contacts",
+        "acceptVersions": [
+          "1"
+        ],
+        "idFromContext": "$.contactId",
+        "target": "personEmergencyContact",
+        "cache": false,
+        "ignoreErrors": false
+      }
+    },
+    "Confirm person ID matches": {
+      "class": "JavaScriptTransform",
+      "config": {
+        "pushUndefined": true,
+        "stopOnError": false,
+        "draft": false,
+        "code": "function transform (message, context) {\n  const { payload: { personEmergencyContact } = {} } = message;\n  const { personId } = context;\n  \n  if ( personEmergencyContact.person.id !== personId ) {\n    const message = 'User it not allows to delete this resource record';\n    context.set('__httpStatusMessage', message);\n    context.set('__httpStatusCode', 403);\n    throw new Error(message);\n  }\n  \n  // success\n  return message;\n}\n"
+      }
+    },
+    "Delete person-emergency-contact": {
+      "class": "ethosProxyDelete",
+      "config": {
+        "resource": "person-emergency-contacts",
+        "idFromContext": "$.contactId",
+        "ignoreErrors": false
+      }
+    }
+  }
+}
