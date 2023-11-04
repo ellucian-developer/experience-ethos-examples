@@ -3,6 +3,7 @@
 1. [Account Detail](#account-details-example)
 1. [Account Detail Data Connect](#account-details-data-connect-example)
 1. [API Dashboard](#api-dashboard-example)
+1. [Emergency Contacts](#emergency-contacts-example)
 1. [Instructor Classes Lambda](#instructor-classes-lambda-example)
 1. [Leave Balance](#leave-balance-example)
 1. [Leave Balance Data Connect](#leave-balance-data-connect-example)
@@ -45,6 +46,17 @@ This example is detailed here: [api-dashboard](api-dashboard/extension/README.md
 
 ![](api-dashboard/docs/images/API-Dashboard-Table.png)
 ![](api-dashboard/docs/images/API-Dashboard-Chart.png)
+
+<br/>
+
+## Emergency Contacts Example
+This example extension includes a card that shows the current user's emergency contacts and allows them to add, edit or remove emergency contacts and the several Data Connect Serverless API pipelines.
+
+This example is detailed here: [emergency-contacts](emergency-contacts/README.md)
+
+<br/>
+
+![](emergency-contacts/docs/images/Emergency-Contacts-Diagram.png)
 
 <br/>
 
