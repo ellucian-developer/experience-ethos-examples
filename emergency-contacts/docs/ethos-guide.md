@@ -4,11 +4,11 @@ This example uses Ethos Integration to create, read, update and delete SIS data.
 
 ## Banner resources
 
-1. EEDM person-emergency-contacts
-1. BP API emergency-contacts
+1. EEDM person-emergency-contacts [Person Emergency Contacts: person-emergency-contacts v1.0.0](https://resources.elluciancloud.com/bundle/banner_api_ethos_api_person_emergency_contacts_1.0.0/page/person-emergency-contacts.html)
+1. BP API emergency-contacts [emergency-contacts API documentation v1.1.0](https://resources.elluciancloud.com/bundle/banner_api_business_api_emergency_contacts_1.1.0/page/emergency-contacts.html)   
 
 ## Colleague resources
-1. EEDM person-emergency-contacts
+1. EEDM person-emergency-contacts [Person Emergency Contacts: person-emergency-contacts v1.0.0](https://resources.elluciancloud.com/bundle/colleague_api_ethos_api_person_emergency_contacts_1.0.0/page/person-emergency-contacts.html)
 
 ## Ethos Integration Setup
 
