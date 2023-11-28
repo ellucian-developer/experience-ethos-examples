@@ -238,7 +238,7 @@ function EmergencyContacts() {
                     </div> 
                 </div>
                 {editContactContext.show && (
-                    <EditContact editContactContext={editContactContext} onClose={onCloseEditContact}/>
+                    <EditContact context={editContactContext} onClose={onCloseEditContact}/>
                 )}
             </div>
         );
