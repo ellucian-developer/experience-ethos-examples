@@ -10,7 +10,7 @@
     {
       "name": "testPersonId",
       "type": "string",
-      "default": "1203365a-5277-4a69-b480-78d56176f489"
+      "default": ""
     }
   ],
   "apiDefinition": {
@@ -32,7 +32,7 @@
         "pushUndefined": true,
         "stopOnError": false,
         "draft": false,
-        "code": "function transform (message, context) {\n  const { payload: { firstName = '', lastName = '' } = {} } = message;\n  const { '__user': user, testPersonId } = context;\n\n  const personId = user?.id || context.testPersonId;\n\n  const deleteBody = {\n    'criteria.firstName': firstName,\n    'criteria.lastName': lastName\n  };\n\n  return {\n    header: {\n      deleteBody\n    },\n    payload: {\n      personId\n    }\n  };\n}\n"
+        "code": "function transform (message, context) {\n  const { payload: { firstName = '', lastName = '' } = {} } = message;\n  const { '__user': user, testPersonId } = context;\n\n  const personId = testPersonId || user?.id;\n\n  const deleteBody = {\n    'criteria.firstName': firstName,\n    'criteria.lastName': lastName\n  };\n\n  return {\n    header: {\n      deleteBody\n    },\n    payload: {\n      personId\n    }\n  };\n}\n"
       }
     },
     "Get persons": {
