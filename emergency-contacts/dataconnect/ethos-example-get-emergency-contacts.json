@@ -10,7 +10,7 @@
     {
       "name": "testPersonId",
       "type": "string",
-      "default": "55cb8408-d69c-4946-83a2-8dbd4d30be9c"
+      "default": ""
     }
   ],
   "apiDefinition": {

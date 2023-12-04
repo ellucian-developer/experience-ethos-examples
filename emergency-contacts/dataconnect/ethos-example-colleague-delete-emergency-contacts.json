@@ -10,7 +10,7 @@
     {
       "name": "testPersonId",
       "type": "string",
-      "default": "95afac62-a2b6-447b-be6c-4c934973369c"
+      "default": ""
     }
   ],
   "apiDefinition": {
@@ -30,7 +30,7 @@
         "pushUndefined": true,
         "stopOnError": false,
         "draft": false,
-        "code": "function transform (message, context) {\n  const { payload: contact } = message;\n  const { '__user': user, testPersonId } = context;\n\n  const personId = user?.id || context.testPersonId;\n\n  context.set('contactId', contact.id);\n  context.set('personId', personId);\n\n  return {\n    payload: {}\n  };\n}"
+        "code": "function transform (message, context) {\n  const { payload: contact } = message;\n  const { '__user': user, testPersonId } = context;\n\n  const personId = testPersonId || user?.id;\n\n  context.set('contactId', contact.id);\n  context.set('personId', personId);\n\n  return {\n    payload: {}\n  };\n}"
       }
     },
     "Get person-emergency-contact": {
