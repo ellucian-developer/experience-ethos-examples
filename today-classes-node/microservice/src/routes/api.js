@@ -11,7 +11,7 @@ const logger = logUtil.getLogger();
 const apiRouter = express.Router();
 
 apiRouter.use(cors({
-    origin: /https:\/\/experience(-.*)?\.elluciancloud.com/
+    origin: /https:\/\/experience(-.*)?\.elluciancloud\.com/
 }));
 
 apiRouter.use(expressUtil.jwtAuthorize({ options: { secret: process.env.JWT_SECRET } }));
