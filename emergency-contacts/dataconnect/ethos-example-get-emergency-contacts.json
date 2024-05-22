@@ -22,7 +22,7 @@
     "Get person-emergency-contacts"
   ],
   "segments": {
-    "Set up user": {
+    "Setup user": {
       "class": "JavaScriptTransform",
       "config": {
         "pushUndefined": true,
