@@ -28,7 +28,7 @@
         "pushUndefined": true,
         "stopOnError": false,
         "draft": false,
-        "code": "function transform (message, context) {\n  const { payload: contact } = message;\n  const { '__user': user, testPersonId } = context;\n\n  const personId = testPersonId || user?.id;\n\n  const putBody = {\n    ...contact\n  };\n\n  return {\n    payload: putBody\n  };\n}\n"
+        "code": "function transform (message, context) {\n  const { payload: contact } = message;\n  const { '__user': user, testPersonId } = context;\n\n  const personId = user?.id || testPersonId;\n\n  const putBody = {\n    ...contact\n  };\n\n  return {\n    payload: putBody\n  };\n}\n"
       }
     },
     "Put person-emergency-contacts": {

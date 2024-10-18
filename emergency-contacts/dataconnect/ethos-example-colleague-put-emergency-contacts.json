@@ -32,7 +32,7 @@
         "pushUndefined": true,
         "stopOnError": false,
         "draft": false,
-        "code": "function transform (message, context) {\n  const { payload: contact } = message;\n\n  const { '__user': user, testPersonId } = context;\n  const personId = testPersonId || user?.id;\n  \n  context.set('contact', contact);\n  context.set('personId', personId);\n  \n  return message;\n}\n"
+        "code": "function transform (message, context) {\n  const { payload: contact } = message;\n\n  const { '__user': user, testPersonId } = context;\n  const personId = user?.id || testPersonId;\n  \n  context.set('contact', contact);\n  context.set('personId', personId);\n  \n  return message;\n}\n"
       }
     },
     "Get person-emergency-contact": {
