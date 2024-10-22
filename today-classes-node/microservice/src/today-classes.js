@@ -57,7 +57,12 @@ async function getInstructionalEvents({apiKey, context, sectionIds}) {
             apiKey,
             context,
             resource: 'instructional-events',
-            searchParams
+            searchParams,
+            options: {
+                headers: {
+                    'Accept': `application/vnd.hedtech.integration.${instructionalEventsVersion}+json`
+                }
+            }
         });
     });
 
