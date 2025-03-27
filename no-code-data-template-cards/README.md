@@ -16,7 +16,7 @@ The data-connect directory includes a pipeline JSON named ethos-example-get-cumu
 
 #### Ensure Ethos access to the necessary resources
 
-Follow the [Ethos Guide](../docs/ethos-guide.md) to ensure the needed resources are available and you have an API Key that can be used to access them.
+Follow the [Ethos Guide](./docs/ethos-guide.md) to ensure the needed resources are available and you have an API Key that can be used to access them.
 
 #### Create the Serverless API pipeline
 
