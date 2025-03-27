@@ -1,0 +1,68 @@
+{
+  "name": "elive2025-cumulative-gpa",
+  "parameters": [
+    {
+      "name": "ethosApiKey",
+      "type": "string",
+      "required": true,
+      "sensitive": true
+    },
+    {
+      "name": "testPersonId",
+      "type": "string",
+      "sensitive": true
+    }
+  ],
+  "apiDefinition": {
+    "authType": "userToken",
+    "httpVerb": "GET",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "properties": {
+        "gpa": {
+          "type": "number",
+          "title": "GPA"
+        }
+      }
+    }
+  },
+  "pipeline": [
+    "Set up user",
+    "Get student-grade-point-averages",
+    "JavaScript Transform"
+  ],
+  "segments": {
+    "Set up user": {
+      "class": "JavaScriptTransform",
+      "config": {
+        "pushUndefined": true,
+        "stopOnError": false,
+        "draft": false,
+        "code": "function transform (message, context) {\n  \n  const contextUser = context.get('__user');\n  const testPersonId = context.get('testPersonId');\n\n  //const personId = testPersonId;\n  const personId = contextUser?.id;\n\n  context.set('personId', personId);\n\n  return { \n    payload: {\n      personId,\n    }\n  };\n}\n"
+      }
+    },
+    "Get student-grade-point-averages": {
+      "class": "ethosProxyGetFilter",
+      "config": {
+        "resource": "student-grade-point-averages",
+        "filter": "?criteria={\"student\":{\"id\":\"{{context.personId}}\"}}",
+        "acceptVersions": [
+          "1"
+        ],
+        "cache": false,
+        "queryByPost": false,
+        "ignoreErrors": false
+      }
+    },
+    "JavaScript Transform": {
+      "class": "JavaScriptTransform",
+      "config": {
+        "pushUndefined": true,
+        "stopOnError": false,
+        "draft": false,
+        "code": "function transform (message, context) {\n  const { payload: data } = message;\n  \n  const result = {};\n  if (Array.isArray(data) && data.length === 1) {\n    const [ sgpAverages ] = data;\n    result.studentId = sgpAverages?.student?.id;\n    const cumulativeAll = sgpAverages?.cumulative.find(average => average?.academicSource === 'all');\n    Object.assign(result, cumulativeAll);\n    \n    // clean up the result\n    result.gpa = result.value;\n    delete result.value;\n    delete result.academicLevel;\n    delete result.academicSource;\n  }\n\n  return {\n    payload: result\n  }\n}\n"
+      }
+    }
+  }
+}
