@@ -36,7 +36,8 @@
       "class": "ethosProxyGetFilter",
       "config": {
         "resource": "term-enrollments",
-        "filter": "?criteria={\"termCode\":\"{{context.termCode}}\"}",
+        "filter": "?criteria={\"termCode\":\"{{context.termCode}}\"}&limit=1",
+        "resultHeaders": "responseHeaders",
         "acceptVersions": [
           "1"
         ],
@@ -50,8 +51,7 @@
       "config": {
         "pushUndefined": true,
         "stopOnError": false,
-        "draft": false,
-        "code": "function transform (message, context) {\n  const { payload: data } = message;\n  \n  const count = data.filter(enrollment => enrollment.enrollmentStatusIncludedInHeadcount === true);\n  const result = { enrolled: data.length };\n  \n  /*\n  if (Array.isArray(data) && data.length === 1) {\n    const [ sgpAverages ] = data;\n    result.studentId = sgpAverages?.student?.id;\n    const cumulativeAll = sgpAverages?.cumulative.find(average => average?.academicSource === 'all');\n    Object.assign(result, cumulativeAll);\n    \n    // clean up the result\n    result.gpa = result.value;\n    delete result.value;\n    delete result.academicLevel;\n    delete result.academicSource;\n  }\n  */\n\n  return {\n    payload: result\n  }\n}\n"
+        "code": "function transform (message) {\n  const { header: { responseHeaders: { 'x-total-count': count = 0 } = {} } = {} } = message;\n  \n  result = { enrolled: count };\n  \n  return {\n    payload: result\n  }\n}"
       }
     }
   }
