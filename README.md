@@ -7,7 +7,7 @@
 1. [Instructor Classes Lambda](#instructor-classes-lambda-example)
 1. [Leave Balance](#leave-balance-example)
 1. [Leave Balance Data Connect](#leave-balance-data-connect-example)
-1. [No Code Data Template Cards](#no-code-data-template=cards)
+1. [No Code Data Template Cards](#no-card-data-template-cards-example)
 1. [Today Classes GraphQL Proxy](#todays-classes-graphql-proxy-example)
 1. [Today Classes Lambda](#todays-classes-lambda-example)
 1. [Today Classes Node](#todays-classes-node-example)
@@ -99,7 +99,7 @@ This example includes the Data Connect pipelines and the instructions to create 
 
 Note: Using Data Connect Serverless APIs allows the no code cards in Experience directly make the API call to Ethos without the need for a microservice. The browser user's identity is used to restrict the execution of the DC pipeline API through Data Connect permissions. The API Key used in the pipeline is configured in the card *server configuration* to protect it from the browser.
 
-This example is detailed here: [no-card-data-template-cards](no-card-data-template-cards/README.md)
+This example is detailed here: [no-card-data-template-cards](no-code-data-template-cards/README.md)
 
 <br/>
 
