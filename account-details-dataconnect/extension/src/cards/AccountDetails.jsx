@@ -94,14 +94,11 @@ function AccountDetails() {
     const { locale } = useUserInfo();
     const {
         configuration: {
-            payNowUrl,
-            pipelineApi
+            payNowUrl
         } = {}
      } = useCardInfo();
 
-    useDashboard();
-
-    const { data, dataError, inPreviewMode, isError, isLoading, isRefreshing } = useDataQuery(pipelineApi);
+    const { data, dataError, inPreviewMode, isError, isLoading, isRefreshing } = useDataQuery(process.env.PIPELINE_GET_ACCOUNT_DETAILS);
 
     const [ transactions, setTransactions ] = useState();
     const [ summary, setSummary ] = useState();
@@ -124,18 +121,18 @@ function AccountDetails() {
         if (data) {
             const [results] = data;
             let transactions = [];
-            let summarys = [{
+            let summaries = [{
                 accountBalance: 0,
                 amountDue: 0
             }];
 
             if (results) {
-                ({ TBRACCD: transactions, TBRACCD_CTRL: summarys } = results);
-                transactions.sort((left, right) => (right.transDate?.localeCompare(left.transDate)));
+                ({ TBRACCD: transactions, TBRACCD_CTRL: summaries } = results);
+                transactions?.sort((left, right) => (right.transDate?.localeCompare(left.transDate)));
             }
 
-            setTransactions(() => transactions.slice(0, 5));
-            setSummary(() => summarys[0]);
+            setTransactions(() => transactions?.slice(0, 5));
+            setSummary(() => summaries[0]);
         }
     }, [data])
 
@@ -258,21 +255,9 @@ function AccountDetails() {
 }
 
 function AccountDetailsWithProviders() {
-    const {
-        configuration: {
-            pipelineApi
-        } = {}
-    } = useCardInfo();
-
-    if (!pipelineApi || pipelineApi === '') {
-        const message = '"pipelineApi" is not configured. See card configuration';
-        logger.error(message);
-        throw new Error(message);
-    }
-
     const options = useMemo(() => ({
         queryFunction: userTokenDataConnectQuery,
-        resource: pipelineApi
+        resource: process.env.PIPELINE_GET_ACCOUNT_DETAILS
     }), []);
 
     return (

@@ -11,11 +11,6 @@ module.exports = {
         description: 'Account Details - Data Connect',
         configuration: {
             client: [{
-                key: 'pipelineApi',
-                label: 'Pipeline API',
-                type: 'text',
-                required: true
-            }, {
                 key: 'payNowUrl',
                 label: 'Pay Now URL',
                 type: 'text',
