@@ -1,0 +1,58 @@
+{
+  "name": "elive2025-term-enrolled",
+  "parameters": [
+    {
+      "name": "ethosApiKey",
+      "type": "string",
+      "required": true,
+      "sensitive": true
+    },
+    {
+      "name": "termCode",
+      "type": "string",
+      "default": "202520"
+    }
+  ],
+  "apiDefinition": {
+    "authType": "userToken",
+    "httpVerb": "GET",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "properties": {
+        "enrolled": {
+          "type": "integer",
+          "title": "Enrolled"
+        }
+      }
+    }
+  },
+  "pipeline": [
+    "Get term-enrollments",
+    "JavaScript Transform"
+  ],
+  "segments": {
+    "Get term-enrollments": {
+      "class": "ethosProxyGetFilter",
+      "config": {
+        "resource": "term-enrollments",
+        "filter": "?criteria={\"termCode\":\"{{context.termCode}}\"}&limit=1",
+        "resultHeaders": "responseHeaders",
+        "acceptVersions": [
+          "1"
+        ],
+        "cache": false,
+        "queryByPost": false,
+        "ignoreErrors": false
+      }
+    },
+    "JavaScript Transform": {
+      "class": "JavaScriptTransform",
+      "config": {
+        "pushUndefined": true,
+        "stopOnError": false,
+        "code": "function transform (message) {\n  const { header: { responseHeaders: { 'x-total-count': count = 0 } = {} } = {} } = message;\n  \n  result = { enrolled: count };\n  \n  return {\n    payload: result\n  }\n}"
+      }
+    }
+  }
+}

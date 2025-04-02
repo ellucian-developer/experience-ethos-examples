@@ -1,4 +1,4 @@
-// Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
+// Copyright 2021-2025 Ellucian Company L.P. and its affiliates.
 
 import { StatusCodes } from 'http-status-codes';
 import { experienceUtil, integrationUtil } from '@ellucian/experience-extension-server-util';
