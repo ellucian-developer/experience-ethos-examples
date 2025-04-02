@@ -1,4 +1,4 @@
-// Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
+// Copyright 2021-2025 Ellucian Company L.P. and its affiliates.
 
 module.exports = {
     name: 'instructor-classes-lambda',
