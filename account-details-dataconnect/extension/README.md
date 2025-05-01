@@ -15,6 +15,7 @@ To upload and use this extension you will need to do the following from the acco
 1. Run 'npm install'
 1. Set the "publisher" in extension.js. This should be the name of your institution or organization.
 1. Copy sample.env to .env. Adding your upload token and uncommenting and editing the other vars as appropriate.
+1. Edit .env to include PIPELINE_GET_ACCOUNT_DETAILS set to the name of your Data Connect pipeline. This is used in src/cards/AccountDetails.jsx for the resource name used
 1. Run one of the deploy scripts in package.json. Such as "watch-and-upload" or "deploy-dev".
 1. Use Experience Setup to enable or verify your new extension is enabled, and is associated with an Environment.
 
