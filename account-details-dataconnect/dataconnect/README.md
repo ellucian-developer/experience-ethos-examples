@@ -21,7 +21,7 @@ To create the API in your tenant, you will need to do the following:
 1. The API is ready to set up permissions
 
 ### Configure Data Connect Platform Component
-Follow the directions in documentation titled [Publish and execute a serverless API](https://resources.elluciancloud.com/bundle/ethos_data_connect_int_design_acn_use/page/t_dc_designer_publish_execute_serverless_api.html).
+Follow the directions in documentation titled [Publish and execute a serverless API](https://resources.elluciancloud.com/bundle/ethos_data_connect/page/t_dc_designer_publish_execute_serverless_api.html).
 
 ### Configure Experience Permissions
 
