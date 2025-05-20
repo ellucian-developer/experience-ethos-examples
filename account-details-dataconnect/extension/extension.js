@@ -22,6 +22,10 @@ module.exports = {
                 type: 'password',
                 require: true
             }]
+        },
+        pageRoute: {
+            route: '/',
+            excludeClickSelectors: ['button']
         }
     }],
     page: {

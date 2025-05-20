@@ -96,12 +96,11 @@ function AccountDetails() {
     const { locale } = useUserInfo();
     const {
         cardConfiguration: {
-            payNowUrl,
-            pipelineApi
+            payNowUrl
         } = {}
     } = useCardInfo();
 
-    const { data, isError, isLoading, isRefreshing } = useDataQuery(pipelineApi);
+    const { data, isError, isLoading, isRefreshing } = useDataQuery(process.env.PIPELINE_GET_ACCOUNT_DETAILS);
 
     const [ transactions, setTransactions ] = useState([]);
     const [ summary, setSummary ] = useState();
@@ -173,7 +172,6 @@ function AccountDetails() {
             window.open(payNowUrl, '_blank');
         }
     }
-
     const showPayNow = featurePayNow && payNowUrl && summary?.accountBalance > 0;
     const firstDate = Array.isArray(transactions) && transactions.length > 0 && transactions[0].transDate ? dateFormater.format((new Date(transactions[0]?.transDate) || Date.now)) : '';
     const lastDate = Array.isArray(transactions) && transactions.length > 0 && transactions[transactions.length - 1].transDate ? dateFormater.format(new Date(transactions[transactions.length - 1].transDate)) : '';
@@ -291,22 +289,11 @@ function AccountDetails() {
 }
 
 function AccountDetailsWithProviders() {
-    const {
-        cardConfiguration: {
-            pipelineApi
-        } = {}
-    } = useCardInfo();
-
-    if (!pipelineApi || pipelineApi === '') {
-        const message = '"pipelineApi" is not configured. See card configuration';
-        logger.error(message);
-        throw new Error(message);
-    }
 
     const options = useMemo(() => ({
         queryFunction: userTokenDataConnectQuery,
         // queryParameters: { acceptVersion: '2' },
-        resource: pipelineApi
+        resource: process.env.PIPELINE_GET_ACCOUNT_DETAILS
     }), []);
 
     return (
