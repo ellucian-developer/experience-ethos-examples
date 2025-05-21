@@ -1,11 +1,11 @@
 {
   "name": "emergency-contacts-extension",
-  "version": "2.2.0",
+  "version": "2.2.2",
   "description": "Description of emergency-contacts-extension",
   "license": "Apache-2.0",
   "private": true,
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=20.0.0 <21"
   },
   "repository": {
     "type": "git",
@@ -33,7 +33,7 @@
     "loglevel": "^1.8.1",
     "prop-types": "15.7.2",
     "react": "17.0.2",
-    "react-dom": "^17.0.2",
+    "react-dom": "17.0.2",
     "react-intl": "5.12.5",
     "react-router-dom": "5.2.0"
   },

@@ -1,6 +1,6 @@
 // Copyright 2021-2025 Ellucian Company L.P. and its affiliates.
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classnames from 'classnames';
 
@@ -9,7 +9,7 @@ import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, spaci
 
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 
-import { useCardControl, useCardInfo, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
+import { useCardInfo, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
 
 import { DataQueryProvider, userTokenDataConnectQuery, useDataQuery } from '@ellucian/experience-extension-extras';
 
@@ -36,9 +36,6 @@ const useStyles = makeStyles(() => ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-around'
-    },
-    transactionsBox: {
-        cursor: 'pointer'
     },
     recentTransactions: {
         marginBottom: spacing30
@@ -87,7 +84,6 @@ function AccountDetails() {
     const classes = useStyles();
 
     // Experience SDK hooks
-    const { navigateToPage } = useCardControl();
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
     const { locale } = useUserInfo();
     const {
@@ -145,11 +141,6 @@ function AccountDetails() {
         }
     }, [isError, setErrorMessage])
 
-    const onTransactionsClick = useCallback(() => {
-        // open the page
-        navigateToPage({route: '/'});
-    }, [navigateToPage])
-
     function onPayNow() {
         if (payNowUrl) {
             window.open(payNowUrl, '_blank');
@@ -173,7 +164,7 @@ function AccountDetails() {
             <div className={classes.root}>
             <div className={classes.content}>
                 <>
-                    <div className={classes.transactionsBox} onClick={onTransactionsClick} onKeyUp={onTransactionsClick} role='button' tabIndex={0}>
+                    <div>
                         <Typography variant={'h4'} component={'div'} className={classes.recentTransactions}>
                             {intl.formatMessage({id: 'AccountDetails.recentTransactions'})}
                         </Typography>
