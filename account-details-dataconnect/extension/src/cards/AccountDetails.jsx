@@ -147,7 +147,7 @@ function AccountDetails() {
         }
     }
 
-    const showPayNow = featurePayNow && payNowUrl && summary?.accountBalance >= 0;
+    const showPayNow = featurePayNow && payNowUrl && summary?.accountBalance > 0;
 
     if (!data && inPreviewMode && dataError?.statusCode === 404) {
         return (
