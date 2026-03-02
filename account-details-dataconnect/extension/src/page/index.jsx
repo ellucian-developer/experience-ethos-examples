@@ -18,9 +18,9 @@ const Page = () => {
     return (
         <Router basename={basePath}>
             <Switch>
-                <Route path="/" render={() => (
+                <Route path="/">
                     <AccountDetails/>
-                )}/>
+                </Route>
             </Switch>
         </Router>
     );
