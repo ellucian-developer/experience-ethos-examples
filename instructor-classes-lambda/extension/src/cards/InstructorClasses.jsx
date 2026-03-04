@@ -1,6 +1,6 @@
 // Copyright 2021-2025 Ellucian Company L.P. and its affiliates.
 
-import React, { Fragment, useEffect, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 
 import { Divider, Illustration, IMAGES, List, makeStyles, Typography } from '@ellucian/react-design-system/core'
@@ -18,7 +18,7 @@ import { useDashboard } from '../hooks/dashboard';
 import { initializeLogging } from '../util/log-level';
 initializeLogging('Instructor Classes');
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles()({
     root: {
         height: '100%',
         marginTop: 0,
@@ -54,13 +54,13 @@ const useStyles = makeStyles(() => ({
         marginRight: spacing80,
         textAlign: 'center'
     }
-}), { index: 2});
+});
 
 const resource = 'instructor-classes';
 
 const InstructorClasses = () => {
     const intl = useIntl();
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     // Experience SDK hooks
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
@@ -72,7 +72,7 @@ const InstructorClasses = () => {
 
     useEffect(() => {
         setLoadingStatus(isRefreshing || (isLoading && !events));
-    }, [events, isLoading, isRefreshing])
+    }, [events, isLoading, isRefreshing, setLoadingStatus]);
 
     useEffect(() => {
         if (isError) {
@@ -83,7 +83,7 @@ const InstructorClasses = () => {
                 iconColor: colorFillAlertError
             });
         }
-    }, [isError, setErrorMessage])
+    }, [intl, isError, setErrorMessage]);
 
     const lastEventIndex = Array.isArray(events) ? events.length - 1 : 0;
 
@@ -137,7 +137,7 @@ function InstructorClassesWithProviders() {
         queryFunction: experienceTokenQuery,
         queryParameters: { serviceUrl },
         resource: 'instructor-classes'
-    }));
+    }), [serviceUrl]);
 
     return (
         <DataQueryProvider options={options}>

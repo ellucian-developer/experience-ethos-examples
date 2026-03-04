@@ -1,8 +1,8 @@
 // Copyright 2021-2025 Ellucian Company L.P. and its affiliates.
 
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import classenames from 'classnames';
+import classnames from 'classnames';
 
 import {
     Button,
@@ -31,7 +31,7 @@ const featurePayNow = process.env.FEATURE_PAY_NOW === 'true';
 
 const resource = 'account-detail-reviews';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles()({
     root:{
         height: '100%',
         overflowY: 'auto'
@@ -84,11 +84,11 @@ const useStyles = makeStyles(() => ({
     payNowButton: {
         marginLeft: spacing30
     }
-}), { index: 2});
+});
 
 function AccountDetails() {
     const intl = useIntl();
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     // Experience SDK hooks
     const { configuration, cardConfiguration } = useCardInfo();
@@ -106,20 +106,16 @@ function AccountDetails() {
     const [ rowsPerPage, setRowsPerPage ] = useState(10);
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, transactions.length - page * rowsPerPage);
 
-    const [ dateFormater, setDateFormater ] = useState();
-    const [ currentyFormater, setCurrentyFormater ] = useState();
-
-    // set up formaters with user's locale
-    useEffect(() => {
-        if (locale) {
-            setDateFormater(new Intl.DateTimeFormat(locale, { year: 'numeric', month: '2-digit', day: '2-digit'}));
-            setCurrentyFormater(new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }))
-        }
-    }, [locale])
+    const dateFormatter = useMemo(() => (locale
+        ? new Intl.DateTimeFormat(locale, { year: 'numeric', month: '2-digit', day: '2-digit' })
+        : null), [locale]);
+    const currencyFormatter = useMemo(() => (locale
+        ? new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' })
+        : null), [locale]);
 
     useEffect(() => {
         setLoadingStatus(isRefreshing || (!data && isLoading));
-    }, [data, isLoading, isRefreshing])
+    }, [data, isLoading, isRefreshing, setLoadingStatus])
 
     useEffect(() => {
         if (data) {
@@ -149,7 +145,7 @@ function AccountDetails() {
                 iconColor: colorFillAlertError
             });
         }
-    }, [isError, setErrorMessage])
+    }, [intl, isError, setErrorMessage])
 
     if (!data) {
         // nothing to show yet
@@ -161,7 +157,7 @@ function AccountDetails() {
     }
 
     function handleChangeRowsPerPage(event) {
-        setRowsPerPage(event.target.value)
+        setRowsPerPage(Number(event.target.value));
     }
 
     function onPayNow() {
@@ -170,9 +166,21 @@ function AccountDetails() {
         }
     }
 
+    function formatDate(value) {
+        return dateFormatter && value ? dateFormatter.format(new Date(value)) : '';
+    }
+
+    function formatCurrency(value) {
+        return currencyFormatter ? currencyFormatter.format(value) : '';
+    }
+
     const showPayNow = featurePayNow && payNowUrl && summary?.accountBalance > 0;
-    const firstDate = Array.isArray(transactions) && transactions.length > 0 && transactions[0].transDate ? dateFormater.format((new Date(transactions[0]?.transDate) || Date.now)) : '';
-    const lastDate = Array.isArray(transactions) && transactions.length > 0 && transactions[transactions.length - 1].transDate ? dateFormater.format(new Date(transactions[transactions.length - 1].transDate)) : '';
+    const firstDate = Array.isArray(transactions) && transactions.length > 0 && transactions[0].transDate
+        ? formatDate(transactions[0].transDate)
+        : '';
+    const lastDate = Array.isArray(transactions) && transactions.length > 0 && transactions[transactions.length - 1].transDate
+        ? formatDate(transactions[transactions.length - 1].transDate)
+        : '';
     return (
         <div className={classes.root}>
         <div className={classes.content}>
@@ -185,7 +193,7 @@ function AccountDetails() {
                                     {intl.formatMessage({id: 'AccountDetails.accountBalance'})}
                                 </Typography>
                                 <Typography variant={'body2'} component={'div'} className={classes.amount}>
-                                    {currentyFormater.format(summary.accountBalance)}
+                                    {formatCurrency(summary.accountBalance)}
                                 </Typography>
                             </div>
                             <div className={classes.amountRow}>
@@ -193,7 +201,7 @@ function AccountDetails() {
                                 {intl.formatMessage({id: 'AccountDetails.amountDue'})}
                             </Typography>
                             <Typography variant={'body2'} component={'div'} className={classes.amount}>
-                                {currentyFormater.format(summary.amountDue)}
+                                {formatCurrency(summary.amountDue)}
                             </Typography>
                             </div>
                         </div>
@@ -223,9 +231,9 @@ function AccountDetails() {
                                 <TableBody>
                                     {transactions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(transaction => {
                                         const { chargeAmount, desc, paymentAmount, transDate, tranNumber } = transaction;
-                                        const transactionDate = transDate ? dateFormater.format(new Date(transDate)) : '';
+                                        const transactionDate = formatDate(transDate);
                                         const type = chargeAmount ? intl.formatMessage({id: 'AccountDetails.charge'}) : intl.formatMessage({id: 'AccountDetails.payment'});
-                                        const amount = currentyFormater.format(chargeAmount ? chargeAmount : paymentAmount * -1);
+                                        const amount = formatCurrency(chargeAmount ? chargeAmount : paymentAmount * -1);
                                         return (
                                             <TableRow key={tranNumber} className={classes.transactionsTableRow}>
                                                 <TableCell align="left">
@@ -244,7 +252,7 @@ function AccountDetails() {
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell align="right">
-                                                    <Typography variant={'body3'} component={'div'} className={classenames({[classes.transactionAmountPayment]: !chargeAmount})}>
+                                                    <Typography variant={'body3'} component={'div'} className={classnames({[classes.transactionAmountPayment]: !chargeAmount})}>
                                                         {amount}
                                                     </Typography>
                                                 </TableCell>
@@ -297,7 +305,7 @@ function AccountDetailsWithProviders() {
         queryFunction: experienceTokenQuery,
         queryParameters: { serviceUrl },
         resource: resource
-    }));
+    }), [serviceUrl]);
 
     return (
         <DataQueryProvider options={options}>

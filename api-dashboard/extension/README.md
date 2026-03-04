@@ -4,7 +4,8 @@ This example includes a card that can be used to observe the other examples of A
 
 To upload and use this extension you will need to do the following from the api-dashboard/extension directory:
 
-* Run 'npm install'
+* Run `nvm use` (this uses `.nvmrc` and Node 22).
+* Run `npm install`
 * Set the "publisher" in extension.js. This should be the name of your institution or organization.
 * Copy sample.env to .env. Adding your upload token and uncommenting and editing the other vars as appropriate.
 * Run one of the deploy scripts in package.json. Such as "watch-and-upload" or "deploy-dev".

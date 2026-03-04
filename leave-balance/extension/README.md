@@ -10,7 +10,8 @@ The interaction between the Experience card and page with Ethos is as diagrammed
 
 To upload and use this extension you will need to do the following from the leave-balance/extension directory:
 
-* Run 'npm install'
+* Run `nvm use` (this uses `.nvmrc` and Node 22).
+* Run `npm install`
 * Set the "publisher" in extension.js. Should be the name of your institution or organization.
 * Copy sample.env to .env. Adding your upload token and uncommenting and editing the other vars as appropriate.
 * Run one of the deploy scripts in package.json. Such as "watch-and-upload" or "deploy-dev".

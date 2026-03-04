@@ -1,6 +1,6 @@
 // Copyright 2021-2025 Ellucian Company L.P. and its affiliates.
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 
 import { Button, makeStyles, Table, TableBody, TableCell, TableRow, TableHead, Typography } from '@ellucian/react-design-system/core'
@@ -16,7 +16,7 @@ import { useDashboard } from '../hooks/dashboard';
 import { initializeLogging } from '../util/log-level';
 initializeLogging('default');
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles()({
     root:{
         height: '100%',
         overflowY: 'auto'
@@ -51,13 +51,13 @@ const useStyles = makeStyles(() => ({
         marginRight: spacing80,
         textAlign: 'center'
     }
-}), { index: 2});
+});
 
 const resource = 'leave-balance';
 
 function LeaveBalance() {
     const intl = useIntl();
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     // Experience SDK hooks
     const { navigateToPage } = useCardControl();
@@ -70,7 +70,7 @@ function LeaveBalance() {
 
     useEffect(() => {
         setLoadingStatus(isRefreshing || (!data && isLoading));
-    }, [data, isLoading, isRefreshing])
+    }, [data, isLoading, isRefreshing, setLoadingStatus]);
 
     useEffect(() => {
         if (data && Array.isArray(data)) {
@@ -87,7 +87,7 @@ function LeaveBalance() {
                 iconColor: colorFillAlertError
             });
         }
-    }, [isError, setErrorMessage])
+    }, [intl, isError, setErrorMessage]);
 
     const onLeaveDetailsClick = useCallback(() => {
         // open the page
@@ -110,7 +110,6 @@ function LeaveBalance() {
             <div className={classes.content}>
                 <>
                     {Array.isArray(leaves) && leaves.length > 0 && (
-                        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                         <div>
                             <Typography variant={'h4'} component={'div'} className={classes.leaveBalanceLabel}>
                                 {intl.formatMessage({id: 'LeaveBalance.leaveBalance'})}
@@ -192,7 +191,7 @@ function LeaveBalanceWithProviders() {
         queryFunction: experienceTokenQuery,
         queryParameters: { serviceUrl },
         resource: 'leave-balance'
-    }));
+    }), [serviceUrl]);
 
     return (
         <DataQueryProvider options={options}>

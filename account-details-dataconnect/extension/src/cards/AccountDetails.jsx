@@ -1,6 +1,6 @@
 // Copyright 2021-2025 Ellucian Company L.P. and its affiliates.
 
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classnames from 'classnames';
 
@@ -12,6 +12,7 @@ import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 import { useCardInfo, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
 
 import { DataQueryProvider, userTokenDataConnectQuery, useDataQuery } from '@ellucian/experience-extension-extras';
+import { useDashboard } from '../hooks/dashboard';
 
 // initialize logging for this card
 import { initializeLogging } from '../util/log-level';
@@ -95,6 +96,7 @@ function AccountDetails() {
      } = useCardInfo();
 
     const { data, dataError, inPreviewMode, isError, isLoading, isRefreshing } = useDataQuery(process.env.PIPELINE_GET_ACCOUNT_DETAILS);
+    useDashboard();
 
     const [ transactions, setTransactions ] = useState();
     const [ summary, setSummary ] = useState();

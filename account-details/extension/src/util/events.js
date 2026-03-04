@@ -3,11 +3,9 @@
 import { useCallback, useEffect } from 'react';
 
 // create a non-visible document element
-// eslint-disable-next-line no-undef
 window.eventsElement = window.eventsElement || document.createElement('events');
 
 function getElement({ element }) {
-    // eslint-disable-next-line no-undef
     return element || window.eventsElement;
 }
 
@@ -25,14 +23,13 @@ export function useEventListener(options) {
         return () => {
             element.removeEventListener(name, handleEvent, false);
         }
-    }, [handleEvent]);
+    }, [element, handleEvent, name]);
 }
 
 export function dispatchEvent(options) {
     const {name, data} = options;
     var element = getElement(options);
 
-    // eslint-disable-next-line no-undef
     const event = new CustomEvent(name, { detail: data });
     element.dispatchEvent(event);
 }

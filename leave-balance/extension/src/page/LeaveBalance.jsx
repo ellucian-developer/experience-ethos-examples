@@ -1,6 +1,6 @@
 // Copyright 2021-2025 Ellucian Company L.P. and its affiliates.
 
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 
 import {
@@ -21,7 +21,7 @@ import { DataQueryProvider, experienceTokenQuery, useDataQuery } from '@ellucian
 import { initializeLogging } from '../util/log-level';
 initializeLogging('default');
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles()({
     root:{
         height: '100%',
         overflowY: 'auto'
@@ -48,11 +48,11 @@ const useStyles = makeStyles(() => ({
     transactionAmountPayment: {
         color: colorTextAlertSuccess
     }
-}), { index: 2});
+});
 
 function LeaveBalance() {
     const intl = useIntl();
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     // Experience SDK hooks
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
@@ -73,7 +73,7 @@ function LeaveBalance() {
 
     useEffect(() => {
         setLoadingStatus(isLoading && !data);
-    }, [data, isLoading])
+    }, [data, isLoading, setLoadingStatus]);
 
     useEffect(() => {
         if (data) {
@@ -94,7 +94,7 @@ function LeaveBalance() {
                 iconColor: colorFillAlertError
             });
         }
-    }, [isError, setErrorMessage])
+    }, [intl, isError, setErrorMessage]);
 
     if (!data) {
         // nothing to show yet
@@ -183,7 +183,7 @@ function LeaveBalanceWithProviders() {
         queryFunction: experienceTokenQuery,
         queryParameters: { serviceUrl },
         resource: 'leave-balance'
-    }));
+    }), [serviceUrl]);
 
     return (
         <DataQueryProvider options={options}>

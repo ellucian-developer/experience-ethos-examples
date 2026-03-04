@@ -1,6 +1,6 @@
 // Copyright 2021-2025 Ellucian Company L.P. and its affiliates.
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classnames from 'classnames';
 
@@ -9,7 +9,7 @@ import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, spaci
 
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 
-import { useCardControl, useCardInfo, useExtensionControl, useUserInfo,  } from '@ellucian/experience-extension-utils';
+import { useCardControl, useCardInfo, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
 import { DataQueryProvider, experienceTokenQuery, useDataQuery } from '@ellucian/experience-extension-extras';
 
 import { useDashboard } from '../hooks/dashboard';
@@ -20,7 +20,7 @@ initializeLogging('default');
 
 const featurePayNow = process.env.FEATURE_PAY_NOW === 'true';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles()({
     root:{
         height: '100%',
         overflowY: 'auto'
@@ -78,13 +78,13 @@ const useStyles = makeStyles(() => ({
         marginRight: spacing80,
         textAlign: 'center'
     }
-}), { index: 2});
+});
 
 const resource = 'account-detail-reviews';
 
 function AccountDetails() {
     const intl = useIntl();
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     // Experience SDK hooks
     const { navigateToPage } = useCardControl();
@@ -98,20 +98,16 @@ function AccountDetails() {
 
     const [ transactions, setTransactions ] = useState();
     const [ summary, setSummary ] = useState();
-    const [ dateFormater, setDateFormater ] = useState();
-    const [ currencyFormater, setCurrencyFormater ] = useState();
-
-    // set up formaters with user's locale
-    useEffect(() => {
-        if (locale) {
-            setDateFormater(new Intl.DateTimeFormat(locale, { year: 'numeric', month: '2-digit', day: '2-digit'}));
-            setCurrencyFormater(new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }))
-        }
-    }, [locale])
+    const dateFormatter = useMemo(() => (locale
+        ? new Intl.DateTimeFormat(locale, { year: 'numeric', month: '2-digit', day: '2-digit' })
+        : null), [locale]);
+    const currencyFormatter = useMemo(() => (locale
+        ? new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' })
+        : null), [locale]);
 
     useEffect(() => {
         setLoadingStatus(isRefreshing || (!data && isLoading));
-    }, [data, isLoading, isRefreshing])
+    }, [data, isLoading, isRefreshing, setLoadingStatus])
 
     useEffect(() => {
         if (data) {
@@ -141,7 +137,7 @@ function AccountDetails() {
                 iconColor: colorFillAlertError
             });
         }
-    }, [isError, setErrorMessage])
+    }, [intl, isError, setErrorMessage])
 
     const onTransactionsClick = useCallback(() => {
         // open the page
@@ -152,6 +148,14 @@ function AccountDetails() {
         if (payNowUrl) {
             window.open(payNowUrl, '_blank');
         }
+    }
+
+    function formatDate(value) {
+        return dateFormatter && value ? dateFormatter.format(new Date(value)) : '';
+    }
+
+    function formatCurrency(value) {
+        return currencyFormatter ? currencyFormatter.format(value) : '';
     }
 
     const showPayNow = featurePayNow && payNowUrl && summary?.accountBalance > 0;
@@ -180,8 +184,8 @@ function AccountDetails() {
                                 <TableBody>
                                     {transactions.map(transaction => {
                                         const { chargeAmount, desc, paymentAmount, transDate, tranNumber } = transaction;
-                                        const amount = currencyFormater.format(chargeAmount ? chargeAmount : paymentAmount * -1);
-                                        const transactionDate = transDate ? dateFormater.format(new Date(transDate)) : '';
+                                        const amount = formatCurrency(chargeAmount ? chargeAmount : paymentAmount * -1);
+                                        const transactionDate = formatDate(transDate);
                                         return (
                                             <TableRow key={tranNumber} className={classes.transactionsTableRow}>
                                                 <TableCell align="left" padding={'none'}>
@@ -214,7 +218,7 @@ function AccountDetails() {
                                         {intl.formatMessage({id: 'AccountDetails.accountBalance'})}
                                     </Typography>
                                     <Typography variant={'body2'} component={'div'} className={classes.amount}>
-                                        {currencyFormater.format(summary.accountBalance)}
+                                        {formatCurrency(summary.accountBalance)}
                                     </Typography>
                                 </div>
                                 <div className={classes.amountRow}>
@@ -222,7 +226,7 @@ function AccountDetails() {
                                     {intl.formatMessage({id: 'AccountDetails.amountDue'})}
                                 </Typography>
                                 <Typography variant={'body2'} component={'div'} className={classes.amount}>
-                                    {currencyFormater.format(summary.amountDue)}
+                                    {formatCurrency(summary.amountDue)}
                                 </Typography>
                                 </div>
                             </div>
@@ -261,7 +265,7 @@ function AccountDetailsWithProviders() {
         queryFunction: experienceTokenQuery,
         queryParameters: { serviceUrl },
         resource: resource
-    }));
+    }), [serviceUrl]);
 
     return (
         <DataQueryProvider options={options}>

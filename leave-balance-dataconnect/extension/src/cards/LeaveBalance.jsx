@@ -1,6 +1,6 @@
 // Copyright 2021-2025 Ellucian Company L.P. and its affiliates.
 
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 
 import { Button, makeStyles, Table, TableBody, TableCell, TableRow, TableHead, Typography } from '@ellucian/react-design-system/core'
@@ -8,7 +8,7 @@ import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40, spaci
 
 import { withIntl } from '../i18n/ReactIntlProviderWrapper';
 
-import { useCardControl, useCardInfo, useExtensionControl } from '@ellucian/experience-extension-utils';
+import { useCardControl, useExtensionControl } from '@ellucian/experience-extension-utils';
 
 import { DataQueryProvider, userTokenDataConnectQuery, useDataQuery } from '@ellucian/experience-extension-extras';
 import { useDashboard } from '../hooks/dashboard';
@@ -20,7 +20,7 @@ initializeLogging('default');
 import log from 'loglevel';
 const logger = log.getLogger('default');
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles()({
     root:{
         height: '100%',
         overflowY: 'auto'
@@ -55,29 +55,24 @@ const useStyles = makeStyles(() => ({
         marginRight: spacing80,
         textAlign: 'center'
     }
-}), { index: 2});
+});
 
 function LeaveBalance() {
     const intl = useIntl();
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     // Experience SDK hooks
     const { navigateToPage } = useCardControl();
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
-    const {
-        configuration: {
-            pipelineApi
-        } = {}
-    } = useCardInfo();
 
-    const { data, dataError, inPreviewMode, isError, isLoading, isRefreshing } = useDataQuery(pipelineApi);
+    const { data, dataError, inPreviewMode, isError, isLoading, isRefreshing } = useDataQuery(process.env.PIPELINE_LEAVE_BALANCE);
     useDashboard();
 
     const [ leaves, setLeaves ] = useState();
 
     useEffect(() => {
         setLoadingStatus(isRefreshing || (!data && isLoading));
-    }, [data, isLoading, isRefreshing])
+    }, [data, isLoading, isRefreshing, setLoadingStatus]);
 
     useEffect(() => {
         if (data && Array.isArray(data)) {
@@ -94,7 +89,7 @@ function LeaveBalance() {
                 iconColor: colorFillAlertError
             });
         }
-    }, [isError, setErrorMessage])
+    }, [intl, isError, setErrorMessage]);
 
     const onLeaveDetailsClick = useCallback(() => {
         // open the page
@@ -117,7 +112,6 @@ function LeaveBalance() {
             <div className={classes.content}>
                 <>
                     {Array.isArray(leaves) && leaves.length > 0 && (
-                        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                         <div>
                             <Typography variant={'h4'} component={'div'} className={classes.leaveBalanceLabel}>
                                 {intl.formatMessage({id: 'LeaveBalance.leaveBalance'})}
@@ -189,21 +183,9 @@ function LeaveBalance() {
 }
 
 function LeaveBalanceWithProviders() {
-    const {
-        configuration: {
-            pipelineApi
-        } = {}
-     } = useCardInfo();
-
-     if (!pipelineApi || pipelineApi === '') {
-        const message = '"pipelineApi" is not configured. See card configuration';
-        logger.error(message);
-        throw new Error(message);
-    }
-
     const options = {
         queryFunction: userTokenDataConnectQuery,
-        resource: pipelineApi
+        resource: process.env.PIPELINE_LEAVE_BALANCE
     }
 
     return (

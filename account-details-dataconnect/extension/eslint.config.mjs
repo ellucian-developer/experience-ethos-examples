@@ -33,6 +33,7 @@ export default [
                 window: 'readonly',
                 document: 'readonly',
                 navigator: 'readonly',
+                URLSearchParams: 'readonly',
                 require: 'readonly',
                 localStorage: 'readonly',
                 CustomEvent: 'readonly',

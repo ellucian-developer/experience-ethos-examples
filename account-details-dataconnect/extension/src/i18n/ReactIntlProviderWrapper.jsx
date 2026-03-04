@@ -1,6 +1,5 @@
 // Copyright 2021-2025 Ellucian Company L.P. and its affiliates.
 
-import React from 'react';
 import { IntlProvider } from 'react-intl';
 import PropTypes from 'prop-types';
 import { getMessages } from '../i18n/intlUtility';

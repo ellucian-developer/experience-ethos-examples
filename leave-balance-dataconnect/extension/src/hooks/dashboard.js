@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo } from 'react';
 
-import { useCardInfo } from '@ellucian/experience-extension-utils';
 import { useDataQuery } from '@ellucian/experience-extension-extras';
 
 import { dispatchEvent, useEventListener } from '../util/events';
@@ -10,13 +9,7 @@ import { dispatchEvent, useEventListener } from '../util/events';
 const dashboardResource = 'leave-balance-dataconnect';
 
 export function useDashboard() {
-    const {
-        configuration: {
-            pipelineApi
-        } = {}
-    } = useCardInfo();
-
-    const { loadTimes, refresh } = useDataQuery(pipelineApi);
+    const { loadTimes, refresh } = useDataQuery(process.env.PIPELINE_LEAVE_BALANCE);
 
     useEffect(() => {
         if (loadTimes && loadTimes.length > 0) {

@@ -1,6 +1,6 @@
 {
   "name": "account-details-dataconnect-extension",
-  "version": "8.0.1",
+  "version": "8.0.0",
   "description": "Description of account-details-extension",
   "license": "Apache-2.0",
   "private": true,
@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@ellucian/ds-icons": "https://cdn.elluciancloud.com/assets/EDS2/8.2.2/umd/path_design_system_icons.tgz",
-    "@ellucian/experience-extension-extras": "github:ellucian-developer/experience-extension-extras#8.0.0-beta.1",
+    "@ellucian/experience-extension-extras": "github:ellucian-developer/experience-extension-extras#8.0.0",
     "@ellucian/experience-extension-utils": "https://cdn.elluciancloud.com/assets/SDK/utils/1.0.0/ellucian-experience-extension-utils-1.0.0.tgz",
     "@ellucian/react-design-system": "https://cdn.elluciancloud.com/assets/EDS2/8.2.2/umd/path_design_system.tgz",
     "classnames": "^2.3.2",

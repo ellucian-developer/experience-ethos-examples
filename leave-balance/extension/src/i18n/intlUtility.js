@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 import ENGLISH_TRANSLATION from '../i18n/en.json';
 
 export const getMessages = (userLocale) => {
@@ -15,14 +14,14 @@ export const getMessages = (userLocale) => {
             const { messages: localeMessages } = require(`../i18n/${actionLanguage}.json`);
             return Object.assign({}, baseMessages, localeMessages);
         }
-    } catch (e) {
+    } catch {
         try {
             const actionLanguage = userLocale.split(/[-_]/)[0];
             const { messages: localeMessages } = require(`../i18n/${actionLanguage}.json`);
             return Object.assign({}, baseMessages, localeMessages);
-        } catch (e) {
+        } catch {
             // This userLocale is not supported.
             return baseMessages;
         }
     }
-}
+};

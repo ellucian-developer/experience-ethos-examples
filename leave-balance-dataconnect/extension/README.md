@@ -10,16 +10,17 @@ The interaction between the Experience card and page with Ethos is as diagrammed
 
 To upload and use this extension you will need to do the following from the leave-balance/extension directory:
 
-* Run 'npm install'
+* Run `nvm use` (this uses `.nvmrc` and Node 22).
+* Run `npm install`
 * Set the "publisher" in extension.js. Should be the name of your institution or organization.
 * Copy sample.env to .env. Adding your upload token and uncommenting and editing the other vars as appropriate.
+* Edit .env to include PIPELINE_LEAVE_BALANCE set to the name of your Data Connect pipeline. This is used in src/cards/LeaveBalance.jsx for the resource name used
 * Run one of the deploy scripts in package.json. Such as "watch-and-upload" or "deploy-dev".
 * Use Experience Setup to enable or verify your new extension is enabled, and is associated with an Environment.
 
 ### Configure the card
-Login to Experience as a user with permission to use Experience Configuration -> Card Management. Locate the Leave Balance Data Connect card. This card has two items to configure.
+Login to Experience as a user with permission to use Experience Configuration -> Card Management. Locate the Leave Balance Data Connect card. This card has one item to configure.
 
-1. Pipeline API - The name of your pipeline as created in Data Connect as a serverless API.
 1. Ethos API Key - set this to an Ethos API key that has access to the resources as described in [Ethos Guide](../docs/ethos-guide.md).
 
 <br/>

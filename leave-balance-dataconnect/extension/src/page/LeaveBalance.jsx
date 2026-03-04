@@ -1,6 +1,6 @@
 // Copyright 2021-2025 Ellucian Company L.P. and its affiliates.
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 
 import {
@@ -14,7 +14,7 @@ import {
 } from '@ellucian/react-design-system/core'
 import { colorFillAlertError, colorTextAlertSuccess, spacing30, spacing40 } from '@ellucian/react-design-system/core/styles/tokens';
 
-import { useCardInfo, useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
+import { useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
 
 import { DataQueryProvider, userTokenDataConnectQuery, useDataQuery } from '@ellucian/experience-extension-extras';
 
@@ -25,7 +25,7 @@ initializeLogging('default');
 import log from 'loglevel';
 const logger = log.getLogger('default');
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles()({
     root:{
         height: '100%',
         overflowY: 'auto'
@@ -52,22 +52,17 @@ const useStyles = makeStyles(() => ({
     transactionAmountPayment: {
         color: colorTextAlertSuccess
     }
-}), { index: 2});
+});
 
 function LeaveBalance() {
     const intl = useIntl();
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     // Experience SDK hooks
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
     const { locale } = useUserInfo();
-    const {
-        cardConfiguration: {
-            pipelineApi
-        } = {}
-    } = useCardInfo();
 
-    const { data, isError, isLoading} = useDataQuery(pipelineApi);
+    const { data, isError, isLoading} = useDataQuery(process.env.PIPELINE_LEAVE_BALANCE);
 
     const [ leaves, setLeaves ] = useState([]);
     const [ dateFormater, setDateFormater ] = useState();
@@ -81,7 +76,7 @@ function LeaveBalance() {
 
     useEffect(() => {
         setLoadingStatus(isLoading && !data);
-    }, [data, isLoading])
+    }, [data, isLoading, setLoadingStatus]);
 
     useEffect(() => {
         if (data) {
@@ -102,7 +97,7 @@ function LeaveBalance() {
                 iconColor: colorFillAlertError
             });
         }
-    }, [isError, setErrorMessage])
+    }, [intl, isError, setErrorMessage]);
 
     if (!data) {
         // nothing to show yet
@@ -181,21 +176,9 @@ function LeaveBalance() {
 }
 
 function LeaveBalanceWithProviders() {
-    const {
-        cardConfiguration: {
-            pipelineApi
-        } = {}
-     } = useCardInfo();
-
-     if (!pipelineApi || pipelineApi === '') {
-        const message = '"pipelineApi" is not configured. See card configuration';
-        logger.error(message);
-        throw new Error(message);
-    }
-
     const options = {
         queryFunction: userTokenDataConnectQuery,
-        resource: pipelineApi
+        resource: process.env.PIPELINE_LEAVE_BALANCE
     }
 
     return (

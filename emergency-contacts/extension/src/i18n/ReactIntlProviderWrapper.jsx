@@ -1,31 +1,24 @@
 // Copyright 2021-2025 Ellucian Company L.P. and its affiliates.
 
-import React from 'react';
-import { injectIntl, IntlProvider } from 'react-intl';
+import { IntlProvider } from 'react-intl';
 import PropTypes from 'prop-types';
 import { getMessages } from './intlUtility';
 
 export function withIntl(WrappedComponent) {
-    let InjectedComponent;
+    function WithIntl(props) {
+        const locale = props?.userInfo?.locale || 'en';
 
-    class WithIntl extends React.Component {
-        constructor(props) {
-            super(props);
-            InjectedComponent = injectIntl(WrappedComponent);
-        }
-        render() {
-            const { userInfo: { locale } } = this.props;
-
-            return (
-                <IntlProvider locale={locale} messages={getMessages(locale)}>
-                    <InjectedComponent {...this.props} />
-                </IntlProvider>
-            );
-        }
+        return (
+            <IntlProvider locale={locale} messages={getMessages(locale)}>
+                <WrappedComponent {...props} />
+            </IntlProvider>
+        );
     }
+
     WithIntl.propTypes = {
         userInfo: PropTypes.object
     };
-    WithIntl.displayName = `WithIntl(${WrappedComponent.displayName})`;
+    WithIntl.displayName = `WithIntl(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+
     return WithIntl;
 }

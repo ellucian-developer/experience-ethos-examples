@@ -12,7 +12,8 @@ To upload and use this extension you will need to do the following from the acco
 
 ### Upload the extension
 
-1. Run 'npm install'
+1. Run `nvm use` (this uses `.nvmrc` and Node 22).
+1. Run `npm install
 1. Set the "publisher" in extension.js. This should be the name of your institution or organization.
 1. Copy sample.env to .env. Adding your upload token and uncommenting and editing the other vars as appropriate.
 1. Run one of the deploy scripts in package.json. Such as "watch-and-upload" or "deploy-dev".

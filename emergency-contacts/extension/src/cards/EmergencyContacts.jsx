@@ -1,6 +1,6 @@
 // Copyright 2021-2025 Ellucian Company L.P. and its affiliates.
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 
 import {Icon } from '@ellucian/ds-icons/lib';
@@ -31,7 +31,7 @@ import EditContact from '../components/EditContact';
 import { deleteEmergencyContact, addEmergencyContact, updateEmergencyContact } from '../data/emergency-contact';
 import ConfirmDelete from '../components/ConfirmDelete';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles()({
     root:{
         height: '100%',
         // overflowY: 'auto'
@@ -98,11 +98,11 @@ const useStyles = makeStyles(() => ({
         marginRight: spacing80,
         textAlign: 'center'
     }
-}), { index: 2});
+});
 
 function EmergencyContacts() {
     const intl = useIntl();
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     // Experience SDK hooks
     const { setErrorMessage } = useExtensionControl();

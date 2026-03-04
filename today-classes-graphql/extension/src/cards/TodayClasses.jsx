@@ -1,6 +1,6 @@
 // Copyright 2021-2025 Ellucian Company L.P. and its affiliates.
 
-import React, { Fragment, useEffect, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 
 import { Divider, Illustration, IMAGES, List, makeStyles, Typography } from '@ellucian/react-design-system/core'
@@ -19,7 +19,7 @@ import { useTodayClasses } from '../hooks/today-classes';
 import { initializeLogging } from '../util/log-level';
 initializeLogging('default');
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles()({
     root: {
         height: '100%',
         marginTop: 0,
@@ -50,13 +50,13 @@ const useStyles = makeStyles(() => ({
         alignItems: 'center',
         justifyContent: 'center'
     }
-}), { index: 2});
+});
 
 const resource = 'today-classes-graphql';
 
 function TodayClasses() {
     const intl = useIntl();
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     // Experience SDK hooks
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
@@ -69,7 +69,7 @@ function TodayClasses() {
 
     useEffect(() => {
         setLoadingStatus(isRefreshing || (isLoading && !events));
-    }, [events, isLoading, isRefreshing])
+    }, [events, isLoading, isRefreshing, setLoadingStatus]);
 
     useEffect(() => {
         if (isError) {
@@ -80,7 +80,7 @@ function TodayClasses() {
                 iconColor: colorFillAlertError
             });
         }
-    }, [isError, setErrorMessage])
+    }, [intl, isError, setErrorMessage]);
 
     const lastEventIndex = Array.isArray(events) ? events.length - 1 : 0;
 
@@ -119,7 +119,7 @@ function TodayClassesWithProviders() {
         queryKeys: { date: new Date(new Date().toLocaleDateString()).toISOString().slice(0, 10) },
         queryParameters: { getEthosQuery },
         resource: resource
-    }));
+    }), [getEthosQuery]);
 
     return (
         <DataQueryProvider options={options}>

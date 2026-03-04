@@ -1,24 +1,24 @@
 // Copyright 2021-2025 Ellucian Company L.P. and its affiliates.
 
-import React, { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, makeStyles, TextField } from '@ellucian/react-design-system/core';
 import { spacing40 } from '@ellucian/react-design-system/core/styles/tokens';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles()({
     textFieldPhone: {
         marginTop: spacing40,
     },
-}), { index: 2});
+});
 
 export default function EditContact({
     onClose = () => {},
     context = { show: false },
 }) {
     const intl = useIntl();
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const { addContact, contact = { contact: { name: { fullName: '' }, phones: [ { number: '' } ] } }, mode, show, updateContact } = context;
 

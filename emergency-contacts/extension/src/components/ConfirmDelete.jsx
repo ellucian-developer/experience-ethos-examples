@@ -1,6 +1,5 @@
 // Copyright 2021-2025 Ellucian Company L.P. and its affiliates.
 
-import React from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 

@@ -1,17 +1,17 @@
 // Copyright 2021-2025 Ellucian Company L.P. and its affiliates.
 
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import PropTypes from 'prop-types';
 
+import 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
-import { useResizeDetector } from 'react-resize-detector';
 
 import { Icon } from '@ellucian/ds-icons/lib';
 import {
     FormControlLabel,
     FormGroup,
     IconButton,
+    makeStyles,
     Radio,
     RadioGroup,
     Table,
@@ -22,7 +22,6 @@ import {
     Tooltip
 } from '@ellucian/react-design-system/core';
 import { spacing40 } from '@ellucian/react-design-system/core/styles/tokens';
-import { withStyles } from '@ellucian/react-design-system/core/styles';
 
 import { useCache } from '@ellucian/experience-extension-utils';
 
@@ -37,7 +36,7 @@ initializeLogging('Today');
 
 const cacheKey = 'api-dashboard-mode';
 
-const styles = () => ({
+const useStyles = makeStyles()({
     root: {
         height: '100%',
         marginTop: 0,
@@ -69,21 +68,46 @@ function onRefresh(type) {
     dispatchEvent({ name: 'refresh', data: { type } });
 }
 
-const ApiDashboard = ({classes}) => {
+const ApiDashboard = () => {
+    const { classes } = useStyles();
     const { getItem, storeItem } = useCache();
     const intl = useIntl();
-    const { width, height, ref: resizeRef } = useResizeDetector();
+    const chartBoxRef = useRef(null);
 
     const { clear, stats, types } = useApiDashboard();
 
     const [mode, setMode] = useState('table');
+    const [chartSize, setChartSize] = useState({ width: 0, height: 0 });
+    const isChartSizeReady = chartSize.width > 0 && chartSize.height > 0;
+
+    useEffect(() => {
+        const element = chartBoxRef.current;
+        if (!element) {
+            return undefined;
+        }
+
+        const updateSize = () => {
+            setChartSize({
+                width: element.clientWidth,
+                height: element.clientHeight
+            });
+        };
+
+        updateSize();
+        const observer = new ResizeObserver(updateSize);
+        observer.observe(element);
+
+        return () => {
+            observer.disconnect();
+        };
+    }, [mode]);
 
     useEffect(() => {
         const { data: mode } = getItem({key: cacheKey});
         if (mode) {
             setMode(mode);
         }
-    }, []);
+    }, [getItem]);
 
     const chartData = useMemo(() => {
         const data = types.reduce(({labels = [], datasets = []}, type) => {
@@ -108,16 +132,17 @@ const ApiDashboard = ({classes}) => {
 
             return {
                 labels: newLabels,
-                datasets,
-                options: {
-                    responsive: false,
-                    maintainAspectRatio: false
-                }
+                datasets
             }
-        }, {});
+        }, { labels: [], datasets: [] });
 
         return data;
-    }, [stats]);
+    }, [stats, types]);
+
+    const chartOptions = useMemo(() => ({
+        responsive: false,
+        maintainAspectRatio: false
+    }), []);
 
     function onModeChange(event) {
         const { target: { value } } = event;
@@ -192,24 +217,27 @@ const ApiDashboard = ({classes}) => {
                 </Table>
             )}
             {mode === 'chart' && (
-                <div className={classes.chartBox} ref={resizeRef}>
-                    <Line className={classes.chart} data={chartData} width={width} height={height}/>
+                <div className={classes.chartBox} ref={chartBoxRef}>
+                    {isChartSizeReady && (
+                        <Line
+                            key={`${chartSize.width}x${chartSize.height}`}
+                            className={classes.chart}
+                            data={chartData}
+                            options={chartOptions}
+                            width={chartSize.width}
+                            height={chartSize.height}
+                        />
+                    )}
                 </div>
             )}
         </div>
     );
 };
 
-ApiDashboard.propTypes = {
-    classes: PropTypes.object.isRequired
-};
-
-const ApiDashboardWithStyle = withStyles(styles)(ApiDashboard);
-
 function ApiDashboardWithProviders() {
     return (
         <ApiDashboardProvider>
-            <ApiDashboardWithStyle/>
+            <ApiDashboard/>
         </ApiDashboardProvider>
     )
 }

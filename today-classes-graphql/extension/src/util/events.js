@@ -22,8 +22,8 @@ export function useEventListener(options) {
 
         return () => {
             element.removeEventListener(name, handleEvent, false);
-        }
-    }, [handleEvent]);
+        };
+    }, [element, handleEvent, name]);
 }
 
 export function dispatchEvent(options) {

@@ -1,15 +1,15 @@
 // Copyright 2021-2025 Ellucian Company L.P. and its affiliates.
 
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {
     ListItem,
+    makeStyles,
     Typography
 } from '@ellucian/react-design-system/core'
 
-import { withStyles } from '@ellucian/react-design-system/core/styles';
 import {
     fontWeightBold,
     purple400,
@@ -20,7 +20,7 @@ import { useUserInfo } from '@ellucian/experience-extension-utils';
 
 import { randomPathColor } from '../util/path';
 
-const styles = () => ({
+const useStyles = makeStyles()({
     item: {
         paddingLeft: '0px',
         paddingRight: '0px',
@@ -51,7 +51,8 @@ const styles = () => ({
     }
 });
 
-const Event = ({ classes, colorContext, event }) => {
+const Event = ({ colorContext, event }) => {
+    const { classes } = useStyles();
     const { locale } = useUserInfo();
     const intl = useIntl();
     const timeFormat = useMemo(() => (locale ? new Intl.DateTimeFormat(locale, { timeStyle: 'short'}) : undefined), [locale]);
@@ -93,9 +94,8 @@ const Event = ({ classes, colorContext, event }) => {
 }
 
 Event.propTypes = {
-    classes: PropTypes.object.isRequired,
     colorContext: PropTypes.object.isRequired,
     event: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Event);
+export default Event;

@@ -1,6 +1,6 @@
 // Copyright 2021-2025 Ellucian Company L.P. and its affiliates.
 
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import log from 'loglevel';
@@ -30,13 +30,13 @@ function ApiDashboardProviderInternal({children}) {
         if (cachedStats) {
             setStats(cachedStats);
         }
-    }, []);
+    }, [getItem]);
 
     useEffect(() => {
         if (stats) {
             storeItem({ data: stats, key: cacheKey });
         }
-    }, [ stats ]);
+    }, [stats, storeItem]);
 
     const addTiming = useCallback(({ type, time }) => {
         const newStats = stats ? { ...stats } : {};
